@@ -1,2 +1,2 @@
 build:
-	babel src/script.js | pbcopy
+	babel minified src/script.js | pbcopy
