@@ -1,5 +1,6 @@
 const request = (url, success) => $.ajax({ url, success })
-const wrapToClass = CSSClass => nodes => $(nodes).wrap(`<div class="${CSSClass}"></div>`)
+const wrapToClass = CSSClass => node => node.wrap(`<div class="${CSSClass}"></div>`)
+const wrapToTag = tag => node => node.wrap(`<${tag}></${tag}>`)
 const removeExternalMark = links => $(links).find("a").toggleClass("external")
 
 class Menu {
@@ -10,7 +11,7 @@ class Menu {
     generateLevel1(item) {
         console.log("generateLevel1", item.html())
 
-        wrapToClass("nav-item nav-item-header")(item)
+        wrapToClass("nav-item nav-item-header")(item.find("a"))
         wrapToClass("folder closed")(item.find(".nav-item")) // To folder with initial closed
 
         // Wrap all level 1 item into folders
@@ -18,17 +19,23 @@ class Menu {
 
         // Add expandable icon
         item.find(".nav-item").append('<div class="expandable sprite"> <div class="btn-closed">Déployer</div> <div class="btn-open">Refermer</div> </div>')
+
+        return item
     }
 
     generateLevel2(item) {
         console.log("generateLevel2", item.html())
 
-        wrapToClass("nav-item nav-item-header")(item)
+        wrapToClass("nav-item nav-item-header")(item.find("a"))
         wrapToClass("lesson closed")(item.find(".nav-item")) // To lesson with initial closed
+
+        return item
     }
 
     generateLevel3(item) {
-        wrapToClass("nav-item nav-item-lesson")(item)
+        wrapToClass("nav-item nav-item-lesson")(item.find("a"))
+
+        return item
     }
 
     generate() {
@@ -37,9 +44,9 @@ class Menu {
 
         const p = n => $(n).find(".mw-headline").wrapInner("<a href=\"#\"></a>")
 
-        const generated = this.menu.map((i, e) => {
-            console.log("generating", e.tagName)
+        const $html = $("<div></div>").addClass("my-sb-nav")
 
+        const generated = this.menu.map(e => {
             if (e.tagName == "H1")
                 return this.generateLevel1(p(e))
             else if (e.tagName == "H2")
@@ -50,15 +57,7 @@ class Menu {
                 return
         })
 
-        console.log(generated.html())
-
-        // this.generateLevel1(this.level1)
-        // this.generateLevel2(this.level2)
-        // this.generateLevel3(this.level3)
-
-        return $("<div></div>")
-                        .addClass("my-sb-nav")
-                        .html(generated)
+        return $("<div></div>").addClass("my-sb-nav").html(generated)
     }
 }
 
@@ -69,10 +68,6 @@ const startLoader = page => page.html("Chargement ...")
 const stopLoaderAndReplace = (page, element) => page.html(element)
 
 const CONTENT_ID = "#mw-content-text"
-
-// const MENU_LEVEL_1 = ".menu-level-1"
-// const MENU_LEVEL_2 = ".menu-level-2"
-// const MENU_LEVEL_3 = ".menu-level-3"
 
 const MENU_LEVEL_1 = "h1"
 const MENU_LEVEL_2 = "h2"
@@ -103,15 +98,8 @@ const moocwikiv = function(i) {
 
     page.addClass("my-sb")
 
-//     request("https://fr.wikiversity.org/wiki/Utilisateur:Xtuc-Sven/menu-FormationA", (data, status) => {
-//         let menu = new Menu($(data).find(CONTENT_ID))
-//         element.append(menu.generate())
-
-//         stopLoaderAndReplace(page, element)
-//     })
-
     request("https://fr.wikiversity.org/wiki/Utilisateur:Xtuc-Sven/menu-FormationB", (data, status) => {
-        data = $(data).find(CONTENT_ID).children()
+        data = $(data).find(CONTENT_ID).children().get() // get DOM element
 
         let menu = new Menu(data)
 
