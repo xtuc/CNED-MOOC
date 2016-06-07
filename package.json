@@ -1,0 +1,23 @@
+{
+  "name": "cned-mooc",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "babel-preset-es2015": "^6.9.0",
+    "babel-preset-stage-0": "^6.5.0",
+    "browserify": "^13.0.1"
+  },
+  "devDependencies": {
+    "babelify": "^7.3.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@git.xtuc.net:Sven/CNED-MOOC.git"
+  },
+  "author": "",
+  "license": "ISC"
+}
