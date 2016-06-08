@@ -3,6 +3,12 @@ const wrapToClass = CSSClass => node => node.wrap(`<div class="${CSSClass}"></di
 const wrapToTag = tag => node => node.wrap(`<${tag}></${tag}>`)
 const removeExternalMark = links => $(links).find("a").toggleClass("external")
 
+const iconMarkupMap = {
+  video: "bases",
+  texte: "activity",
+  quizz: "evaluation"
+}
+
 class Menu {
   constructor(menu) {
     this.menu = menu
@@ -31,9 +37,12 @@ class Menu {
     const levelClass = "folder"
 
     wrapToClass("nav-item nav-item-header")(item.find("a"))
-    wrapToClass(`${levelClass} closed`)(item.find(".nav-item")) // To folder with initial closed
 
-    $("<div />").addClass("nav-item-content").appendTo(item.find("." + levelClass)) // Append the lesson elements container
+    // To folder with initial closed
+    wrapToClass(`${levelClass} closed`)(item.find(".nav-item"))
+
+    // Append the lesson elements container
+    $("<div />").addClass("nav-item-content").appendTo(item.find("." + levelClass))
 
     // Add expandable icon
     item.find(".nav-item").append('<div class="expandable sprite"> <div class="btn-closed">Déployer</div> <div class="btn-open">Refermer</div> </div>')
@@ -91,20 +100,54 @@ class Menu {
     return item.children() // Remove trailing mw-headline container
   }
 
+  /**
+   * Apply configuration
+   * Currently lesson is hard-coded
+   *
+   * @param item Current item in the loop (jQuery DOM Node)
+   * @param lastItem I-1 item (jQuery DOM Node)
+   */
+  applyConfiguration(item, lastItem) {
+    const config = item.children().text().trim().replace("é", "e") // String
+
+    lastItem = lastItem.parent().parent().find(".lesson") // lastItem is nested
+
+    if (this.isLesson(lastItem)) {
+
+      console.log(config)
+      console.log(iconMarkupMap[config])
+
+      // Translate using dict icon markup
+      if (iconMarkupMap[config]) {
+        lastItem.find(".nav-item-lesson").addClass(iconMarkupMap[config])
+      }
+    }
+
+    // return false because we will directly mutate existing objects (jQuery)
+    return false;
+  }
+
   reducer(acc, element) {
     const p = n => $(n).find(".mw-headline").wrapInner("<a href=\"#\"></a>")
 
     const $e = p(element)
-    const $lastItem = this.getLastElement(acc)
+    const lastItem = this.getLastElement(acc)
 
-    if (element.tagName == "H1")
-        acc.push(this.generateLevel1($e, $lastItem))
-    else if (element.tagName == "H2")
-        acc.push(this.generateLevel2($e, $lastItem))
-    else if (element.tagName == "H3")
-        acc.push(this.generateLevel3($e, $lastItem))
+    var state = false
 
-    $(acc).find(".mw-headline").remove()
+    if (element.tagName === "H1")
+      state = this.generateLevel1($e, lastItem)
+    else if (element.tagName === "H2")
+      state = this.generateLevel2($e, lastItem)
+    else if (element.tagName === "H3")
+      state = this.generateLevel3($e, lastItem)
+    else if (element.tagName === "UL")
+      state = this.applyConfiguration($(element), lastItem)
+
+    console.debug("parse response", element.innerHTML)
+
+    if(state)
+      acc.push(state)
 
     return acc
   }
