@@ -4,61 +4,73 @@ const wrapToTag = tag => node => node.wrap(`<${tag}></${tag}>`)
 const removeExternalMark = links => $(links).find("a").toggleClass("external")
 
 class Menu {
-    constructor(menu) {
-        this.menu = menu
-    }
+  constructor(menu) {
+    this.menu = menu
+  }
 
-    generateLevel1(item) {
-        console.log("generateLevel1", item.html())
+  applyAccordeon(element, subElement, toggleClass) {
+    console.log("arc", element.html())
 
-        wrapToClass("nav-item nav-item-header")(item.find("a"))
-        wrapToClass("folder closed")(item.find(".nav-item")) // To folder with initial closed
+    element.click(() => {
+      element.toggleClass(toggleClass)
+      console.log(element)
+    })
+  }
 
-        // Wrap all level 1 item into folders
-        item.find(".nav-item").addClass("folder closed")
+  generateLevel1(item) {
+    console.log("generateLevel1", item.html())
 
-        // Add expandable icon
-        item.find(".nav-item").append('<div class="expandable sprite"> <div class="btn-closed">Déployer</div> <div class="btn-open">Refermer</div> </div>')
+    wrapToClass("nav-item nav-item-header")(item.find("a"))
+    wrapToClass("folder closed")(item.find(".nav-item")) // To folder with initial closed
 
-        return item
-    }
+    // Add expandable icon
+    item.find(".nav-item").append('<div class="expandable sprite"> <div class="btn-closed">Déployer</div> <div class="btn-open">Refermer</div> </div>')
 
-    generateLevel2(item) {
-        console.log("generateLevel2", item.html())
+    this.applyAccordeon(item.find(".folder"), null, "closed")
 
-        wrapToClass("nav-item nav-item-header")(item.find("a"))
-        wrapToClass("lesson closed")(item.find(".nav-item")) // To lesson with initial closed
+    return item.children() // Remove trailing mw-headline container
+  }
 
-        return item
-    }
+  generateLevel2(item) {
+    console.log("generateLevel2", item.html())
 
-    generateLevel3(item) {
-        wrapToClass("nav-item nav-item-lesson")(item.find("a"))
+    wrapToClass("nav-item nav-item-header")(item.find("a"))
+    wrapToClass("lesson closed")(item.find(".nav-item")) // To lesson with initial closed
 
-        return item
-    }
+    // Add expandable icon
+    item.find(".nav-item").append('<div class="expandable sprite"> <div class="btn-closed">Déployer</div> <div class="btn-open">Refermer</div> </div>')
 
-    generate() {
-        const $menu = $(this.menu)
-        removeExternalMark($menu) // Remove external icon in links
+    this.applyAccordeon(item.find(".lesson"), null, "closed")
 
-        const p = n => $(n).find(".mw-headline").wrapInner("<a href=\"#\"></a>")
+    return item.children() // Remove trailing mw-headline container
+  }
 
-        const $html = $("<div></div>").addClass("my-sb-nav")
+  generateLevel3(item) {
+    wrapToClass("nav-item nav-item-lesson")(item.find("a"))
 
-        const generated = this.menu.map(e => {
-            if (e.tagName == "H1")
-                return this.generateLevel1(p(e))
-            else if (e.tagName == "H2")
-                return this.generateLevel2(p(e))
-            else if (e.tagName == "H3")
-                return this.generateLevel3(p(e))
-            else
-                return
-        })
+    return item.children() // Remove trailing mw-headline container
+  }
 
-        return $("<div></div>").addClass("my-sb-nav").html(generated)
-    }
+  generate() {
+    const $menu = $(this.menu)
+    removeExternalMark($menu) // Remove external icon in links
+
+    const p = n => $(n).find(".mw-headline").wrapInner("<a href=\"#\"></a>")
+
+    const generated = this.menu.reduce((acc, e) => {
+
+      if (e.tagName == "H1")
+          acc.push(this.generateLevel1(p(e)))
+      else if (e.tagName == "H2")
+          acc.push(this.generateLevel2(p(e)))
+      else if (e.tagName == "H3")
+          acc.push(this.generateLevel3(p(e)))
+
+      return acc
+    }, [])
+
+    return $("<div></div>").addClass("my-sb-nav").html(generated)
+  }
 }
 
 /**
@@ -85,27 +97,27 @@ const log = function() {
 
 // Don't use fat arrow there because `this` will be overwritted by ES6 compilation
 const moocwikiv = function(i) {
-    const page = $(this)
-    const element = $("<div></div>")
+  const page = $(this)
+  const element = $("<div></div>")
 
-    /**
-     * Clean traling file imports in p
-     */
-    page.parent().find("p").html("")
+  /**
+   * Clean traling file imports in p
+   */
+  page.parent().find("p").html("")
 
-    page.html("") // Clear content
-    startLoader(page) // Start loader
+  page.html("") // Clear content
+  startLoader(page) // Start loader
 
-    page.addClass("my-sb")
+  page.addClass("my-sb")
 
-    request("https://fr.wikiversity.org/wiki/Utilisateur:Xtuc-Sven/menu-FormationB", (data, status) => {
-        data = $(data).find(CONTENT_ID).children().get() // get DOM element
+  request("https://fr.wikiversity.org/wiki/Utilisateur:Xtuc-Sven/menu-FormationB", (data, status) => {
+    data = $(data).find(CONTENT_ID).children().get() // get DOM element
 
-        let menu = new Menu(data)
+    let menu = new Menu(data)
 
-        element.append(menu.generate())
-        stopLoaderAndReplace(page, element)
-    })
+    element.append(menu.generate())
+    stopLoaderAndReplace(page, element)
+  })
 }
 
 $(() => $("#moocwikiv").each(moocwikiv))
