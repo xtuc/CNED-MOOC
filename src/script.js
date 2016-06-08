@@ -14,11 +14,10 @@ class Menu {
   isLesson = $n => $n.hasClass("lesson")
   isFolder = $n => $n.hasClass("folder")
 
-  applyAccordeon(element, subElement, toggleClass) {
-
-    element.click(() => {
-      element.toggleClass(toggleClass)
-      console.log(element)
+  applyAccordeon(element) {
+    element.find("a, .expandable").click(() => {
+      element.toggleClass("closed")
+      element.toggleClass("open")
     })
   }
 
@@ -29,17 +28,17 @@ class Menu {
    * @param lastItem I-1 item (jQuery DOM Node)
    */
   generateLevel1(item, lastItem) {
-    console.log("generateLevel1", item.html())
+    const levelClass = "folder"
 
     wrapToClass("nav-item nav-item-header")(item.find("a"))
-    wrapToClass("folder closed")(item.find(".nav-item")) // To folder with initial closed
+    wrapToClass(`${levelClass} closed`)(item.find(".nav-item")) // To folder with initial closed
 
-    $("<div />").addClass("nav-item-content").appendTo(item.find(".folder")) // Append the lesson elements container
+    $("<div />").addClass("nav-item-content").appendTo(item.find("." + levelClass)) // Append the lesson elements container
 
     // Add expandable icon
     item.find(".nav-item").append('<div class="expandable sprite"> <div class="btn-closed">Déployer</div> <div class="btn-open">Refermer</div> </div>')
 
-    this.applyAccordeon(item.find(".folder"), null, "closed")
+    this.applyAccordeon(item.find("." + levelClass))
 
     return item.children() // Remove trailing mw-headline container
   }
@@ -51,18 +50,17 @@ class Menu {
    * @param lastItem I-1 item (jQuery DOM Node)
    */
   generateLevel2(item, lastItem) {
-    console.log("generateLevel2", item.html())
-
-    console.log("lastitem", lastItem.html(), "from", item.children())
-
+    const levelClass = "lesson"
 
     wrapToClass("nav-item nav-item-header")(item.find("a"))
-    wrapToClass("lesson closed")(item.find(".nav-item")) // To lesson with initial closed
+    wrapToClass(`${levelClass} closed`)(item.find(".nav-item")) // To lesson with initial closed
+
+    $("<div />").addClass("nav-item-content").appendTo(item.find("." + levelClass)) // Append the lesson elements container
 
     // Add expandable icon
-    // item.find(".nav-item").append('<div class="expandable sprite"> <div class="btn-closed">Déployer</div> <div class="btn-open">Refermer</div> </div>')
+    item.find(".nav-item").append('<div class="expandable sprite"> <div class="btn-closed">Déployer</div> <div class="btn-open">Refermer</div> </div>')
 
-    this.applyAccordeon(item.find(".lesson"), null, "closed")
+    this.applyAccordeon(item.find("." + levelClass))
 
     if (this.isFolder(lastItem)) {
       item.children().appendTo(lastItem.find(".nav-item-content"))
@@ -81,12 +79,13 @@ class Menu {
    */
   generateLevel3(item, lastItem) {
     wrapToClass("nav-item nav-item-lesson")(item.find("a"))
-    // wrapToClass("nav-item-content")(item.find(".nav-item"))
+
+    lastItem = lastItem.parent().parent().find(".lesson") // lastItem is nested
 
     if (this.isLesson(lastItem)) {
-      console.log("FOUND LESSON", lastItem)
+      item.children().appendTo(lastItem.find(".nav-item-content"))
 
-      return lastItem.append(item) // Insert into lesson
+      return item
     }
 
     return item.children() // Remove trailing mw-headline container
@@ -104,6 +103,8 @@ class Menu {
         acc.push(this.generateLevel2($e, $lastItem))
     else if (element.tagName == "H3")
         acc.push(this.generateLevel3($e, $lastItem))
+
+    $(acc).find(".mw-headline").remove()
 
     return acc
   }
