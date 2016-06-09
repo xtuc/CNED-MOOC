@@ -1,5 +1,6 @@
 const request = (url, success) => $.ajax({ url, success })
 const wrapToClass = CSSClass => node => node.wrap(`<div class="${CSSClass}"></div>`)
+const wrapInnerToClass = CSSClass => node => node.wrapInner(`<div class="${CSSClass}"></div>`)
 const wrapToTag = tag => node => node.wrap(`<${tag}></${tag}>`)
 const removeExternalMark = links => $(links).find("a").toggleClass("external")
 
@@ -20,12 +21,27 @@ class Menu {
   isLesson = $n => $n.hasClass("lesson")
   isFolder = $n => $n.hasClass("folder")
 
+  /**
+   * Normalize Mediawiki generated mw-* classes by removing them
+   * FIXME this is a dirty hack
+   */
+  // normalizeItem = $n => $($($n.get(0).innerHTML)[0])
+  normalizeItem = $n => $n.get(0).innerHTML
+
   applyAccordeon(element) {
-    element.find("a, .expandable").click(() => {
+    // Add expandable icon
+    element.find(".nav-item").append('<div class="expandable sprite"> <div class="btn-closed">Déployer</div> <div class="btn-open">Refermer</div> </div>')
+
+    // console.log(element)
+
+    // console.log("apply", element.find(".nav-item-content").find(".nav-item").length)
+
+    element.find(".nav-item-header").find("a, .expandable").click(() => {
       element.toggleClass("closed")
       element.toggleClass("open")
     })
   }
+
 
   /**
    * Generate items for level 1 menu
@@ -34,22 +50,24 @@ class Menu {
    * @param lastItem I-1 item (jQuery DOM Node)
    */
   generateLevel1(item, lastItem) {
+    item = this.normalizeItem(item)
     const levelClass = "folder"
 
-    wrapToClass("nav-item nav-item-header")(item.find("a"))
+    console.log(item instanceof jQuery)
+
+    item = $("<div />").addClass("nav-item nav-item-header").wrapInner(item)
+
+    // wrapToClass("nav-item nav-item-header")(item)
 
     // To folder with initial closed
-    wrapToClass(`${levelClass} closed`)(item.find(".nav-item"))
+    wrapToClass(`${levelClass} closed`)(item)
 
     // Append the lesson elements container
     $("<div />").addClass("nav-item-content").appendTo(item.find("." + levelClass))
 
-    // Add expandable icon
-    item.find(".nav-item").append('<div class="expandable sprite"> <div class="btn-closed">Déployer</div> <div class="btn-open">Refermer</div> </div>')
-
     this.applyAccordeon(item.find("." + levelClass))
 
-    return item.children() // Remove trailing mw-headline container
+    return item
   }
 
   /**
@@ -59,6 +77,7 @@ class Menu {
    * @param lastItem I-1 item (jQuery DOM Node)
    */
   generateLevel2(item, lastItem) {
+    item = this.normalizeItem(item)
     const levelClass = "lesson"
 
     wrapToClass("nav-item nav-item-header")(item.find("a"))
@@ -66,18 +85,15 @@ class Menu {
 
     $("<div />").addClass("nav-item-content").appendTo(item.find("." + levelClass)) // Append the lesson elements container
 
-    // Add expandable icon
-    item.find(".nav-item").append('<div class="expandable sprite"> <div class="btn-closed">Déployer</div> <div class="btn-open">Refermer</div> </div>')
-
     this.applyAccordeon(item.find("." + levelClass))
 
     if (this.isFolder(lastItem)) {
-      item.children().appendTo(lastItem.find(".nav-item-content"))
+      item.appendTo(lastItem.find(".nav-item-content"))
 
       return item
     }
 
-    return item.children() // Remove trailing mw-headline container
+    return item
   }
 
   /**
@@ -87,17 +103,19 @@ class Menu {
    * @param lastItem I-1 item (jQuery DOM Node)
    */
   generateLevel3(item, lastItem) {
+    item = this.normalizeItem(item)
+
     wrapToClass("nav-item nav-item-lesson")(item.find("a"))
 
     lastItem = lastItem.parent().parent().find(".lesson") // lastItem is nested
 
     if (this.isLesson(lastItem)) {
-      item.children().appendTo(lastItem.find(".nav-item-content"))
+      item.appendTo(lastItem.find(".nav-item-content"))
 
       return item
     }
 
-    return item.children() // Remove trailing mw-headline container
+    return item
   }
 
   /**
@@ -114,8 +132,8 @@ class Menu {
 
     if (this.isLesson(lastItem)) {
 
-      console.log(config)
-      console.log(iconMarkupMap[config])
+      // console.log(config)
+      // console.log(iconMarkupMap[config])
 
       // Translate using dict icon markup
       if (iconMarkupMap[config]) {
@@ -135,16 +153,21 @@ class Menu {
 
     var state = false
 
-    if (element.tagName === "H1")
-      state = this.generateLevel1($e, lastItem)
-    else if (element.tagName === "H2")
-      state = this.generateLevel2($e, lastItem)
-    else if (element.tagName === "H3")
-      state = this.generateLevel3($e, lastItem)
-    else if (element.tagName === "UL")
-      state = this.applyConfiguration($(element), lastItem)
+    // for debuging purposes
+    try {
 
-    console.debug("parse response", element.innerHTML)
+      if (element.tagName === "H1")
+        state = this.generateLevel1($e, lastItem)
+      else if (element.tagName === "H2")
+        state = this.generateLevel2($e, lastItem)
+      else if (element.tagName === "H3")
+        state = this.generateLevel3($e, lastItem)
+      else if (element.tagName === "UL")
+        state = this.applyConfiguration($(element), lastItem)
+
+    } catch(e) {
+      console.error(e)
+    }
 
     if(state)
       acc.push(state)
@@ -200,7 +223,10 @@ const moocwikiv = function(i) {
   page.addClass("my-sb")
 
   request("https://fr.wikiversity.org/wiki/Utilisateur:Xtuc-Sven/menu-FormationB", (data, status) => {
-    data = $(data).find(CONTENT_ID).children().get() // get DOM element
+    data = $(data)
+                .find(CONTENT_ID)
+                .children()
+                .get() // get DOM element
 
     let menu = new Menu(data)
 

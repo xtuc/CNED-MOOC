@@ -1,2 +1,2 @@
 build:
-	babel minified src/script.js | pbcopy
+	BABEL_ENV=production babel src/script.js | pbcopy
