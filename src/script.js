@@ -4,13 +4,13 @@ const MENU_LEVEL_1 = "h1"
 const MENU_LEVEL_2 = "h2"
 const MENU_LEVEL_3 = "h3"
 
-const CONFIG_REGEX = /\((.*)\)/g
+const CONFIG_REGEX = /\((\S*)\)/g
 
 const request = (url, success) => $.ajax({ url, success })
 const wrapToClass = CSSClass => node => node.wrap(`<div class="${CSSClass}"></div>`)
 const wrapInnerToClass = CSSClass => node => node.wrapInner(`<div class="${CSSClass}"></div>`)
 const wrapToTag = tag => node => node.wrap(`<${tag}></${tag}>`)
-const removeExternalMark = links => $(links).find("a").toggleClass("external")
+const removeExternalMark = $n => $n.find("a").removeClass("external")
 const isInstanceOfjQuery = x => x instanceof jQuery
 const getConfig = t => CONFIG_REGEX.exec(t)
 const removeConfig = t => t.replace(CONFIG_REGEX, "")
@@ -60,6 +60,8 @@ class Menu {
   applyAccordeon(element) {
     // Add expandable icon
     element.find(".nav-item").append('<div class="expandable sprite"> <div class="btn-closed">Déployer</div> <div class="btn-open">Refermer</div> </div>')
+
+    // console.log(element)
 
     // console.log("apply", element.find(".nav-item-content").children().length)
     // console.log("apply", element.find(".nav-item-content").find("div").length)
@@ -141,6 +143,7 @@ class Menu {
     const regexRes = getConfig(item)
 
     item = removeConfig(item)
+    console.log(item)
 
     item = $("<div />").addClass("nav-item nav-item-lesson").wrapInner(item)
 
@@ -160,7 +163,7 @@ class Menu {
   }
 
   reducer(acc, element) {
-    const p = n => $(n).find(".mw-headline").wrapInner("<a href=\"#\"></a>")
+    const p = n => $(n).find(".mw-headline")
 
     const $e = p(element)
     const lastItem = this.getLastElement(acc)
