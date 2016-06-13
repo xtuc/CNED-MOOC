@@ -1,5 +1,7 @@
 const CONTENT_CLASS = "my-main-content"
 
+import Header from "./Header"
+
 export default class Content {
 
   /**
@@ -26,6 +28,7 @@ export default class Content {
     return $("<div />")
                   .addClass("my-main")
                   .addClass(CONTENT_CLASS)
-                  .text(this._content)
+                  .append(new Header().generate())
+                  .append(this._content)
   }
 }

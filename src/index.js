@@ -41,7 +41,6 @@ const moocwikiv = function() {
    */
   element.append(new Breadcrumb().generate())
 
-
   /**
    * Menu
    */
