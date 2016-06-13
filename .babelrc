@@ -1,6 +1,6 @@
 {
   "presets": ["es2015", "stage-0"],
-  "comments": true,
+  "comments": false,
   "minified": false,
   "retainLines": false
 }
