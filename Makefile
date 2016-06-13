@@ -1,2 +1,5 @@
+# build:
+# 	BABEL_ENV=production babel src/script.js | pbcopy
+
 build:
-	BABEL_ENV=production babel src/script.js | pbcopy
+	./node_modules/.bin/browserify -t [ babelify ] src/index.js | pbcopy

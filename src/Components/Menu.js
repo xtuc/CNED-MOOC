@@ -1,45 +1,13 @@
-const CONTENT_ID = "#mw-content-text"
+import {
+    removeExternalMark,
+    slug,
+    getConfig,
+    removeConfig,
+    CONFIG_REGEX,
+    iconMarkupMap
+} from "../utils"
 
-const MENU_LEVEL_1 = "h1"
-const MENU_LEVEL_2 = "h2"
-const MENU_LEVEL_3 = "h3"
-
-const CONFIG_REGEX = /\((\S*)\)/g
-
-const request = (url, success) => $.ajax({ url, success })
-const wrapToClass = CSSClass => node => node.wrap(`<div class="${CSSClass}"></div>`)
-const wrapInnerToClass = CSSClass => node => node.wrapInner(`<div class="${CSSClass}"></div>`)
-const wrapToTag = tag => node => node.wrap(`<${tag}></${tag}>`)
-const removeExternalMark = $n => $n.find("a").removeClass("external")
-const isInstanceOfjQuery = x => x instanceof jQuery
-const getConfig = t => CONFIG_REGEX.exec(t)
-const removeConfig = t => t.replace(CONFIG_REGEX, "")
-
-function slug(str) {
-  str = str.replace(/^\s+|\s+$/g, ''); // trim
-  str = str.toLowerCase();
-
-  // remove accents, swap ñ for n, etc
-  var from = "àáäâèéëêìíïîòóöôùúüûñç·/_,:;";
-  var to   = "aaaaeeeeiiiioooouuuunc------";
-  for (var i=0, l=from.length ; i<l ; i++) {
-    str = str.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i));
-  }
-
-  str = str.replace(/[^a-z0-9 -]/g, '') // remove invalid chars
-    .replace(/\s+/g, '-') // collapse whitespace and replace by -
-    .replace(/-+/g, '-'); // collapse dashes
-
-  return str;
-}
-
-const iconMarkupMap = {
-  vido: "bases", // vidéo
-  texte: "activity",
-  quizz: "evaluation"
-}
-
-class Menu {
+export default class Menu {
   constructor(menu) {
     this.menu = menu
 
@@ -195,7 +163,7 @@ class Menu {
 
     // Level 2
     if (this.isLesson(element)) {
-      console.log(acc[0].get(0))
+      // console.log(acc[0].get(0))
 
       acc.map(e => e.appendTo(element.find(".nav-item-content")))
 
@@ -222,51 +190,3 @@ class Menu {
     return $("<div></div>").addClass("my-sb-nav").html(generated)
   }
 }
-
-/**
- * Loader
- */
-const startLoader = page => page.html("Chargement ...")
-const stopLoaderAndReplace = (page, element) => page.html(element)
-
-/**
- * @Author Sven SAULEAU (XTUC) <sven.sauleau@xtuc.fr>
- *
- * $ is implicit since jQuery is loaded at the beginning of the page
- */
-
-const log = function() {
-  console.log(this)
-}
-
-// Don't use fat arrow there because `this` will be overwritted by ES6 compilation
-const moocwikiv = function(i) {
-  const page = $(this)
-  const element = $("<div></div>")
-
-  /**
-   * Clean traling file imports in p
-   */
-  page.parent().find("p").html("")
-
-  page.html("") // Clear content
-  startLoader(page) // Start loader
-
-  page.addClass("my-sb")
-
-  request("https://fr.wikiversity.org/wiki/Utilisateur:Xtuc-Sven/menu-FormationB", (data, status) => {
-    data = $(data)
-                .find(CONTENT_ID)
-                .children()
-                .get() // get DOM element
-
-    let menu = new Menu(data)
-
-    element.append(menu.generate())
-    stopLoaderAndReplace(page, element)
-  })
-
-  console.clear() // for debug purpose
-}
-
-$(() => $("#moocwikiv").each(moocwikiv))
