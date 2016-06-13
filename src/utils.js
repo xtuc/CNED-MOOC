@@ -6,6 +6,7 @@ export const removeExternalMark = $n => $n.find("a").removeClass("external")
 export const isInstanceOfjQuery = x => x instanceof jQuery
 export const getConfig = t => CONFIG_REGEX.exec(t)
 export const removeConfig = t => t.replace(CONFIG_REGEX, "")
+export const removeToc = $n => $n.find("#toc").remove()
 
 export const slug = str => {
   str = str.replace(/^\s+|\s+$/g, "") // trim
@@ -34,7 +35,8 @@ export const MENU_LEVEL_3 = "h3"
 export const CONFIG_REGEX = /\((\S*)\)/g
 
 export const iconMarkupMap = {
-  vido: "bases", // vidéo
+  video: "bases", // vidéo
   texte: "activity",
   quizz: "evaluation"
 }
+

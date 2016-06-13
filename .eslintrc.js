@@ -22,6 +22,7 @@ module.exports = {
             2,
             "never"
         ],
-        "strict": 2
+        "strict": 2,
+        "no-console": 1
     }
 };

@@ -1,10 +1,14 @@
 import {
     removeExternalMark,
     slug,
+    request,
     getConfig,
     removeConfig,
-    iconMarkupMap
+    iconMarkupMap,
+    CONTENT_ID,
+    removeToc
 } from "../utils"
+import Content from "./Content"
 
 export default class Menu {
 
@@ -12,7 +16,9 @@ export default class Menu {
     this.menu = menu
 
     this.reducer = this.reducer.bind(this) // Otherwise reduce will override context
-    this.foldAccordeon = this.foldAccordeon.bind(this) // Otherwise reduce will override context
+    this.foldLevel2Accordeon = this.foldLevel2Accordeon.bind(this) // Otherwise reduce will override context
+    this.foldLevel1Accordeon = this.foldLevel1Accordeon.bind(this) // Otherwise reduce will override context
+    this.handleClick = this.handleClick.bind(this)
   }
 
   getLastElement(array) {
@@ -47,7 +53,9 @@ export default class Menu {
 
   applyAccordeon(element) {
     // Add expandable icon
-    element.find(".nav-item").append("<div class=\"expandable sprite\"> <div class=\"btn-closed\">Déployer</div> <div class=\"btn-open\">Refermer</div> </div>")
+    element
+        .find(".nav-item")
+        .append("<div class=\"expandable sprite\"> <div class=\"btn-closed\">Déployer</div> <div class=\"btn-open\">Refermer</div> </div>")
 
     // console.log("apply", element.find(".nav-item-content").children().length)
     // console.log("apply", element.find(".nav-item-content").find("div").length)
@@ -82,8 +90,6 @@ export default class Menu {
     // Append the lesson elements container
     $("<div />").addClass("nav-item-content").appendTo(item)
 
-    this.applyAccordeon(item)
-
     return item
   }
 
@@ -110,8 +116,6 @@ export default class Menu {
 
     // Append the lesson elements container
     $("<div />").addClass("nav-item-content").appendTo(item)
-
-    this.applyAccordeon(item)
 
     return item
   }
@@ -171,23 +175,70 @@ export default class Menu {
     return acc
   }
 
-  foldAccordeon(acc, element) {
+  foldLevel2Accordeon(acc, element) {
 
     // Level 2
     if (this.isLesson(element)) {
-      // console.log(acc[0].get(0))
+      this.applyAccordeon(element)
 
-      acc.map(e => e.appendTo(element.find(".nav-item-content")))
+      let $content = element.find(".nav-item-content")
+
+      acc
+        .reverse()
+        .map(e => e.clone().appendTo($content))
+
+      acc.map(e => e.hide()) // FIXME: should remove there but wont work
 
       acc = []
     }
 
     // Level 3
-    if (this.isLevel3(element)) {
+    if (this.isLevel3(element))
       acc.push(element)
-    }
 
     return acc
+  }
+
+  foldLevel1Accordeon(acc, element) {
+
+    // Level 1
+    if (this.isFolder(element)) {
+      this.applyAccordeon(element)
+
+      let $content = element.find(".nav-item-content")
+
+      acc
+        .reverse()
+        .map(e => e.appendTo($content))
+
+      acc.map(e => e.hide()) // FIXME: should remove there but wont work
+
+      acc = []
+    }
+
+    // Level 2
+    if (this.isLesson(element))
+      acc.push(element)
+
+    return acc
+  }
+
+  handleClick(e) {
+    const URL = $(e.target).attr("href")
+
+    if (URL.indexOf("wiki") == -1) // Not a real page, ignore
+      return e.preventDefault()
+
+    request(URL, data => {
+      window.history.pushState({}, "title there", URL)
+
+      data = $(data).find(CONTENT_ID)
+      removeToc(data)
+
+      Content.update($("body"), data)
+    })
+
+    e.preventDefault()
   }
 
   generate() {
@@ -196,8 +247,15 @@ export default class Menu {
 
     const generated = this.menu.reduce(this.reducer, [])
 
-    // Depth-first, fold all trailing accordeons
-    generated.slice().reverse().reduce(this.foldAccordeon, [])
+    generated.reverse()
+
+    // // Depth-first, fold all trailing accordeons
+    // generated.reduce(this.foldLevel2Accordeon, [])
+    // generated.reduce(this.foldLevel1Accordeon, [])
+
+    generated.reverse()
+
+    generated.map(e => e.find("a").click(this.handleClick))
 
     return $("<div></div>").addClass("my-sb-nav").html(generated)
   }
