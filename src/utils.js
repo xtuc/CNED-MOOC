@@ -1,3 +1,5 @@
+export const CONFIG_REGEX = /\(#\s?(\S*)\)/g // xxx (# y)
+
 export const request = (url, success) => $.ajax({ url, success })
 export const wrapToClass = CSSClass => node => node.wrap(`<div class="${CSSClass}"></div>`)
 export const wrapInnerToClass = CSSClass => node => node.wrapInner(`<div class="${CSSClass}"></div>`)
@@ -31,8 +33,6 @@ export const CONTENT_ID = "#mw-content-text"
 export const MENU_LEVEL_1 = "h1"
 export const MENU_LEVEL_2 = "h2"
 export const MENU_LEVEL_3 = "h3"
-
-export const CONFIG_REGEX = /\((\S*)\)/g
 
 export const iconMarkupMap = {
   video: "bases", // vidéo
