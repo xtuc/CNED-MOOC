@@ -13,12 +13,12 @@ import { request, CONTENT_ID } from "./utils.js"
 const startLoader = page => page.html("Chargement ...")
 const stopLoaderAndReplace = (page, element) => page.html(element)
 
-const log = function() {
-  console.log(this)
-}
+// const log = function() {
+//   console.log(this)
+// }
 
 // Don't use fat arrow there because `this` will be overwritted by ES6 compilation
-const moocwikiv = function(i) {
+const moocwikiv = function() {
   const page = $(this)
   const element = $("<div></div>")
 
@@ -32,7 +32,7 @@ const moocwikiv = function(i) {
 
   page.addClass("my-sb")
 
-  request("https://fr.wikiversity.org/wiki/Utilisateur:Xtuc-Sven/menu-FormationB", (data, status) => {
+  request("https://fr.wikiversity.org/wiki/Utilisateur:Xtuc-Sven/menu-FormationB", data => {
     data = $(data)
                 .find(CONTENT_ID)
                 .children()
@@ -43,8 +43,6 @@ const moocwikiv = function(i) {
     element.append(menu.generate())
     stopLoaderAndReplace(page, element)
   })
-
-  console.clear() // for debug purpose
 }
 
 $(() => $("#moocwikiv").each(moocwikiv))

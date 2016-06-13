@@ -3,11 +3,11 @@ import {
     slug,
     getConfig,
     removeConfig,
-    CONFIG_REGEX,
     iconMarkupMap
 } from "../utils"
 
 export default class Menu {
+
   constructor(menu) {
     this.menu = menu
 
@@ -15,24 +15,39 @@ export default class Menu {
     this.foldAccordeon = this.foldAccordeon.bind(this) // Otherwise reduce will override context
   }
 
-  getLastElement = array => array[array.length - 1]
-  isLesson = $n => $n.hasClass("lesson")
-  isFolder = $n => $n.hasClass("folder")
-  isLevel3 = $n => $n.hasClass("level3")
+  getLastElement(array) {
+    return array[array.length - 1]
+  }
+
+  isLesson($n) {
+    return $n.hasClass("lesson")
+  }
+
+  isFolder($n) {
+    return $n.hasClass("folder")
+  }
+
+  isLevel3($n) {
+    return $n.hasClass("level3")
+  }
 
   /**
    * Normalize Mediawiki generated mw-* classes by removing them
    */
-  normalizeItem = $n => $n.get(0).innerHTML
+  normalizeItem($n) {
+    return $n.get(0).innerHTML
+  }
 
   /**
    * Remove link target and title
    */
-  normalizeLink = e => $(e).attr("href", `#${slug($(e).text())}`).attr("title", "").get()
+  normalizeLink(e) {
+    return $(e).attr("href", `#${slug($(e).text())}`).attr("title", "").get()
+  }
 
   applyAccordeon(element) {
     // Add expandable icon
-    element.find(".nav-item").append('<div class="expandable sprite"> <div class="btn-closed">Déployer</div> <div class="btn-open">Refermer</div> </div>')
+    element.find(".nav-item").append("<div class=\"expandable sprite\"> <div class=\"btn-closed\">Déployer</div> <div class=\"btn-open\">Refermer</div> </div>")
 
     // console.log("apply", element.find(".nav-item-content").children().length)
     // console.log("apply", element.find(".nav-item-content").find("div").length)
@@ -47,9 +62,8 @@ export default class Menu {
    * Generate items for level 1 menu
    *
    * @param item Current item in the loop (jQuery DOM Node)
-   * @param lastItem I-1 item (jQuery DOM Node)
    */
-  generateLevel1(item, lastItem) {
+  generateLevel1(item) {
     item = this.normalizeItem(item)
     const levelClass = "folder"
 
@@ -77,9 +91,8 @@ export default class Menu {
    * Generate items for level 2 menu
    *
    * @param item Current item in the loop (jQuery DOM Node)
-   * @param lastItem I-1 item (jQuery DOM Node)
    */
-  generateLevel2(item, lastItem) {
+  generateLevel2(item) {
     item = this.normalizeItem(item)
     const levelClass = "lesson"
 
@@ -107,9 +120,8 @@ export default class Menu {
    * Generate items for level 3 menu
    *
    * @param item Current item in the loop (jQuery DOM Node)
-   * @param lastItem I-1 item (jQuery DOM Node)
    */
-  generateLevel3(item, lastItem) {
+  generateLevel3(item) {
     item = this.normalizeItem(item)
     const levelClass = "level3"
 
@@ -150,7 +162,7 @@ export default class Menu {
         state = this.generateLevel3($e, lastItem)
 
     } catch(e) {
-      console.error(e)
+      throw e
     }
 
     if(state)
