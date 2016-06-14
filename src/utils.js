@@ -1,4 +1,4 @@
-export const CONFIG_REGEX = /\(#\s?(\S*)\)/g // xxx (# y)
+export const CONFIG_REGEX = /\(#\s?(.*)\)/g // xxx (# y)
 
 export const request = (url, success) => $.ajax({ url, success })
 export const wrapToClass = CSSClass => node => node.wrap(`<div class="${CSSClass}"></div>`)
@@ -15,8 +15,8 @@ export const slug = str => {
   str = str.toLowerCase()
 
   // remove accents, swap ñ for n, etc
-  var from = "àáäâèéëêìíïîòóöôùúüûñç·/_,:;"
-  var to   = "aaaaeeeeiiiioooouuuunc------"
+  var from = "àáäâèéëêìíïîòóöôùúüûñç·/_,:;- "
+  var to   = "aaaaeeeeiiiioooouuuunc________"
   for (var i=0, l=from.length ; i<l ; i++) {
     str = str.replace(new RegExp(from.charAt(i), "g"), to.charAt(i))
   }
@@ -37,6 +37,11 @@ export const MENU_LEVEL_3 = "h3"
 export const iconMarkupMap = {
   video: "bases", // vidéo
   texte: "activity",
-  quizz: "evaluation"
+  quizz: "evaluation",
+  prerequis: "prerequis", // Pré-requis
+  objectif: "objectif",
+  competencesvisees: "competence", // compétences visées
+  duree: "duree" // durée
 }
 
+export const div = $("<div></div>")
