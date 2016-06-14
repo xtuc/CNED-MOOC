@@ -43,5 +43,3 @@ export const iconMarkupMap = {
   competencesvisees: "competence", // compétences visées
   duree: "duree" // durée
 }
-
-export const div = $("<div></div>")

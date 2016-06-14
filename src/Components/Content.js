@@ -19,7 +19,7 @@ export default class Content {
   /**
    * Constructor
    *
-   * @param content mixed Content
+   * @param content Content (LessonContent)
    */
   constructor(content) {
     this._content = content
@@ -62,6 +62,6 @@ export default class Content {
                   .addClass("my-main")
                   .addClass(CONTENT_CLASS)
                   .append(header)
-                  .append(this._content)
+                  .append(this._content.generate())
   }
 }

@@ -7,6 +7,8 @@
 import Title from "./Components/Title.js"
 import Menu from "./Components/Menu.js"
 import Content from "./Components/Content.js"
+import LessonContent from "./Components/Lesson/LessonContent.js"
+import LessonHeader from "./Components/Lesson/LessonHeader.js"
 import Breadcrumb from "./Components/Breadcrumb.js"
 import { MenuFooterDemo } from "./Components/MenuFooter.js"
 import { request, CONTENT_ID } from "./utils.js"
@@ -66,7 +68,8 @@ const moocwikiv = function() {
     /**
      * Content
      */
-    content.append(new Content("content there").generate())
+    const lesson = new LessonContent(new LessonHeader("header here"), "content here")
+    content.append(new Content(lesson).generate())
 
     element.append(content)
 
