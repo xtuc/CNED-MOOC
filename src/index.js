@@ -39,7 +39,11 @@ const moocwikiv = function() {
   /**
    * Breadcrumb
    */
-  element.append(new Breadcrumb().generate())
+  element.append(new Breadcrumb([
+    "Piloter l'accessibilité",
+    "Initier une démarche d'accessibilité",
+    "Activités d'apprentissage"
+  ]).generate())
 
   /**
    * Menu
