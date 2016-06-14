@@ -16,8 +16,9 @@ export default class Menu {
     this.menu = menu
 
     this.reducer = this.reducer.bind(this) // Otherwise reduce will override context
-    this.foldLevel2Accordeon = this.foldLevel2Accordeon.bind(this) // Otherwise reduce will override context
-    this.foldLevel1Accordeon = this.foldLevel1Accordeon.bind(this) // Otherwise reduce will override context
+    // this.foldLevel2Accordeon = this.foldLevel2Accordeon.bind(this) // Otherwise reduce will override context
+    // this.foldLevel1Accordeon = this.foldLevel1Accordeon.bind(this) // Otherwise reduce will override context
+    this.foldAccordeon = this.foldAccordeon.bind(this) // Otherwise reduce will override context
     this.handleClick = this.handleClick.bind(this)
   }
 
@@ -52,18 +53,21 @@ export default class Menu {
   }
 
   applyAccordeon(element) {
+    const $itemHeader = element.find(".nav-item-header").first()
+
     // Add expandable icon
-    element
-        .find(".nav-item")
+    $itemHeader
         .append("<div class=\"expandable sprite\"> <div class=\"btn-closed\">Déployer</div> <div class=\"btn-open\">Refermer</div> </div>")
 
     // console.log("apply", element.find(".nav-item-content").children().length)
     // console.log("apply", element.find(".nav-item-content").find("div").length)
 
-    element.find(".nav-item-header").find("a, .expandable").click(() => {
+    $itemHeader.find("a, .expandable").click(() => {
       element.toggleClass("closed")
       element.toggleClass("open")
     })
+
+    return element
   }
 
   /**
@@ -175,54 +179,6 @@ export default class Menu {
     return acc
   }
 
-  foldLevel2Accordeon(acc, element) {
-
-    // Level 2
-    if (this.isLesson(element)) {
-      this.applyAccordeon(element)
-
-      let $content = element.find(".nav-item-content")
-
-      acc
-        .reverse()
-        .map(e => e.clone().appendTo($content))
-
-      acc.map(e => e.hide()) // FIXME: should remove there but wont work
-
-      acc = []
-    }
-
-    // Level 3
-    if (this.isLevel3(element))
-      acc.push(element)
-
-    return acc
-  }
-
-  foldLevel1Accordeon(acc, element) {
-
-    // Level 1
-    if (this.isFolder(element)) {
-      this.applyAccordeon(element)
-
-      let $content = element.find(".nav-item-content")
-
-      acc
-        .reverse()
-        .map(e => e.appendTo($content))
-
-      acc.map(e => e.hide()) // FIXME: should remove there but wont work
-
-      acc = []
-    }
-
-    // Level 2
-    if (this.isLesson(element))
-      acc.push(element)
-
-    return acc
-  }
-
   handleClick(e) {
     const URL = $(e.target).attr("href")
 
@@ -241,6 +197,53 @@ export default class Menu {
     e.preventDefault()
   }
 
+  foldAccordeon(acc, el) {
+    const { level2, level3 } = acc
+
+    if (this.isFolder(el)) {
+
+      if (level2.length == 0) // No childs
+        return acc
+
+      const $content = el.find(".nav-item-content")
+
+      level2
+            .reverse()
+            .map(x => x.clone()) // won't work without cloning
+            .map(x => this.applyAccordeon(x)) // apply accordeon to cloned elements
+            .map(x => $content.append(x))
+
+      level2.map(x => x.hide()) // Hide all FIXME: remove dom
+
+      this.applyAccordeon(el)
+
+      acc.level2 = []
+    }
+
+    if (this.isLesson(el)) {
+      level2.push(el)
+
+      if (level3.length == 0) // No childs
+        return acc
+
+      const $content = el.find(".nav-item-content")
+
+      level3
+            .reverse()
+            .map(x => x.clone()) // won't work without cloning
+            .map(x => $content.append(x))
+
+      level3.map(x => x.hide()) // Hide all FIXME: remove dom
+
+      acc.level3 = []
+    }
+
+    if (this.isLevel3(el))
+      level3.push(el)
+
+    return acc
+  }
+
   generate() {
     const $menu = $(this.menu)
     removeExternalMark($menu) // Remove external icon in links
@@ -249,9 +252,8 @@ export default class Menu {
 
     generated.reverse()
 
-    // // Depth-first, fold all trailing accordeons
-    // generated.reduce(this.foldLevel2Accordeon, [])
-    // generated.reduce(this.foldLevel1Accordeon, [])
+    // Depth-first, fold all trailing accordeons
+    generated.reduce(this.foldAccordeon, { level2: [], level3: [] })
 
     generated.reverse()
 
