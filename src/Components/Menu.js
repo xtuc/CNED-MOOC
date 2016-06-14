@@ -8,7 +8,10 @@ import {
     CONTENT_ID,
     removeToc
 } from "../utils"
+
 import Content from "./Content"
+import LessonContent from "./Lesson/LessonContent.js"
+import LessonHeader from "./Lesson/LessonHeader.js"
 
 export default class Menu {
 
@@ -191,7 +194,9 @@ export default class Menu {
       data = $(data).find(CONTENT_ID)
       removeToc(data)
 
-      Content.update($("body"), data)
+      const lesson = new LessonContent(new LessonHeader("header here"), data)
+
+      Content.update($("body"), lesson.generate())
     })
 
     e.preventDefault()
