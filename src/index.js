@@ -25,12 +25,9 @@ const moocwikiv = function() {
   const element = $("<div></div>")
   const content = $("<div></div>").addClass("my-layout clear")
 
-  /**
-   * Clean traling file imports in p
-   */
-  page.parent().find("p").html("")
+  const pageContentChildren = page.parent().children()
+  const oldContent = pageContentChildren.slice(1, pageContentChildren.length) // Remove first element #moocwikiv"
 
-  page.html("") // Clear content
   startLoader(page) // Start loader
 
   /**
@@ -68,7 +65,7 @@ const moocwikiv = function() {
     /**
      * Content
      */
-    const lesson = new LessonContent(new LessonHeader("header here"), "content here")
+    const lesson = new LessonContent(new LessonHeader("header here"), oldContent) // Re-add old content
     content.append(new Content(lesson).generate())
 
     element.append(content)

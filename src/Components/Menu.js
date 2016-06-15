@@ -262,7 +262,7 @@ export default class Menu {
 
     generated.reverse()
 
-    generated.map(e => e.find("a").click(this.handleClick))
+    // generated.map(e => e.find("a").click(this.handleClick)) // turbo-links way
 
     return $("<div></div>").addClass("my-sb-nav").html(generated)
   }
