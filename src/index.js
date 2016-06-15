@@ -4,6 +4,8 @@
  * $ is implicit since jQuery is loaded at the beginning of the page
  */
 
+$.fn.reduce = [].reduce // https://bugs.jquery.com/ticket/1886
+
 import Title from "./Components/Title.js"
 import Menu from "./Components/Menu.js"
 import Content from "./Components/Content.js"
@@ -26,7 +28,20 @@ const moocwikiv = function() {
   const content = $("<div></div>").addClass("my-layout clear")
 
   const pageContentChildren = page.parent().children()
-  const oldContent = pageContentChildren.slice(1, pageContentChildren.length) // Remove first element #moocwikiv"
+
+  const oldContent = pageContentChildren.reduce((acc, el) => {
+    const tagName = el.tagName
+
+    if (el.id === "moocwikiv")
+      return acc
+
+    if (tagName === "H2")
+      acc.title = $(el).find(".mw-headline").text()
+    else
+      acc.content.push(el)
+
+    return acc
+  }, { content: [], title: null })
 
   startLoader(page) // Start loader
 
@@ -65,7 +80,11 @@ const moocwikiv = function() {
     /**
      * Content
      */
-    const lesson = new LessonContent(new LessonHeader("header here"), oldContent) // Re-add old content
+    const lessonHeader = (oldContent.title)
+                                  ? new LessonHeader(oldContent.title)
+                                  : false
+
+    const lesson = new LessonContent(lessonHeader, oldContent.content) // Re-add old content
     content.append(new Content(lesson).generate())
 
     element.append(content)

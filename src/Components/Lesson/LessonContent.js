@@ -21,9 +21,13 @@ export default class LessonContent {
                           .addClass("my-lesson-content")
                           .html(this._content)
 
+    const header = (this._header)
+                          ? this._header.generate()
+                          : null
+
     return $("<div />")
                   .addClass("my-lesson")
-                  .append(this._header.generate())
+                  .append(header)
                   .append(content)
   }
 }
