@@ -1,28 +1,59 @@
-import {
-    removeExternalMark,
-    slug,
-    request,
-    getConfig,
-    removeConfig,
-    iconMarkupMap,
-    CONTENT_ID,
-    removeToc
-} from "../utils"
+// import {
+//     removeExternalMark,
+//     slug,
+//     request,
+//     getConfig,
+//     removeConfig,
+//     iconMarkupMap,
+//     CONTENT_ID,
+//     removeToc
+// } from "../utils"
 
-import Content from "./Content"
-import LessonContent from "./Lesson/LessonContent.js"
-import LessonHeader from "./Lesson/LessonHeader.js"
+ import { removeExternalMark, slug, getConfig, removeConfig, iconMarkupMap } from "../utils"
+
+// import Content from "./Content"
+// import LessonContent from "./Lesson/LessonContent.js"
+// import LessonHeader from "./Lesson/LessonHeader.js"
+
+const MENU_CLASS = "my-sb-nav"
 
 export default class Menu {
+
+  /**
+   * Select item in menu from given URL
+   */
+  selectByURL(url) {
+    const element = this._links[url]
+
+    console.log(element)
+    console.log(url)
+
+    if (!element)
+      return false
+
+    return true
+
+    // return $("." + MENU_CLASS).find(".folder").children().reduce((acc, folder) => {
+    //   const content = $(folder).find(".nav-item-content").children()
+
+    //   content.map(x => {
+    //     const a = $(x)
+
+    //     console.log(a)
+    //   })
+
+    //   return acc
+    // }, false)
+  }
 
   constructor(menu) {
     this.menu = menu
 
+    this._links = [] // Using to cache links assigned to el
+
     this.reducer = this.reducer.bind(this) // Otherwise reduce will override context
-    // this.foldLevel2Accordeon = this.foldLevel2Accordeon.bind(this) // Otherwise reduce will override context
-    // this.foldLevel1Accordeon = this.foldLevel1Accordeon.bind(this) // Otherwise reduce will override context
     this.foldAccordeon = this.foldAccordeon.bind(this) // Otherwise reduce will override context
-    this.handleClick = this.handleClick.bind(this)
+    // this.handleClick = this.handleClick.bind(this)
   }
 
   getLastElement(array) {
@@ -62,9 +93,6 @@ export default class Menu {
     $itemHeader
         .append("<div class=\"expandable sprite\"> <div class=\"btn-closed\">Déployer</div> <div class=\"btn-open\">Refermer</div> </div>")
 
-    // console.log("apply", element.find(".nav-item-content").children().length)
-    // console.log("apply", element.find(".nav-item-content").find("div").length)
-
     $itemHeader.find("a, .expandable").click(() => {
       element.toggleClass("closed")
       element.toggleClass("open")
@@ -80,6 +108,7 @@ export default class Menu {
    */
   generateLevel1(item) {
     item = this.normalizeItem(item)
+
     const levelClass = "folder"
 
     /**
@@ -135,6 +164,7 @@ export default class Menu {
   generateLevel3(item) {
     item = this.normalizeItem(item)
     const levelClass = "level3"
+    const href = $(item).attr("href")
 
     /**
      * Check for configuration xxx (y)
@@ -150,6 +180,8 @@ export default class Menu {
 
       if(value) item.addClass(value) // Apply configuration
     }
+
+    this._links[href] = item // Add to cache
 
     return item
   }
@@ -182,25 +214,25 @@ export default class Menu {
     return acc
   }
 
-  handleClick(e) {
-    const URL = $(e.target).attr("href")
+  // handleClick(e) {
+  //   const URL = $(e.target).attr("href")
 
-    if (URL.indexOf("wiki") == -1) // Not a real page, ignore
-      return e.preventDefault()
+  //   if (URL.indexOf("wiki") == -1) // Not a real page, ignore
+  //     return e.preventDefault()
 
-    request(URL, data => {
-      window.history.pushState({}, "title there", URL)
+  //   request(URL, data => {
+  //     window.history.pushState({}, "title there", URL)
 
-      data = $(data).find(CONTENT_ID)
-      removeToc(data)
+  //     data = $(data).find(CONTENT_ID)
+  //     removeToc(data)
 
-      const lesson = new LessonContent(new LessonHeader("header here"), data)
+  //     const lesson = new LessonContent(new LessonHeader("header here"), data)
 
-      Content.update($("body"), lesson.generate())
-    })
+  //     Content.update($("body"), lesson.generate())
+  //   })
 
-    e.preventDefault()
-  }
+  //   e.preventDefault()
+  // }
 
   foldAccordeon(acc, el) {
     const { level2, level3 } = acc
@@ -264,6 +296,6 @@ export default class Menu {
 
     // generated.map(e => e.find("a").click(this.handleClick)) // turbo-links way
 
-    return $("<div></div>").addClass("my-sb-nav").html(generated)
+    return $("<div></div>").addClass(MENU_CLASS).html(generated)
   }
 }

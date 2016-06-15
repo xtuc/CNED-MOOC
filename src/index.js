@@ -32,12 +32,13 @@ const moocwikiv = function() {
   const oldContent = pageContentChildren.reduce((acc, el) => {
     const tagName = el.tagName
 
-    if (el.id === "moocwikiv")
+    if (el.id === "moocwikiv") // Ignore
       return acc
 
-    if (tagName === "H2")
+    if (tagName === "H2") {
       acc.title = $(el).find(".mw-headline").text()
-    else
+      el.remove() // Remove node
+    } else
       acc.content.push(el)
 
     return acc
@@ -91,6 +92,11 @@ const moocwikiv = function() {
 
     // Stop loading
     stopLoaderAndReplace(page, element)
+
+    /**
+     * Menu select item from current URL
+     */
+    menu.selectByURL(window.location.origin + window.location.pathname)
   })
 }
 
