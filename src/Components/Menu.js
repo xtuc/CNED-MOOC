@@ -20,6 +20,16 @@ const MENU_CLASS = "my-sb-nav"
 export default class Menu {
 
   /**
+   * Replace an existing menu
+   *
+   * @param menu Menu
+   * @return void
+   */
+  static replace(menu) {
+    $("." + MENU_CLASS).html(menu.generate())
+  }
+
+  /**
    * Select item in menu from given URL
    */
   selectByURL(url) {
@@ -32,24 +42,12 @@ export default class Menu {
       return false
 
     return true
-
-    // return $("." + MENU_CLASS).find(".folder").children().reduce((acc, folder) => {
-    //   const content = $(folder).find(".nav-item-content").children()
-
-    //   content.map(x => {
-    //     const a = $(x)
-
-    //     console.log(a)
-    //   })
-
-    //   return acc
-    // }, false)
   }
 
   constructor(menu) {
     this.menu = menu
 
-    this._links = [] // Using to cache links assigned to el
+    this._links = [] // Cache, link is key and el is value
 
     this.reducer = this.reducer.bind(this) // Otherwise reduce will override context
     this.foldAccordeon = this.foldAccordeon.bind(this) // Otherwise reduce will override context
@@ -164,7 +162,7 @@ export default class Menu {
   generateLevel3(item) {
     item = this.normalizeItem(item)
     const levelClass = "level3"
-    const href = $(item).attr("href")
+    // const href = $(item).attr("href")
 
     /**
      * Check for configuration xxx (y)
@@ -181,7 +179,7 @@ export default class Menu {
       if(value) item.addClass(value) // Apply configuration
     }
 
-    this._links[href] = item // Add to cache
+    // this._links[href] = item // Add to cache
 
     return item
   }
@@ -282,6 +280,9 @@ export default class Menu {
   }
 
   generate() {
+    if (!this.menu)
+      return $("<div></div>").addClass(MENU_CLASS).html("Chargement ...")
+
     const $menu = $(this.menu)
     removeExternalMark($menu) // Remove external icon in links
 
@@ -296,6 +297,7 @@ export default class Menu {
 
     // generated.map(e => e.find("a").click(this.handleClick)) // turbo-links way
 
-    return $("<div></div>").addClass(MENU_CLASS).html(generated)
+    // return $("<div></div>").addClass(MENU_CLASS).html(generated)
+    return generated
   }
 }

@@ -69,35 +69,35 @@ const moocwikiv = function() {
                 .children()
                 .get() // get DOM element
 
-    let menu = new Menu(data)
-
-    let navBar = $("<div />")
-                        .addClass("my-sb")
-                        .append(menu.generate())
-                        .append(MenuFooterDemo)
-
-    content.append(navBar)
-
-    /**
-     * Content
-     */
-    const lessonHeader = (oldContent.title)
-                                  ? new LessonHeader(oldContent.title)
-                                  : false
-
-    const lesson = new LessonContent(lessonHeader, oldContent.content) // Re-add old content
-    content.append(new Content(lesson).generate())
-
-    element.append(content)
-
-    // Stop loading
-    stopLoaderAndReplace(page, element)
+    Menu.replace(new Menu(data)) // Menu has loaded, replace it
 
     /**
      * Menu select item from current URL
      */
-    menu.selectByURL(window.location.origin + window.location.pathname)
+    // menu.selectByURL(window.location.origin + window.location.pathname)
   })
+
+  let navBar = $("<div />")
+                    .addClass("my-sb")
+                    .append(new Menu(false).generate())
+                    .append(MenuFooterDemo)
+
+  content.append(navBar)
+
+  /**
+   * Content
+   */
+  const lessonHeader = (oldContent.title)
+                              ? new LessonHeader(oldContent.title)
+                              : false
+
+  const lesson = new LessonContent(lessonHeader, oldContent.content) // Re-add old content
+  content.append(new Content(lesson).generate())
+
+  element.append(content)
+
+  // Stop loading
+  stopLoaderAndReplace(page, element)
 }
 
 $(() => $("#moocwikiv").each(moocwikiv))
