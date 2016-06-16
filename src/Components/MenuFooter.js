@@ -1,4 +1,16 @@
+const MENU_FOOTER_CLASS = "my-sb-more"
+
 export default class MenuFooter {
+
+  /**
+   * Replace an existing footer
+   *
+   * @param menu MenuFooter
+   * @return void
+   */
+  static replace(menu) {
+    $("." + MENU_FOOTER_CLASS).html(menu.generate())
+  }
 
   constructor() {
     this._blocks = []
@@ -30,20 +42,6 @@ export default class MenuFooter {
    * Generate jQuery elements
    */
   generate() {
-    return $("<div />").addClass("my-sb-more").html(this._blocks)
+    return $("<div />").addClass(MENU_FOOTER_CLASS).html(this._blocks)
   }
 }
-
-export const MenuFooterDemo = new MenuFooter()
-        .addInfo(
-            "https://fr.wikiversity.org/wiki/Comment_bien_suivre_la_formation_d%27accessibilit%C3%A9_num%C3%A9rique",
-            "Comment bien suivre la formation ?",
-            "info"
-        )
-        .addInfo(
-            "https://fr.wikiversity.org/wiki/Contribuer_%C3%A0_la_formation_d%27accessibilit%C3%A9_num%C3%A9rique",
-            "Comment contribuer dans la wikiversité ?",
-            "contrib"
-        )
-        .generate()
-

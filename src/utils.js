@@ -41,7 +41,9 @@ export const iconMarkupMap = {
   prerequis: "prerequis", // Pré-requis
   objectif: "objectif",
   competencesvisees: "competence", // compétences visées
-  duree: "duree" // durée
+  duree: "duree", // durée
+  contrib: "contrib",
+  info: "info"
 }
 
 export const ALT_TEXT = "undefined"

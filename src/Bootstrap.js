@@ -5,8 +5,8 @@ import LessonContent from "./Components/Lesson/LessonContent.js"
 import LessonHeader from "./Components/Lesson/LessonHeader.js"
 import Breadcrumb from "./Components/Breadcrumb.js"
 import Header from "./Components/Header.js"
-import { MenuFooterDemo } from "./Components/MenuFooter.js"
-import { request, CONTENT_ID, ALT_TEXT } from "./utils.js"
+import MenuFooter from "./Components/MenuFooter.js"
+import { request, CONTENT_ID, ALT_TEXT, getConfig, removeConfig, iconMarkupMap } from "./utils.js"
 
 export default class Bootstrap {
 
@@ -24,6 +24,28 @@ export default class Bootstrap {
         let menu = new Menu(data)
 
         Menu.replace(menu) // Menu has loaded, replace it
+
+        /**
+         * Footer
+         */
+        let menuFooter = data.reduce((acc, el) => {
+
+          if (el.tagName === "H5") {
+            el = $(el).find(".mw-headline")
+            const a = el.find("a")
+            const config = getConfig(el.text())
+            const icon = (config && config[1])
+                            ? config[1]
+                            : null
+            const label = removeConfig(a.text())
+
+            return acc.addInfo(a.attr("href"), label, iconMarkupMap[icon])
+          }
+
+          return acc
+        }, new MenuFooter())
+
+        MenuFooter.replace(menuFooter)
 
         /**
          * Menu select item from current URL
@@ -55,11 +77,10 @@ export default class Bootstrap {
     }
 
     generateNavBar(content) {
-
       let navBar = $("<div />")
                             .addClass("my-sb")
                             .append(new Menu(false).generate())
-                            .append(MenuFooterDemo)
+                            .append(new MenuFooter().generate())
 
       content.append(navBar)
     }
