@@ -69,12 +69,14 @@ const moocwikiv = function() {
                 .children()
                 .get() // get DOM element
 
-    Menu.replace(new Menu(data)) // Menu has loaded, replace it
+    let menu = new Menu(data)
+
+    Menu.replace(menu) // Menu has loaded, replace it
 
     /**
      * Menu select item from current URL
      */
-    // menu.selectByURL(window.location.origin + window.location.pathname)
+    menu.selectByURL(window.location.origin + window.location.pathname)
   })
 
   let navBar = $("<div />")
@@ -92,7 +94,11 @@ const moocwikiv = function() {
                               : false
 
   const lesson = new LessonContent(lessonHeader, oldContent.content) // Re-add old content
-  content.append(new Content(lesson).generate())
+  const generatedContent = new Content(lesson)
+
+  generatedContent.generateHeaderByURL("https://fr.wikiversity.org/wiki/Utilisateur:Xtuc-Sven/Initier_une_d%C3%A9marche_d%27accessibilit%C3%A9")
+
+  content.append(generatedContent.generate())
 
   element.append(content)
 

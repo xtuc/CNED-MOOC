@@ -5,6 +5,10 @@ import { getConfig, removeConfig, slug, iconMarkupMap } from "../utils.js"
 
 export default class Header {
 
+  static replace(header) {
+    $("." + HEADER_CLASS).html(header.generate(false))
+  }
+
   /**
    * Constructor
    *
@@ -109,17 +113,22 @@ export default class Header {
   /**
    * Generate jQuery elements
    */
-  generate() {
-    const pictos = this._data.get().reduce(this.reducer, { items: [], pictos: [] }).pictos
+  generate(addClass = true) {
+    var title, row = "Chargement ..."
 
-    const title = this.generateTitle()
-    const row = this.generateRow().addClass("mutate")
+    if (this._data) {
 
-    row.append(this.generateLeft(pictos[0], pictos[1]))
-    row.append(this.generateRight(pictos[2], pictos[3]))
+      const pictos = this._data.reduce(this.reducer, { items: [], pictos: [] }).pictos
+
+      title = this.generateTitle()
+      row = this.generateRow().addClass("mutate")
+
+      row.append(this.generateLeft(pictos[0], pictos[1]))
+      row.append(this.generateRight(pictos[2], pictos[3]))
+    }
 
     return $("<div />")
-                  .addClass(HEADER_CLASS)
+                  .addClass((addClass) ? HEADER_CLASS : null)
                   .append(title)
                   .append(row)
   }

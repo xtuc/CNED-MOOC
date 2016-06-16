@@ -1,21 +1,10 @@
-// import {
-//     removeExternalMark,
-//     slug,
-//     request,
-//     getConfig,
-//     removeConfig,
-//     iconMarkupMap,
-//     CONTENT_ID,
-//     removeToc
-// } from "../utils"
-
- import { removeExternalMark, slug, getConfig, removeConfig, iconMarkupMap } from "../utils"
-
-// import Content from "./Content"
-// import LessonContent from "./Lesson/LessonContent.js"
-// import LessonHeader from "./Lesson/LessonHeader.js"
+import { removeExternalMark, slug, getConfig, removeConfig, iconMarkupMap } from "../utils"
 
 const MENU_CLASS = "my-sb-nav"
+
+const MENU_LEVEL1 = "folder"
+const MENU_LEVEL2 = "lesson"
+const MENU_LEVEL3 = "level3"
 
 export default class Menu {
 
@@ -29,29 +18,93 @@ export default class Menu {
     $("." + MENU_CLASS).html(menu.generate())
   }
 
+  constructor(menu) {
+    this.menu = menu
+
+    this.reducer = this.reducer.bind(this) // Otherwise reduce will override context
+    this.foldAccordeon = this.foldAccordeon.bind(this) // Otherwise reduce will override context
+    this.setItemActif = this.setItemActif.bind(this)
+  }
+
   /**
    * Select item in menu from given URL
+   *
+   * Not very efficient, we could prepare items/url list
    */
-  selectByURL(url) {
-    const element = this._links[url]
+  selectByURL(p) {
 
-    console.log(element)
-    console.log(url)
+    /**
+     * Find level3 menu item
+     */
+    const folders = $(`.${MENU_CLASS}>.${MENU_LEVEL1}`)
+    const lessons = folders.reduce((acc, e) => {
+      const res = $(e).find("." + MENU_LEVEL2)
 
-    if (!element)
-      return false
+      if (res.length > 0)
+        acc = [...acc, ...res]
+
+      return acc
+    }, [])
+
+    const items = lessons.reduce((acc, e) => {
+      const res = $(e).find("." + MENU_LEVEL3)
+
+      if (res.length > 0)
+        acc = [...acc, ...res]
+
+      return acc
+    }, [])
+
+    /**
+     * Find url
+     */
+    const item = items
+                    .map(x => $(x)) // To jQuery
+                    .reduce((acc, e) => {
+                      const url = this.getURLFromItem(e) // Get URL
+
+                      if (url === p)
+                        acc.push(e)
+
+                      return acc
+                    }, [])
+
+    item.map(this.setItemActif)
 
     return true
   }
 
-  constructor(menu) {
-    this.menu = menu
+  /**
+   * Get URL
+   *
+   * @param $item jQuery
+   * @return String url (or false if not found)
+   */
+  getURLFromItem($item) {
+    const a = $item.find("a")
 
-    this._links = [] // Cache, link is key and el is value
+    if (a)
+      return a.attr("href")
 
-    this.reducer = this.reducer.bind(this) // Otherwise reduce will override context
-    this.foldAccordeon = this.foldAccordeon.bind(this) // Otherwise reduce will override context
-    // this.handleClick = this.handleClick.bind(this)
+    return false
+  }
+
+  /**
+   * Add active flag
+   *
+   * @param $item jQuery
+   * @return void
+   */
+  setItemActif($item) {
+    const CLASS = "active"
+
+    $item.addClass(CLASS)
+
+    const lesson = $item.parent().parent()
+    const folder = lesson.parent().parent()
+
+    this.toggleOpen(lesson) // Open lesson
+    this.toggleOpen(folder) // Open folder
   }
 
   getLastElement(array) {
@@ -92,11 +145,21 @@ export default class Menu {
         .append("<div class=\"expandable sprite\"> <div class=\"btn-closed\">Déployer</div> <div class=\"btn-open\">Refermer</div> </div>")
 
     $itemHeader.find("a, .expandable").click(() => {
-      element.toggleClass("closed")
-      element.toggleClass("open")
+      this.toggleOpen(element)
     })
 
     return element
+  }
+
+  /**
+   * Toggle open/closed
+   *
+   * @param element jQuery
+   * @return void
+   */
+  toggleOpen(element) {
+    element.toggleClass("closed")
+    element.toggleClass("open")
   }
 
   /**
@@ -106,8 +169,6 @@ export default class Menu {
    */
   generateLevel1(item) {
     item = this.normalizeItem(item)
-
-    const levelClass = "folder"
 
     /**
      * Remove link from a level1 item
@@ -119,7 +180,7 @@ export default class Menu {
     item = $("<div />").addClass("nav-item nav-item-header").wrapInner(item)
 
     // To folder with initial closed
-    item = $("<div />").addClass(`${levelClass} closed`).wrapInner(item)
+    item = $("<div />").addClass(`${MENU_LEVEL1} closed`).wrapInner(item)
 
     // Append the lesson elements container
     $("<div />").addClass("nav-item-content").appendTo(item)
@@ -134,7 +195,6 @@ export default class Menu {
    */
   generateLevel2(item) {
     item = this.normalizeItem(item)
-    const levelClass = "lesson"
 
     /**
      * Remove link from a level1 item
@@ -146,7 +206,7 @@ export default class Menu {
     item = $("<div />").addClass("nav-item nav-item-header").wrapInner(item)
 
     // To lesson with initial closed
-    item = $("<div />").addClass(`${levelClass} closed`).wrapInner(item)
+    item = $("<div />").addClass(`${MENU_LEVEL2} closed`).wrapInner(item)
 
     // Append the lesson elements container
     $("<div />").addClass("nav-item-content").appendTo(item)
@@ -161,8 +221,6 @@ export default class Menu {
    */
   generateLevel3(item) {
     item = this.normalizeItem(item)
-    const levelClass = "level3"
-    // const href = $(item).attr("href")
 
     /**
      * Check for configuration xxx (y)
@@ -171,15 +229,13 @@ export default class Menu {
 
     item = removeConfig(item)
 
-    item = $("<div />").addClass("nav-item nav-item-lesson " + levelClass).wrapInner(item)
+    item = $("<div />").addClass("nav-item nav-item-lesson " + MENU_LEVEL3).wrapInner(item)
 
     if (regexRes && regexRes[1]) {
       const value = iconMarkupMap[slug(regexRes[1])]
 
       if(value) item.addClass(value) // Apply configuration
     }
-
-    // this._links[href] = item // Add to cache
 
     return item
   }
@@ -212,26 +268,6 @@ export default class Menu {
     return acc
   }
 
-  // handleClick(e) {
-  //   const URL = $(e.target).attr("href")
-
-  //   if (URL.indexOf("wiki") == -1) // Not a real page, ignore
-  //     return e.preventDefault()
-
-  //   request(URL, data => {
-  //     window.history.pushState({}, "title there", URL)
-
-  //     data = $(data).find(CONTENT_ID)
-  //     removeToc(data)
-
-  //     const lesson = new LessonContent(new LessonHeader("header here"), data)
-
-  //     Content.update($("body"), lesson.generate())
-  //   })
-
-  //   e.preventDefault()
-  // }
-
   foldAccordeon(acc, el) {
     const { level2, level3 } = acc
 
@@ -248,7 +284,7 @@ export default class Menu {
             .map(x => this.applyAccordeon(x)) // apply accordeon to cloned elements
             .map(x => $content.append(x))
 
-      level2.map(x => x.hide()) // Hide all FIXME: remove dom
+      this.cleanup(level2)
 
       this.applyAccordeon(el)
 
@@ -268,7 +304,7 @@ export default class Menu {
             .map(x => x.clone()) // won't work without cloning
             .map(x => $content.append(x))
 
-      level3.map(x => x.hide()) // Hide all FIXME: remove dom
+      this.cleanup(level3)
 
       acc.level3 = []
     }
@@ -279,7 +315,23 @@ export default class Menu {
     return acc
   }
 
+  /**
+   * Remove DOM elements
+   *
+   * @param array Array[jQuery]
+   * @return void
+   */
+  cleanup(array) {
+    array.map(x => x.empty())
+    array.map(x => x.remove())
+  }
+
+  /**
+   * Generates jQuery elements
+   * @return jQuery
+   */
   generate() {
+
     if (!this.menu)
       return $("<div></div>").addClass(MENU_CLASS).html("Chargement ...")
 
@@ -295,9 +347,6 @@ export default class Menu {
 
     generated.reverse()
 
-    // generated.map(e => e.find("a").click(this.handleClick)) // turbo-links way
-
-    // return $("<div></div>").addClass(MENU_CLASS).html(generated)
     return generated
   }
 }
