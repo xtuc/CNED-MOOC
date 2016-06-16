@@ -8,8 +8,8 @@ export default class Title {
    *
    * @param text String title
    */
-  static update(page, text) {
-    page.find("." + TITLE_CLASS).text(text)
+  static update(text) {
+    $("." + TITLE_CLASS).text(text)
   }
 
   /**

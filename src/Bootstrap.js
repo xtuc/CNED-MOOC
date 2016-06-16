@@ -28,7 +28,9 @@ export default class Bootstrap {
          * Menu select item from current URL
          */
         let titles = menu.selectByURL(window.location.origin + window.location.pathname)
-        console.log(titles)
+
+        Breadcrumb.update(new Breadcrumb([ titles[1], titles[2], titles[3] ]))
+        Title.update(titles[3])
       })
     }
 

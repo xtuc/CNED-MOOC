@@ -105,9 +105,9 @@ export default class Menu {
     this.toggleOpen(folder) // Open folder
 
     return {
-      1: "Title n°1",
-      2: "Title n°2",
-      3: "Title n°3"
+      1: folder.find(".nav-item-header>a").first().text(),
+      2: lesson.find(".nav-item-header>a").first().text(),
+      3: $item.find("a").first().text()
     }
   }
 

@@ -1,4 +1,14 @@
+const BREADCRUMB_CLASS = "my-breadcrumb"
+
 export default class Breadcrumb {
+
+  /**
+   * Hot update
+   * @param e Breadcrumb
+   */
+  static update(e) {
+    $("." + BREADCRUMB_CLASS).html(e.generate())
+  }
 
   /**
    * Constructor
@@ -34,7 +44,7 @@ export default class Breadcrumb {
     const content = this._items.reduce(this.reducer, [])
 
     return $("<div />")
-                  .addClass("my-breadcrumb")
+                  .addClass(BREADCRUMB_CLASS)
                   .html(content)
   }
 }
