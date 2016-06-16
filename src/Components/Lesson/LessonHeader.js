@@ -1,4 +1,10 @@
+const LESSON_HEADER_CLASS = "my-lesson-header"
+
 export default class LessonHeader {
+
+  static replaceTitle(title) {
+    $("." + LESSON_HEADER_CLASS + " h3").text(title)
+  }
 
   /**
    * Constructor
@@ -17,6 +23,6 @@ export default class LessonHeader {
   generate() {
     const title = $("<h3 />").text(this._content)
 
-    return $("<div />").addClass("my-lesson-header").html(title)
+    return $("<div />").addClass(LESSON_HEADER_CLASS).html(title)
   }
 }

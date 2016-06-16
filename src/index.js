@@ -23,23 +23,17 @@ const moocwikiv = function() {
   const pageContentChildren = page.parent().children()
 
   const oldContent = pageContentChildren.reduce((acc, el) => {
-    const tagName = el.tagName
-
     if (el.id === "moocwikiv") // Ignore
       return acc
 
-    if (tagName === "H2") {
-      acc.title = $(el).find(".mw-headline").text()
-      el.remove() // Remove node
-    } else
-      acc.content.push(el)
+    acc.content.push(el)
 
     return acc
   }, { content: [], title: null })
 
   startLoader(page) // Start loader
 
-  new Bootstrap().generate(element, content, oldContent)
+  new Bootstrap().generate(element, content, oldContent.content)
 
   stopLoaderAndReplace(page, element) // Stop loading
 }

@@ -43,3 +43,5 @@ export const iconMarkupMap = {
   competencesvisees: "competence", // compétences visées
   duree: "duree" // durée
 }
+
+export const ALT_TEXT = "undefined"

@@ -5,6 +5,7 @@ build:
 	cat dist/* \
 	  | sed s/default:/\"default\":/ \
 	  | sed s/"\.default"/\[\"default\"\]/ \
+	  | sed s/"\.default\."/\[\"default\"\]./ \
 	  | sed s/"\.default("/\[\"default\"\]\(/ \
 	  | pbcopy
 	rm -rf dist

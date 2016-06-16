@@ -1,5 +1,29 @@
 export default class Picto {
 
+  static getText(id) {
+    var str
+
+    switch(id) {
+      case 1:
+        str = "Pré-requis"
+      break
+
+      case 2:
+        str = "Objectif"
+      break
+
+      case 3:
+        str = "Compétences visées"
+      break
+
+      case 4:
+        str = "Durée"
+      break
+    }
+
+    return str
+  }
+
   constructor(icon, title, text) {
     this._icon = icon
     this._title = title
@@ -21,6 +45,7 @@ export default class Picto {
 
     return $("<div />")
                   .append(icon)
+                  .append("<br />")
                   .append(content)
   }
 }

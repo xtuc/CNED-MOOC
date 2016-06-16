@@ -1,4 +1,4 @@
-import { removeExternalMark, slug, getConfig, removeConfig, iconMarkupMap } from "../utils"
+import { removeExternalMark, slug, getConfig, removeConfig, iconMarkupMap, ALT_TEXT } from "../utils"
 
 const MENU_CLASS = "my-sb-nav"
 
@@ -337,7 +337,7 @@ export default class Menu {
   generate() {
 
     if (!this.menu)
-      return $("<div></div>").addClass(MENU_CLASS).html("Chargement ...")
+      return $("<div></div>").addClass(MENU_CLASS).html(ALT_TEXT)
 
     const $menu = $(this.menu)
     removeExternalMark($menu) // Remove external icon in links

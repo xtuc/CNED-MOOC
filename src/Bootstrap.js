@@ -4,8 +4,9 @@ import Content from "./Components/Content.js"
 import LessonContent from "./Components/Lesson/LessonContent.js"
 import LessonHeader from "./Components/Lesson/LessonHeader.js"
 import Breadcrumb from "./Components/Breadcrumb.js"
+import Header from "./Components/Header.js"
 import { MenuFooterDemo } from "./Components/MenuFooter.js"
-import { request, CONTENT_ID } from "./utils.js"
+import { request, CONTENT_ID, ALT_TEXT } from "./utils.js"
 
 export default class Bootstrap {
 
@@ -30,7 +31,9 @@ export default class Bootstrap {
         let titles = menu.selectByURL(window.location.origin + window.location.pathname)
 
         Breadcrumb.update(new Breadcrumb([ titles[1], titles[2], titles[3] ]))
-        Title.update(titles[3])
+        Title.update(titles[1])
+        Header.replaceTitle(titles[2])
+        LessonHeader.replaceTitle(titles[3])
       })
     }
 
@@ -39,11 +42,9 @@ export default class Bootstrap {
      */
     generateContent(element, content, oldContent) {
 
-      const lessonHeader = (oldContent.title)
-                                  ? new LessonHeader(oldContent.title)
-                                  : false
+      const lessonHeader = new LessonHeader(ALT_TEXT)
 
-      const lesson = new LessonContent(lessonHeader, oldContent.content) // Re-add old content
+      const lesson = new LessonContent(lessonHeader, oldContent) // Re-add old content
       const generatedContent = new Content(lesson)
 
       generatedContent.generateHeaderByURL("https://fr.wikiversity.org/wiki/Utilisateur:Xtuc-Sven/Initier_une_d%C3%A9marche_d%27accessibilit%C3%A9")
@@ -67,19 +68,14 @@ export default class Bootstrap {
      * Title
      */
     generateTitle(element) {
-      element.append(new Title("title 1").generate())
+      element.append(new Title(ALT_TEXT).generate())
     }
 
     /**
      * Breadcrumb
      */
     generateBreadCrumb(element) {
-
-       element.append(new Breadcrumb([
-            "title 1",
-            "title 2",
-            "title 3"
-      ]).generate())
+       element.append(new Breadcrumb([ ALT_TEXT, ALT_TEXT, ALT_TEXT ]).generate())
     }
 
     /**

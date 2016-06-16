@@ -1,12 +1,16 @@
 const HEADER_CLASS = "my-main-content-header"
 
 import Picto from "./Picto.js"
-import { getConfig, removeConfig, slug, iconMarkupMap } from "../utils.js"
+import { getConfig, removeConfig, slug, iconMarkupMap, ALT_TEXT } from "../utils.js"
 
 export default class Header {
 
   static replace(header) {
     $("." + HEADER_CLASS).html(header.generate(false))
+  }
+
+  static replaceTitle(title) {
+    $("." + HEADER_CLASS + " .my-title-wrap h2").html(title)
   }
 
   /**
@@ -21,7 +25,7 @@ export default class Header {
   }
 
   generateTitle() {
-    const title = $("<h2 />").text("foo")
+    const title = $("<h2 />")
 
     return $("<div />")
                   .addClass("my-title-wrap")
@@ -89,22 +93,16 @@ export default class Header {
    * @param $el jQuery
    */
   reducer(acc, el) {
-    const lastItem = acc.items[acc.items.length - 1]
 
-    if (el.tagName === "H1") {
-      acc.items.push(el) // store it for next iteration
-    }
+    if (el.tagName === "H1" || el.tagName === "H2") {
 
-    if (el.tagName === "P" && lastItem && lastItem.tagName === "H1") {
-
-      const config = getConfig(lastItem.innerText)
+      const config = getConfig(el.innerText)
       const icon = slug(config ? config[1] : "")
-      const title = removeConfig($(lastItem).find(".mw-headline").text())
-      const text = el.innerHTML
+      const text = removeConfig($(el).find(".mw-headline").text())
 
-      acc.pictos.push(new Picto(iconMarkupMap[icon], title, text))
+      const id = acc.length + 1
 
-      acc.items = [] // Reset acc
+      acc.push(new Picto(iconMarkupMap[icon], Picto.getText(id), text))
     }
 
     return acc
@@ -114,11 +112,11 @@ export default class Header {
    * Generate jQuery elements
    */
   generate(addClass = true) {
-    var title, row = "Chargement ..."
+    var title, row = ALT_TEXT
 
     if (this._data) {
 
-      const pictos = this._data.reduce(this.reducer, { items: [], pictos: [] }).pictos
+      const pictos = this._data.reduce(this.reducer, [])
 
       title = this.generateTitle()
       row = this.generateRow().addClass("mutate")
