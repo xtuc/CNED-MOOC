@@ -69,9 +69,7 @@ export default class Menu {
                       return acc
                     }, [])
 
-    item.map(this.setItemActif)
-
-    return true
+    return this.setItemActif(item.pop())
   }
 
   /**
@@ -93,18 +91,24 @@ export default class Menu {
    * Add active flag
    *
    * @param $item jQuery
-   * @return void
+   * @return Object titles
    */
   setItemActif($item) {
     const CLASS = "active"
 
     $item.addClass(CLASS)
 
-    const lesson = $item.parent().parent()
-    const folder = lesson.parent().parent()
+    const lesson = $item.parent().parent() // Get parent lesson
+    const folder = lesson.parent().parent() // Get parent folder
 
     this.toggleOpen(lesson) // Open lesson
     this.toggleOpen(folder) // Open folder
+
+    return {
+      1: "Title n°1",
+      2: "Title n°2",
+      3: "Title n°3"
+    }
   }
 
   getLastElement(array) {

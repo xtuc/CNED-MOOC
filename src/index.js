@@ -6,20 +6,13 @@
 
 $.fn.reduce = [].reduce // https://bugs.jquery.com/ticket/1886
 
-import Title from "./Components/Title.js"
-import Menu from "./Components/Menu.js"
-import Content from "./Components/Content.js"
-import LessonContent from "./Components/Lesson/LessonContent.js"
-import LessonHeader from "./Components/Lesson/LessonHeader.js"
-import Breadcrumb from "./Components/Breadcrumb.js"
-import { MenuFooterDemo } from "./Components/MenuFooter.js"
-import { request, CONTENT_ID } from "./utils.js"
-
 /**
  * Loader
  */
 const startLoader = page => page.html("Chargement ...")
 const stopLoaderAndReplace = (page, element) => page.html(element)
+
+import Bootstrap from "./Bootstrap.js"
 
 // Don't use fat arrow there because `this` will be overwritted by ES6 compilation
 const moocwikiv = function() {
@@ -46,64 +39,9 @@ const moocwikiv = function() {
 
   startLoader(page) // Start loader
 
-  /**
-   * Title
-   */
-  element.append(new Title("Piloter l'accessibilité").generate())
+  new Bootstrap().generate(element, content, oldContent)
 
-  /**
-   * Breadcrumb
-   */
-  element.append(new Breadcrumb([
-    "Piloter l'accessibilité",
-    "Initier une démarche d'accessibilité",
-    "Activités d'apprentissage"
-  ]).generate())
-
-  /**
-   * Menu
-   */
-  request("https://fr.wikiversity.org/wiki/Utilisateur:Xtuc-Sven/menu-FormationB", data => {
-    data = $(data)
-                .find(CONTENT_ID)
-                .children()
-                .get() // get DOM element
-
-    let menu = new Menu(data)
-
-    Menu.replace(menu) // Menu has loaded, replace it
-
-    /**
-     * Menu select item from current URL
-     */
-    menu.selectByURL(window.location.origin + window.location.pathname)
-  })
-
-  let navBar = $("<div />")
-                    .addClass("my-sb")
-                    .append(new Menu(false).generate())
-                    .append(MenuFooterDemo)
-
-  content.append(navBar)
-
-  /**
-   * Content
-   */
-  const lessonHeader = (oldContent.title)
-                              ? new LessonHeader(oldContent.title)
-                              : false
-
-  const lesson = new LessonContent(lessonHeader, oldContent.content) // Re-add old content
-  const generatedContent = new Content(lesson)
-
-  generatedContent.generateHeaderByURL("https://fr.wikiversity.org/wiki/Utilisateur:Xtuc-Sven/Initier_une_d%C3%A9marche_d%27accessibilit%C3%A9")
-
-  content.append(generatedContent.generate())
-
-  element.append(content)
-
-  // Stop loading
-  stopLoaderAndReplace(page, element)
+  stopLoaderAndReplace(page, element) // Stop loading
 }
 
 $(() => $("#moocwikiv").each(moocwikiv))

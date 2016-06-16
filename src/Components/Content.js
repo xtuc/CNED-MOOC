@@ -37,8 +37,6 @@ export default class Content {
 
       // removeToc(data)
 
-      console.log(data)
-
       Header.replace(new Header(data)) // Header has loaded, replace it
     })
   }
