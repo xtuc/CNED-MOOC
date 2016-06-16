@@ -1,5 +1,7 @@
 /**
  * Found at http://metamedias.net/dev-tests/wikiversite/css/common.css
+ *
+ * Update 16062016: Blue hover instead of red in menu
  */
 
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:400,700);
@@ -723,7 +725,7 @@ input[type="submit"]:hover {
 .closed > .nav-item-content { display: none; }
 .nav-item.nav-item-header.active a,
 .nav-item.nav-item-header.active strong {
-    background-color: #D03C3A !important;
+    background-color: #0077BE !important;
 }
 .nav-item { position: relative; }
 .nav-item > a,
@@ -799,7 +801,7 @@ input[type="submit"]:hover {
 .mw-body .nav-item-lesson.active strong,
 .mw-body .nav-item-lesson a:focus,
 .mw-body .nav-item-lesson a:hover {
-    background-color: #D03C3A !important;
+    background-color: #0077BE !important;
     color: #fff !important;
 }
 .mw-body .nav-item-lesson.active a:before,
