@@ -31,9 +31,24 @@ const moocwikiv = function() {
     return acc
   }, { content: [], title: null })
 
+  /**
+   * Get config
+   */
+  const config = page.children().reduce((acc, el) => {
+    const $e = $(el).find(".mw-headline")
+
+    if (el.tagName === "H1")
+      acc.title = $e.text()
+
+    if (el.tagName === "H3")
+      acc.menuURL = $e.find("a").attr("href")
+
+    return acc
+  }, { menuURL: false, title: false })
+
   startLoader(page) // Start loader
 
-  new Bootstrap().generate(element, content, oldContent.content)
+  new Bootstrap().generate(config, element, content, oldContent.content)
 
   stopLoaderAndReplace(page, element) // Stop loading
 }

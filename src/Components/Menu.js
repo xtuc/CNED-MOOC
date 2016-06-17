@@ -40,8 +40,9 @@ export default class Menu {
     $("." + MENU_CLASS).html(menu.generate())
   }
 
-  constructor(menu) {
+  constructor(menu, url) {
     this.menu = menu
+    this._url = url
 
     this.reducer = this.reducer.bind(this) // Otherwise reduce will override context
     this.foldAccordeon = this.foldAccordeon.bind(this) // Otherwise reduce will override context
@@ -93,7 +94,6 @@ export default class Menu {
 
     return this.setItemActif(item.pop())
   }
-
 
   /**
    * Add active flag

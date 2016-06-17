@@ -27,9 +27,9 @@ export default class Bootstrap {
     /**
      * Menu
      */
-    generateMenu() {
+    generateMenu(url) {
 
-      request("https://fr.wikiversity.org/wiki/Utilisateur:Xtuc-Sven/menu-FormationB", data => {
+      request(url, data => {
         data = $(data)
                     .find(CONTENT_ID)
                     .children()
@@ -82,6 +82,7 @@ export default class Bootstrap {
 
           if (lessonURL && isExternalWikiLink(lessonURL)) {
             Content.generateHeaderByURL(lessonURL, () => {
+              Header.replaceTitle(titles[2].text()) // Re-apply new title
               LessonHeader.replaceTitle(titles[3].text()) // Re-apply new title
             })
           }
@@ -142,10 +143,10 @@ export default class Bootstrap {
      * @param oldContent Content found on the current page
      * @return void
      */
-    generate(element, content, oldContent) {
+    generate(config, element, content, oldContent) {
       this.generateTitle(element)
       this.generateBreadCrumb(element)
-      this.generateMenu()
+      this.generateMenu(config.menuURL)
       this.generateNavBar(content)
       this.generateContent(element, content, oldContent)
     }

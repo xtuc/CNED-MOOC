@@ -14,6 +14,9 @@ export default class LessonFooter {
     const row = $("<div />").addClass("row middle")
     const el = $("<div />").addClass("my-tools-2")
 
+    /**
+     * back
+     */
     if (this._back) {
 
       let href = this._back.find("a").attr("href")
@@ -30,8 +33,15 @@ export default class LessonFooter {
       this._back.remove()
     }
 
-    row.append("<div class=\"my-nav-sep\"></div>")
+    /**
+     * Separation is needed since it will apply height
+     */
+    if (this._back || this._next)
+      row.append("<div class=\"my-nav-sep\"></div>")
 
+    /**
+     * next
+     */
     if (this._next) {
 
       let href = this._next.find("a").attr("href")
