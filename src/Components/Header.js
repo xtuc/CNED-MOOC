@@ -1,7 +1,7 @@
 const HEADER_CLASS = "my-main-content-header"
 
 import Picto from "./Picto.js"
-import { getConfig, removeConfig, slug, iconMarkupMap, ALT_TEXT } from "../utils.js"
+import { getConfig, removeConfig, slug, getIcon, ALT_TEXT } from "../utils.js"
 
 export default class Header {
 
@@ -102,7 +102,7 @@ export default class Header {
 
       const id = acc.length + 1
 
-      acc.push(new Picto(iconMarkupMap[icon], Picto.getText(id), text))
+      acc.push(new Picto(getIcon(icon), Picto.getText(id), text))
     }
 
     return acc

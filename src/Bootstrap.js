@@ -6,13 +6,19 @@ import LessonHeader from "./Components/Lesson/LessonHeader.js"
 import Breadcrumb from "./Components/Breadcrumb.js"
 import Header from "./Components/Header.js"
 import MenuFooter from "./Components/MenuFooter.js"
+import LessonFooter from "./Components/Lesson/LessonFooter.js"
+
+const BACKLINK_CLASS = "mooc-wikiv-precedent"
+const FORWARD_CLASS = "mooc-wikiv-suivant"
+
 import {
   request,
+  slug,
   CONTENT_ID,
   ALT_TEXT,
   getConfig,
   removeConfig,
-  iconMarkupMap,
+  getIcon,
   isExternalWikiLink
 } from "./utils.js"
 
@@ -47,7 +53,7 @@ export default class Bootstrap {
               : null
               const label = removeConfig(a.text())
 
-              return acc.addInfo(a.attr("href"), label, iconMarkupMap[icon])
+              return acc.addInfo(a.attr("href"), label, getIcon(slug(icon)))
             }
 
             return acc
@@ -90,11 +96,15 @@ export default class Bootstrap {
      * Content
      */
     generateContent(element, content, oldContent) {
-
       const lessonHeader = new LessonHeader(ALT_TEXT)
 
+      const backLink = $(oldContent).find("." + BACKLINK_CLASS)
+      const forwardLink = $(oldContent).find("." + FORWARD_CLASS)
+
+      const lessonFooter = new LessonFooter(backLink, forwardLink)
+
       const lesson = new LessonContent(lessonHeader, oldContent) // Re-add old content
-      const generatedContent = new Content(lesson)
+      const generatedContent = new Content(lesson, lessonFooter)
 
       content.append(generatedContent.generate())
 

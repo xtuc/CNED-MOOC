@@ -52,8 +52,17 @@ export const iconMarkupMap = {
   objectif: "objectif",
   competencesvisees: "competence", // compétences visées
   duree: "duree", // durée
-  contrib: "contrib",
-  info: "info"
+  moocwikivplus: "contrib",
+  moocwikivinfo: "info"
+}
+
+export const getIcon = id => {
+    const icon = iconMarkupMap[id]
+
+    if (!icon)
+        console.warn(`Icône ${id} introuvable`)
+
+    return icon
 }
 
 export const ALT_TEXT = "undefined"

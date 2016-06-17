@@ -3,7 +3,7 @@ import {
   slug,
   getConfig,
   removeConfig,
-  iconMarkupMap,
+  getIcon,
   ALT_TEXT
   } from "../utils"
 
@@ -253,7 +253,7 @@ export default class Menu {
     item = $("<div />").addClass("nav-item nav-item-lesson " + MENU_LEVEL3).wrapInner(item)
 
     if (regexRes && regexRes[1]) {
-      const value = iconMarkupMap[slug(regexRes[1])]
+      const value = getIcon(slug(regexRes[1]))
 
       if(value) item.addClass(value) // Apply configuration
     }

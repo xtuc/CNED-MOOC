@@ -22,9 +22,11 @@ export default class Content {
    * Constructor
    *
    * @param content Content (LessonContent)
+   * @param footer Footer (LessonFooter)
    */
-  constructor(content) {
+  constructor(content, footer) {
     this._content = content
+    this._footer = footer
   }
 
   static generateHeaderByURL(url, cb) {
@@ -52,5 +54,6 @@ export default class Content {
                   .addClass(CONTENT_CLASS)
                   .append(header)
                   .append(this._content.generate())
+                  .append(this._footer.generate())
   }
 }
