@@ -6,8 +6,7 @@ export default class LessonContent {
    * @param header Header (LessonHeader for ex)
    * @param content String
    */
-  constructor(header, content) {
-    this._header = header
+  constructor(content) {
     this._content = content
   }
 
@@ -21,13 +20,8 @@ export default class LessonContent {
                           .addClass("my-lesson-content")
                           .html(this._content)
 
-    const header = (this._header)
-                          ? this._header.generate()
-                          : null
-
     return $("<div />")
                   .addClass("my-lesson")
-                  .append(header)
                   .append(content)
   }
 }

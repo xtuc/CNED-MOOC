@@ -1,4 +1,11 @@
-import { removeExternalMark, slug, getConfig, removeConfig, iconMarkupMap, ALT_TEXT } from "../utils"
+import {
+  removeExternalMark,
+  slug,
+  getConfig,
+  removeConfig,
+  iconMarkupMap,
+  ALT_TEXT
+  } from "../utils"
 
 const MENU_CLASS = "my-sb-nav"
 
@@ -7,6 +14,21 @@ const MENU_LEVEL2 = "lesson"
 const MENU_LEVEL3 = "level3"
 
 export default class Menu {
+
+  /**
+   * Get URL
+   *
+   * @param $item jQuery
+   * @return String url (or false if not found)
+   */
+  static getURLFromItem($item) {
+    const a = $item.find("a")
+
+    if (a)
+      return a.attr("href")
+
+    return false
+  }
 
   /**
    * Replace an existing menu
@@ -61,7 +83,7 @@ export default class Menu {
     const item = items
                     .map(x => $(x)) // To jQuery
                     .reduce((acc, e) => {
-                      const url = this.getURLFromItem(e) // Get URL
+                      const url = Menu.getURLFromItem(e) // Get URL
 
                       if (url === p)
                         acc.push(e)
@@ -72,20 +94,6 @@ export default class Menu {
     return this.setItemActif(item.pop())
   }
 
-  /**
-   * Get URL
-   *
-   * @param $item jQuery
-   * @return String url (or false if not found)
-   */
-  getURLFromItem($item) {
-    const a = $item.find("a")
-
-    if (a)
-      return a.attr("href")
-
-    return false
-  }
 
   /**
    * Add active flag
@@ -96,6 +104,9 @@ export default class Menu {
   setItemActif($item) {
     const CLASS = "active"
 
+    if (!$item)
+      return false
+
     $item.addClass(CLASS)
 
     const lesson = $item.parent().parent() // Get parent lesson
@@ -105,9 +116,9 @@ export default class Menu {
     this.toggleOpen(folder) // Open folder
 
     return {
-      1: folder.find(".nav-item-header>a").first().text(),
-      2: lesson.find(".nav-item-header>a").first().text(),
-      3: $item.find("a").first().text()
+      1: folder.find(".nav-item-header>a").first(),
+      2: lesson.find(".nav-item-header>a").first(),
+      3: $item.find("a").first()
     }
   }
 
@@ -138,7 +149,13 @@ export default class Menu {
    * Remove link target and title
    */
   normalizeLink(e) {
-    return $(e).attr("href", `#${slug($(e).text())}`).attr("title", "").get()
+    const oldLink = $(e).attr("href")
+
+    return $(e)
+              .attr("data-src", oldLink) // Should use .data()
+              .attr("href", `#${slug($(e).text())}`)
+              .attr("title", "")
+              .get()
   }
 
   applyAccordeon(element) {

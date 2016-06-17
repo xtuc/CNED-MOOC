@@ -27,7 +27,7 @@ export default class Content {
     this._content = content
   }
 
-  generateHeaderByURL(url) {
+  static generateHeaderByURL(url, cb) {
 
     request(url, data => {
       data = $(data)
@@ -35,9 +35,9 @@ export default class Content {
                   .children()
                   .get() // get DOM element
 
-      // removeToc(data)
-
       Header.replace(new Header(data)) // Header has loaded, replace it
+
+      if (cb) cb()
     })
   }
 

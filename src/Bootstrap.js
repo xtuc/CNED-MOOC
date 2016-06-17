@@ -6,7 +6,15 @@ import LessonHeader from "./Components/Lesson/LessonHeader.js"
 import Breadcrumb from "./Components/Breadcrumb.js"
 import Header from "./Components/Header.js"
 import MenuFooter from "./Components/MenuFooter.js"
-import { request, CONTENT_ID, ALT_TEXT, getConfig, removeConfig, iconMarkupMap } from "./utils.js"
+import {
+  request,
+  CONTENT_ID,
+  ALT_TEXT,
+  getConfig,
+  removeConfig,
+  iconMarkupMap,
+  isExternalWikiLink
+} from "./utils.js"
 
 export default class Bootstrap {
 
@@ -30,19 +38,19 @@ export default class Bootstrap {
          */
         let menuFooter = data.reduce((acc, el) => {
 
-          if (el.tagName === "H5") {
-            el = $(el).find(".mw-headline")
-            const a = el.find("a")
-            const config = getConfig(el.text())
-            const icon = (config && config[1])
-                            ? config[1]
-                            : null
-            const label = removeConfig(a.text())
+            if (el.tagName === "H5") {
+              el = $(el).find(".mw-headline")
+              const a = el.find("a")
+              const config = getConfig(el.text())
+              const icon = (config && config[1])
+              ? config[1]
+              : null
+              const label = removeConfig(a.text())
 
-            return acc.addInfo(a.attr("href"), label, iconMarkupMap[icon])
-          }
+              return acc.addInfo(a.attr("href"), label, iconMarkupMap[icon])
+            }
 
-          return acc
+            return acc
         }, new MenuFooter())
 
         MenuFooter.replace(menuFooter)
@@ -52,11 +60,30 @@ export default class Bootstrap {
          */
         let titles = menu.selectByURL(window.location.origin + window.location.pathname)
 
-        Breadcrumb.update(new Breadcrumb([ titles[1], titles[2], titles[3] ]))
-        Title.update(titles[1])
-        Header.replaceTitle(titles[2])
-        LessonHeader.replaceTitle(titles[3])
+        if (titles) {
+
+          Breadcrumb.update(new Breadcrumb([
+            titles[1].text(),
+            titles[2].text(),
+            titles[3].text()
+          ]))
+
+          Title.update(titles[1].text())
+          Header.replaceTitle(titles[2].text())
+          LessonHeader.replaceTitle(titles[3].text())
+
+          const lessonURL = titles[2].attr("data-src")
+
+          if (lessonURL && isExternalWikiLink(lessonURL)) {
+            Content.generateHeaderByURL(lessonURL, () => {
+              LessonHeader.replaceTitle(titles[3].text()) // Re-apply new title
+            })
+          }
+
+        }
+
       })
+
     }
 
     /**
@@ -68,8 +95,6 @@ export default class Bootstrap {
 
       const lesson = new LessonContent(lessonHeader, oldContent) // Re-add old content
       const generatedContent = new Content(lesson)
-
-      generatedContent.generateHeaderByURL("https://fr.wikiversity.org/wiki/Utilisateur:Xtuc-Sven/Initier_une_d%C3%A9marche_d%27accessibilit%C3%A9")
 
       content.append(generatedContent.generate())
 

@@ -1,6 +1,15 @@
 export const CONFIG_REGEX = /\(#\s?(.*)\)/g // xxx (# y)
 
-export const request = (url, success) => $.ajax({ url, success })
+export const request = (url, success) => {
+  const onSuccess = (data, textStatus) => {
+    if (textStatus == "success")
+      success(data)
+    else
+      success(null)
+  }
+
+  $.ajax({ url, success: onSuccess })
+}
 export const wrapToClass = CSSClass => node => node.wrap(`<div class="${CSSClass}"></div>`)
 export const wrapInnerToClass = CSSClass => node => node.wrapInner(`<div class="${CSSClass}"></div>`)
 export const wrapToTag = tag => node => node.wrap(`<${tag}></${tag}>`)
@@ -9,6 +18,7 @@ export const isInstanceOfjQuery = x => x instanceof jQuery
 export const getConfig = t => CONFIG_REGEX.exec(t)
 export const removeConfig = t => t.replace(CONFIG_REGEX, "")
 export const removeToc = $n => $n.find("#toc").remove()
+export const isExternalWikiLink = u => u.indexOf("http://") === 0 || u.indexOf("https://") === 0
 
 export const slug = str => {
   str = str.replace(/^\s+|\s+$/g, "") // trim
