@@ -44,6 +44,9 @@ export default class Header {
    * @return jQuery
    */
   generatePicto(picto) {
+    if (!picto)
+      return
+
     return $("<div />")
                 .addClass("my-feature-item w-50 bibloc mutate")
                 .html(picto.generate())
@@ -99,7 +102,7 @@ export default class Header {
    */
   reducer(acc, el) {
 
-    if (el.tagName === "H1" || el.tagName === "H2") {
+    if (el.tagName === "H1" || el.tagName === "H2" || el.tagName === "H3") {
 
       const config = getConfig(el.innerText)
       const icon = slug(config ? config[1] : "")
