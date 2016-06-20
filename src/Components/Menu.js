@@ -60,6 +60,25 @@ export default class Menu {
      * Find level3 menu item
      */
     const folders = $(`.${MENU_CLASS}>.${MENU_LEVEL1}`)
+
+    /**
+     * Find url
+     */
+    const item = this.reduceLevel3Items(folders, (acc, e) => {
+                              e = $(e)
+                              const url = Menu.getURLFromItem(e) // Get URL
+
+                              if (url === p)
+                                acc.push(e)
+
+                              return acc
+                            }, [])
+
+    return this.setItemActif(item.pop())
+  }
+
+  reduceLevel3Items(folders, f, initialValue = []) {
+
     const lessons = folders.reduce((acc, e) => {
       const res = $(e).find("." + MENU_LEVEL2)
 
@@ -78,21 +97,21 @@ export default class Menu {
       return acc
     }, [])
 
-    /**
-     * Find url
-     */
-    const item = items
-                    .map(x => $(x)) // To jQuery
-                    .reduce((acc, e) => {
-                      const url = Menu.getURLFromItem(e) // Get URL
+    return items.reduce(f, initialValue)
+  }
 
-                      if (url === p)
-                        acc.push(e)
+  /**
+   * Find the first level3 item
+   */
+  findFirstLevel3Item() {
+    const folders = $(`.${MENU_CLASS}>.${MENU_LEVEL1}`)
 
-                      return acc
-                    }, [])
+    return this.reduceLevel3Items(folders, (acc, e) => {
+      if (acc) // Already found
+        return acc
 
-    return this.setItemActif(item.pop())
+      return $(e)
+    }, false)
   }
 
   /**
@@ -262,6 +281,9 @@ export default class Menu {
   }
 
   reducer(acc, element) {
+    if (!element)
+        return acc
+
     const p = n => $(n).find(".mw-headline")
 
     const $e = p(element)
@@ -280,7 +302,7 @@ export default class Menu {
         state = this.generateLevel3($e, lastItem)
 
     } catch(e) {
-      throw e
+      console.error("Menu", e)
     }
 
     if(state)

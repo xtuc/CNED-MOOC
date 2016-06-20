@@ -65,4 +65,4 @@ export const getIcon = id => {
     return icon
 }
 
-export const ALT_TEXT = "undefined"
+export const ALT_TEXT = "Chargement ..."

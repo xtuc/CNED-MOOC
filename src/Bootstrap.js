@@ -7,6 +7,7 @@ import Breadcrumb from "./Components/Breadcrumb.js"
 import Header from "./Components/Header.js"
 import MenuFooter from "./Components/MenuFooter.js"
 import LessonFooter from "./Components/Lesson/LessonFooter.js"
+import { log, NAV_LINKS_NOT_FOUND, URL_NOT_FOUND_IN_MENU } from "./messages.js"
 
 const BACKLINK_CLASS = "mooc-wikiv-precedent"
 const FORWARD_CLASS = "mooc-wikiv-suivant"
@@ -87,6 +88,17 @@ export default class Bootstrap {
             })
           }
 
+        } else {
+          log(URL_NOT_FOUND_IN_MENU)
+
+          /**
+           * This page was not found in menu
+           * Redirect to the first page
+           */
+          let url = menu.findFirstLevel3Item().find("a").attr("href")
+
+          if (url)
+            window.location.href = url
         }
 
       })
@@ -101,6 +113,9 @@ export default class Bootstrap {
 
       const backLink = $(oldContent).find("." + BACKLINK_CLASS)
       const forwardLink = $(oldContent).find("." + FORWARD_CLASS)
+
+      if (backLink.length === 0 || forwardLink.length === 0)
+        log(NAV_LINKS_NOT_FOUND)
 
       const lessonFooter = new LessonFooter(backLink, forwardLink)
 
