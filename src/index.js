@@ -21,6 +21,8 @@ const moocwikiv = function() {
   const element = $("<div></div>")
   const content = $("<div></div>").addClass("my-layout clear")
 
+  page.css("display", "block")
+
   const pageContentChildren = page.parent().children()
 
   const oldContent = pageContentChildren.reduce((acc, el) => {
