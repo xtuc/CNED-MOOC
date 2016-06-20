@@ -37,9 +37,7 @@ export default class Content {
                   .children()
                   .get() // get DOM element
 
-      Header.replace(new Header(data)) // Header has loaded, replace it
-
-      if (cb) cb()
+      if (cb) cb(data)
     })
   }
 

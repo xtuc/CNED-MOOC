@@ -13,7 +13,7 @@ const startLoader = page => page.html("Chargement ...")
 const stopLoaderAndReplace = (page, element) => page.html(element)
 
 import Bootstrap from "./Bootstrap.js"
-import { log, MENU_URL_NOT_FOUND } from "./messages.js"
+import { log, debug, MENU_URL_NOT_FOUND } from "./messages.js"
 
 // Don't use fat arrow there because `this` will be overwritted by ES6 compilation
 const moocwikiv = function() {
@@ -46,6 +46,8 @@ const moocwikiv = function() {
 
     return acc
   }, { menuURL: false, title: false })
+
+  debug("Template config", config)
 
   // Menu url is mandatory since
   if (!config.menuURL)

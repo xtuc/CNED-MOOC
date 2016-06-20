@@ -13,6 +13,11 @@ export default class Header {
     $("." + HEADER_CLASS + " .my-title-wrap h2").html(title)
   }
 
+  static delete() {
+    $("." + HEADER_CLASS).empty()
+    $("." + HEADER_CLASS).remove()
+  }
+
   /**
    * Constructor
    *

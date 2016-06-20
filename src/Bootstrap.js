@@ -7,7 +7,7 @@ import Breadcrumb from "./Components/Breadcrumb.js"
 import Header from "./Components/Header.js"
 import MenuFooter from "./Components/MenuFooter.js"
 import LessonFooter from "./Components/Lesson/LessonFooter.js"
-import { log, NAV_LINKS_NOT_FOUND, URL_NOT_FOUND_IN_MENU } from "./messages.js"
+import { log, NAV_LINKS_NOT_FOUND, URL_NOT_FOUND_IN_MENU, RELATED_ITEMS_NOT_FOUND } from "./messages.js"
 
 const BACKLINK_CLASS = "mooc-wikiv-precedent"
 const FORWARD_CLASS = "mooc-wikiv-suivant"
@@ -82,10 +82,16 @@ export default class Bootstrap {
           const lessonURL = titles[2].attr("data-src")
 
           if (lessonURL && isExternalWikiLink(lessonURL)) {
-            Content.generateHeaderByURL(lessonURL, () => {
+            Content.generateHeaderByURL(lessonURL, data => {
+
+              Header.replace(new Header(data)) // Header has loaded, replace it
+
               Header.replaceTitle(titles[2].text()) // Re-apply new title
               LessonHeader.replaceTitle(titles[3].text()) // Re-apply new title
             })
+          } else {
+            Header.delete()
+            log(RELATED_ITEMS_NOT_FOUND)
           }
 
         } else {

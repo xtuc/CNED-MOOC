@@ -1,10 +1,15 @@
 /**
  * Found at http://metamedias.net/dev-tests/wikiversite/css/common.css
  *
- * Update 16062016: Blue hover instead of red in menu
+ * Update 20160616: Blue hover instead of red in menu
+ * Update 20160620: #moocwikiv is hidden by default
  */
 
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:400,700);
+
+#moocwikiv {
+    display: none;
+}
 
 /* do-css framework */
 
