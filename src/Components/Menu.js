@@ -4,7 +4,8 @@ import {
   getConfig,
   removeConfig,
   getIcon,
-  ALT_TEXT
+  ALT_TEXT,
+  APPEND_CONTENT_LINKS
   } from "../utils"
 
 const MENU_CLASS = "my-sb-nav"
@@ -66,7 +67,10 @@ export default class Menu {
      */
     const item = this.reduceLevel3Items(folders, (acc, e) => {
                               e = $(e)
-                              const url = Menu.getURLFromItem(e) // Get URL
+                              var url = Menu.getURLFromItem(e) // Get URL
+
+                              if (url.indexOf("#") !== -1)
+                                url = url.substr(0, url.indexOf("#"))
 
                               if (url === p)
                                 acc.push(e)
@@ -269,6 +273,7 @@ export default class Menu {
 
     item = removeConfig(item)
 
+
     item = $("<div />").addClass("nav-item nav-item-lesson " + MENU_LEVEL3).wrapInner(item)
 
     if (regexRes && regexRes[1]) {
@@ -276,6 +281,10 @@ export default class Menu {
 
       if(value) item.addClass(value) // Apply configuration
     }
+
+    $(item).find("a").attr("href", (i, href) => {
+      return href + APPEND_CONTENT_LINKS
+    })
 
     return item
   }

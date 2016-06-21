@@ -19,8 +19,7 @@ import {
   ALT_TEXT,
   getConfig,
   removeConfig,
-  getIcon,
-  isExternalWikiLink
+  getIcon
 } from "./utils.js"
 
 export default class Bootstrap {
@@ -65,7 +64,7 @@ export default class Bootstrap {
         /**
          * Menu select item from current URL
          */
-        let titles = menu.selectByURL(window.location.origin + window.location.pathname)
+        let titles = menu.selectByURL(window.location.pathname)
 
         if (titles) {
 
@@ -81,7 +80,7 @@ export default class Bootstrap {
 
           const lessonURL = titles[2].attr("data-src")
 
-          if (lessonURL && isExternalWikiLink(lessonURL)) {
+          if (lessonURL) {
             Content.generateHeaderByURL(lessonURL, data => {
 
               Header.replace(new Header(data)) // Header has loaded, replace it
@@ -107,6 +106,9 @@ export default class Bootstrap {
             window.location.href = url
         }
 
+        // Once content is loaded re-apply location hash
+        if (window.location.hash !== "")
+          window.location.href = window.location.href
       })
 
     }

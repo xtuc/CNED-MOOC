@@ -1,3 +1,5 @@
+import { log, ICON_NOT_FOUND } from "./messages.js"
+
 export const CONFIG_REGEX = /\(#\s?(.*)\)/g // xxx (# y)
 
 export const request = (url, success) => {
@@ -60,9 +62,10 @@ export const getIcon = id => {
     const icon = iconMarkupMap[id]
 
     if (!icon)
-        console.warn(`Icône ${id} introuvable`)
+        log(ICON_NOT_FOUND(id))
 
     return icon
 }
 
 export const ALT_TEXT = "Chargement ..."
+export const APPEND_CONTENT_LINKS = "#moocwikiv"
