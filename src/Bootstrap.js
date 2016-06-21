@@ -7,6 +7,7 @@ import Breadcrumb from "./Components/Breadcrumb.js"
 import Header from "./Components/Header.js"
 import MenuFooter from "./Components/MenuFooter.js"
 import LessonFooter from "./Components/Lesson/LessonFooter.js"
+import FirstHeading from "./Components/FirstHeading.js"
 import { log, NAV_LINKS_NOT_FOUND, URL_NOT_FOUND_IN_MENU, RELATED_ITEMS_NOT_FOUND } from "./messages.js"
 
 const BACKLINK_CLASS = "mooc-wikiv-precedent"
@@ -23,6 +24,10 @@ import {
 } from "./utils.js"
 
 export default class Bootstrap {
+
+    generateFirstHeading(title) {
+      return new FirstHeading(title)
+    }
 
     /**
      * Menu
@@ -82,6 +87,9 @@ export default class Bootstrap {
 
           if (lessonURL) {
             Content.generateHeaderByURL(lessonURL, data => {
+
+              if (!data || data.length === 0)
+                Header.delete()
 
               Header.replace(new Header(data)) // Header has loaded, replace it
 
@@ -167,6 +175,7 @@ export default class Bootstrap {
      * @return void
      */
     generate(config, element, content, oldContent) {
+      this.generateFirstHeading(config.title)
       this.generateTitle(element)
       this.generateBreadCrumb(element)
       this.generateMenu(config.menuURL)

@@ -68,4 +68,4 @@ export const getIcon = id => {
 }
 
 export const ALT_TEXT = "Chargement ..."
-export const APPEND_CONTENT_LINKS = "#moocwikiv"
+export const APPEND_CONTENT_LINKS = "#firstHeading"
