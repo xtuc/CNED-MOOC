@@ -71,11 +71,15 @@ export default class Header {
    */
   generateLeft(picto1, picto2) {
     const row = this.generateRow()
+    const w = (!picto1 || !picto2) ? 25 : 50
 
     row.append(this.generatePicto(picto1))
     row.append(this.generatePicto(picto2))
 
-    return $("<div />").addClass("w-50 mutate-md").html(row)
+    return $("<div />")
+                  .addClass("w-" + w + " mutate-md")
+                  .css("text-align", "center")
+                  .html(row)
   }
 
   /**
@@ -87,11 +91,15 @@ export default class Header {
    */
   generateRight(picto3, picto4) {
     const row = this.generateRow()
+    const w = (!picto3 || !picto4) ? 25 : 50
 
     row.append(this.generatePicto(picto3))
     row.append(this.generatePicto(picto4))
 
-    return $("<div />").addClass("w-50 mutate-md").html(row)
+    return $("<div />")
+                  .addClass("w-" + w + " mutate-md")
+                  .css("text-align", "center")
+                  .html(row)
   }
 
   /**
@@ -132,8 +140,11 @@ export default class Header {
       title = this.generateTitle()
       row = this.generateRow().addClass("mutate")
 
-      row.append(this.generateLeft(pictos[0], pictos[1]))
-      row.append(this.generateRight(pictos[2], pictos[3]))
+      if (pictos[0] || pictos[1])
+        row.append(this.generateLeft(pictos[0], pictos[1]))
+
+      if (pictos[2] || pictos[3])
+        row.append(this.generateRight(pictos[2], pictos[3]))
     }
 
     return $("<div />")

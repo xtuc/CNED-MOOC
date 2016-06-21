@@ -25,6 +25,26 @@ import {
 
 export default class Bootstrap {
 
+    fixGadgetsIncompatibility($element) {
+
+      /**
+       * Fix LiveRC
+       *
+       * Adds a "clear" class on the generated content
+       * which has a height property set to 0
+       *
+       * Since we don't know when LiveRC is going to load, better safe than sorry.
+       */
+      const doFix = () => $element.find(".clear").attr("style", "height: auto !important;")
+      setTimeout(doFix, 50)
+      setTimeout(doFix, 100)
+    }
+
+    /**
+     * FirstHeading
+     *
+     * Already present on the page
+     */
     generateFirstHeading(title) {
       return new FirstHeading(title)
     }
@@ -181,5 +201,6 @@ export default class Bootstrap {
       this.generateMenu(config.menuURL)
       this.generateNavBar(content)
       this.generateContent(element, content, oldContent)
+      this.fixGadgetsIncompatibility($("#moocwikiv"))
     }
 }

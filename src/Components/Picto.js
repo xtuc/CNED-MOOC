@@ -35,15 +35,16 @@ export default class Picto {
    */
   generate() {
     const content = $("<div />")
-                        .html(`<strong>${this._title}&nbsp;:</strong><br>
-                               <em>${this._text}</em>`)
-                        .addClass("my-feature")
+                          .html(`<strong>${this._title}&nbsp;:</strong><br>
+                                 <em>${this._text}</em>`)
+                          .addClass("my-feature")
 
     const icon =  $("<div />")
                         .addClass("pic-feature sprite")
                         .addClass("pic-" + this._icon)
 
     return $("<div />")
+                  .css("width", "100%")
                   .append(icon)
                   .append("<br />")
                   .append(content)
