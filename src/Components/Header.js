@@ -120,7 +120,10 @@ export default class Header {
    * Generate jQuery elements
    */
   generate(addClass = true) {
-    var title, row = ALT_TEXT
+    var title
+
+    // Placeholder
+    var row = "<div style=\"display:block;width:835px;height:160px;\">" + ALT_TEXT + "</div>"
 
     if (this._data) {
 

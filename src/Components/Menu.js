@@ -383,9 +383,15 @@ export default class Menu {
    * @return jQuery
    */
   generate() {
+    const alt = $("<div></div>")
+                      .css("width", "300px")
+                      .css("height", "800px")
+                      .text(ALT_TEXT)
 
     if (!this.menu)
-      return $("<div></div>").addClass(MENU_CLASS).html(ALT_TEXT)
+      return $("<div></div>")
+                      .addClass(MENU_CLASS)
+                      .html(alt)
 
     const $menu = $(this.menu)
     removeExternalMark($menu) // Remove external icon in links
