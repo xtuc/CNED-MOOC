@@ -7,7 +7,7 @@ export default class Breadcrumb {
    * @param e Breadcrumb
    */
   static update(e) {
-    $("." + BREADCRUMB_CLASS).html(e.generate())
+    $("." + BREADCRUMB_CLASS).html(e.generate(false))
   }
 
   /**
@@ -40,11 +40,13 @@ export default class Breadcrumb {
   /**
    * Generates jQuery elements
    */
-  generate() {
+  generate(useClass = true) {
     const content = this._items.reduce(this.reducer, [])
+    const div = $("<div />").html(content)
 
-    return $("<div />")
-                  .addClass(BREADCRUMB_CLASS)
-                  .html(content)
+    if (useClass)
+      div.addClass(BREADCRUMB_CLASS)
+
+    return div
   }
 }

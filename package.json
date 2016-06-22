@@ -11,7 +11,8 @@
   "devDependencies": {
     "babelify": "^7.3.0",
     "browserify": "^13.0.1",
-    "eslint": "^2.12.0"
+    "eslint": "^2.12.0",
+    "node-sass": "^3.8.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
