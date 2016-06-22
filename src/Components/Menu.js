@@ -242,9 +242,13 @@ export default class Menu {
 
     /**
      * Remove link from a level1 item
+     *
+     * Handle raw title (whitout links)
      */
-    if ($(item).get(0).tagName === "A") {
+    if ($(item).get(0) && $(item).get(0).tagName === "A") {
       item = this.normalizeLink(item)
+    } else {
+      item = "<a href=\"#\">"+ item +"</a>" // We need an A
     }
 
     item = $("<div />").addClass("nav-item nav-item-header").wrapInner(item)

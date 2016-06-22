@@ -7,7 +7,7 @@ export const request = (url, success) => {
     if (textStatus == "success")
       success(data)
     else
-      success(null)
+      success(false)
   }
 
   $.ajax({ url, success: onSuccess })

@@ -11,5 +11,5 @@ build:
 	rm -rf dist
 
 buildcss:
-	# ./node_modules/.bin/node-sass --output-style compressed src/script.scss | pbcopy
-	./node_modules/.bin/node-sass src/script.scss | pbcopy
+	./node_modules/.bin/node-sass --output-style compressed src/script.scss | pbcopy
+	# ./node_modules/.bin/node-sass src/script.scss | pbcopy
