@@ -23,7 +23,7 @@ along with this library; if not, see <http://www.gnu.org/licenses/>.
 
 ## Windows
 
-Les Makefile ne sont pas utilisable comme tel sous Windows. Les commandes suivantes fonctionnent avec Cygwin (https://www.cygwin.com).
+Les Makefile ne sont pas utilisables comme tel sous Windows. Les commandes suivantes fonctionnent avec Cygwin (https://www.cygwin.com).
 
 ## Installation
 
@@ -38,14 +38,14 @@ npm install
 Les sources sont dans le dossier src.
 
 * script.scss : css
-* index.js : point d'entré du script (contenant l'appel du template)
+* index.js : point d'entrée du script (contenant l'appel du template)
 * Bootstrap.js : chargement des composants du template
 * utils.js : fonctions internes utilitaires
 * messages.js : gestion des erreurs, contient les avertissements
 
 ### JavaScript
 
-Les sources sont divisées en composant (dossier components). Il doit etre compilé pour etre utilisé sur un navigateur.
+Les sources sont divisées en composant (dossier components). Il doit être compilé pour pouvoir l'utiliser sur un navigateur.
 
 Compilation :
 ```shell
@@ -56,7 +56,7 @@ Ensuite copier/coller le contenu du fichier dist/script.js dans le fichier JavaS
 
 ### CSS
 
-Le CSS utilise SASS. Il doit etre compilé pour pouvoir fonctionner sur le Web.
+Le CSS utilise SASS. Il doit être compilé pour pouvoir fonctionner sur le Web.
 
 Compilation :
 ```shell
