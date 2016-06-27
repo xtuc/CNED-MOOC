@@ -1,6 +1,7 @@
 CNED-MOOC
 ===
 
+```
 CNED MOOC template
 Copyright © 2016 Sven SAULEAU (Xtuc) <sven.sauleau@xtuc.fr>
 
@@ -16,7 +17,7 @@ GNU Lesser General Public License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
 along with this library; if not, see <http://www.gnu.org/licenses/>.
-
+```
 
 > MediaWiki embarque un analyseur JavaScript. Le mot clé "default" n'est pas supporté. Je corrige le script aprés compilation (voir Makefile).
 
