@@ -52,7 +52,7 @@ Compilation :
 make build
 ```
 
-Copier/coller le contenu du fichier dist/script.js dans le fichier JavaScript Gadget Wikiversité.
+Ensuite copier/coller le contenu du fichier dist/script.js dans le fichier JavaScript Gadget Wikiversité.
 
 ### CSS
 
@@ -63,4 +63,4 @@ Compilation :
 make buildcss
 ```
 
-Copier/coller le contenu du fichier dist/script.css dans le fichier CSS du Gadget Wikiversité.
+Ensuite copier/coller le contenu du fichier dist/script.css dans le fichier CSS du Gadget Wikiversité.
