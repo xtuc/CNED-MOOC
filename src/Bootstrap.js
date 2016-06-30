@@ -93,11 +93,7 @@ export default class Bootstrap {
 
         if (titles) {
 
-          Breadcrumb.update(new Breadcrumb([
-            titles[1].text(),
-            titles[2].text(),
-            titles[3].text()
-          ]))
+          Breadcrumb.update(new Breadcrumb([ titles[1], titles[2], titles[3] ]))
 
           Title.update(titles[1].text())
           Header.replaceTitle(titles[2].text())

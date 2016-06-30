@@ -8,7 +8,6 @@
  * Update 20160622: Font family Open Sans is applied globally
  * Update 20160630: Set Breadcrumb color to blue
  * Update 20160630: Capitalize .nav-item
- * Update 20160630: Lowercase my-main-content-header text
  */
 
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:400,700);
@@ -556,7 +555,8 @@
     }
 
     .my-main-content-header em {
-        text-transform: lowercase;
+        text-align: left;
+        display: block;
     }
 
     .my-main-content-header .my-title-wrap {

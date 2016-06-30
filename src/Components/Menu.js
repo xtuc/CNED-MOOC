@@ -8,9 +8,9 @@ import {
   APPEND_CONTENT_LINKS
 } from "../utils"
 
-const MENU_CLASS = "my-sb-nav"
+export const MENU_CLASS = "my-sb-nav"
 
-const MENU_LEVEL1 = "folder"
+export const MENU_LEVEL1 = "folder"
 const MENU_LEVEL2 = "lesson"
 const MENU_LEVEL3 = "level3"
 
@@ -29,6 +29,51 @@ export default class Menu {
       return a.attr("href")
 
     return false
+  }
+
+  /**
+   * Fold folders
+   *
+   * @param folders List[jQuery]
+   * @param f (List[jQuery], jQuery) => List[jQuery]
+   * @param initialValue
+   * @return void
+   */
+  static reduceLevel2Items(folders, f, initialValue = []) {
+    return folders.reduce((acc, e) => {
+      const res = $(e).find("." + MENU_LEVEL2)
+
+      return f(acc, res)
+    }, initialValue)
+  }
+
+  /**
+   * Fold level3 items
+   *
+   * @param folders List[jQuery]
+   * @param f (List[jQuery], jQuery) => List[jQuery]
+   * @param initialValue
+   * @return void
+   */
+  static reduceLevel3Items(folders, f, initialValue = []) {
+    const lessons = Menu.reduceLevel2Items(folders, (acc, e) => {
+
+      if (e.length > 0)
+        acc = [...acc, ...e]
+
+      return acc
+    }, [])
+
+    const items = lessons.reduce((acc, e) => {
+      const res = $(e).find("." + MENU_LEVEL3)
+
+      if (res.length > 0)
+        acc = [...acc, ...res]
+
+      return acc
+    }, [])
+
+    return items.reduce(f, initialValue)
   }
 
   /**
@@ -65,7 +110,7 @@ export default class Menu {
     /**
      * Find url
      */
-    const item = this.reduceLevel3Items(folders, (acc, e) => {
+    const item = Menu.reduceLevel3Items(folders, (acc, e) => {
                               e = $(e)
                               var url = Menu.getURLFromItem(e) // Get URL
 
@@ -81,36 +126,13 @@ export default class Menu {
     return this.setItemActif(item.pop())
   }
 
-  reduceLevel3Items(folders, f, initialValue = []) {
-
-    const lessons = folders.reduce((acc, e) => {
-      const res = $(e).find("." + MENU_LEVEL2)
-
-      if (res.length > 0)
-        acc = [...acc, ...res]
-
-      return acc
-    }, [])
-
-    const items = lessons.reduce((acc, e) => {
-      const res = $(e).find("." + MENU_LEVEL3)
-
-      if (res.length > 0)
-        acc = [...acc, ...res]
-
-      return acc
-    }, [])
-
-    return items.reduce(f, initialValue)
-  }
-
   /**
    * Find the first level3 item
    */
   findFirstLevel3Item() {
     const folders = $(`.${MENU_CLASS}>.${MENU_LEVEL1}`)
 
-    return this.reduceLevel3Items(folders, (acc, e) => {
+    return Menu.reduceLevel3Items(folders, (acc, e) => {
       if (acc) // Already found
         return acc
 
