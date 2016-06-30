@@ -1,22 +1,28 @@
 export default class Picto {
 
-  static getText(id) {
+  /**
+   * Get label by icon
+   *
+   * @param icon String
+   * @return String
+   */
+  static getText(icon) {
     var str
 
-    switch(id) {
-      case 1:
+    switch(icon) {
+      case "prerequis":
         str = "Pré-requis"
       break
 
-      case 2:
+      case "objectif":
         str = "Objectif"
       break
 
-      case 3:
+      case "competencesvisees":
         str = "Compétences visées"
       break
 
-      case 4:
+      case "duree":
         str = "Durée"
       break
     }

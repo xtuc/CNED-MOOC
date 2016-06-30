@@ -6,7 +6,7 @@ import {
   getIcon,
   ALT_TEXT,
   APPEND_CONTENT_LINKS
-  } from "../utils"
+} from "../utils"
 
 const MENU_CLASS = "my-sb-nav"
 
@@ -163,6 +163,7 @@ export default class Menu {
 
   /**
    * Normalize Mediawiki generated mw-* classes by removing them
+   * Capitalize item
    */
   normalizeItem($n) {
     return $n.get(0).innerHTML

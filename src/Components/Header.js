@@ -52,7 +52,6 @@ export default class Header {
                 .html(picto.generate())
   }
 
-
   /**
    * Generate row
    *
@@ -116,9 +115,7 @@ export default class Header {
       const icon = slug(config ? config[1] : "")
       const text = removeConfig($(el).find(".mw-headline").text())
 
-      const id = acc.length + 1
-
-      acc.push(new Picto(getIcon(icon), Picto.getText(id), text))
+      acc.push(new Picto(getIcon(icon), Picto.getText(icon), text))
     }
 
     return acc

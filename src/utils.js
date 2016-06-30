@@ -69,3 +69,5 @@ export const getIcon = id => {
 
 export const ALT_TEXT = "Chargement ..."
 export const APPEND_CONTENT_LINKS = "#firstHeading"
+
+export const capitalizeFirstLetter = s => s.charAt(0).toUpperCase() + s.slice(1)
