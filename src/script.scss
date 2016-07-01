@@ -8,6 +8,7 @@
  * Update 20160622: Font family Open Sans is applied globally
  * Update 20160630: Set Breadcrumb color to blue
  * Update 20160630: Capitalize .nav-item
+ * Update 20160701: .sb-more divs are now blocks and added min-height to its contents
  */
 
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:400,700);
@@ -872,6 +873,14 @@
         overflow: hidden;
         padding: 0;
         width: 1px;
+    }
+
+    .my-sb-more > div {
+        display: block;
+    }
+
+    .my-sb-more > div > a {
+        min-height: 32px;
     }
 
     /*------------------------------------------ 
