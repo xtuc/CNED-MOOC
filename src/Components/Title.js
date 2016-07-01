@@ -12,6 +12,11 @@ export default class Title {
     $("." + TITLE_CLASS).text(text)
   }
 
+  static delete() {
+    $("." + TITLE_CLASS).empty()
+    $("." + TITLE_CLASS).remove()
+  }
+
   /**
    * Constructor
    *

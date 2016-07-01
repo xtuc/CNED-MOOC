@@ -12,6 +12,24 @@ export default class MenuFooter {
     $("." + MENU_FOOTER_CLASS).html(menu.generate())
   }
 
+  /**
+   * Search for url in blocks
+   *
+   * @param url String
+   * @return Boolean|Object
+   */
+  getByURL(url) {
+
+    return this._blocks.reduce((acc, block) => {
+      const a = $(block).find("a")
+
+      if (!acc && url === a.attr("href"))
+        return { 3: a }
+
+      return acc
+    }, false)
+  }
+
   constructor() {
     this._blocks = []
   }

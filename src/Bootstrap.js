@@ -91,6 +91,11 @@ export default class Bootstrap {
          */
         let titles = menu.selectByURL(window.location.pathname)
 
+        /**
+         * Check if the blocks (under menu) matches
+         */
+        let titles2 = menuFooter.getByURL(window.location.pathname)
+
         if (titles) {
 
           Breadcrumb.update(new Breadcrumb([ titles[1], titles[2], titles[3] ]))
@@ -117,6 +122,12 @@ export default class Bootstrap {
             log(RELATED_ITEMS_NOT_FOUND)
           }
 
+        } else if(titles2) {
+          Breadcrumb.delete()
+          Header.delete()
+          Title.delete()
+
+          LessonHeader.replaceTitle(titles2[3].text()) // Re-apply new title
         } else {
           log(URL_NOT_FOUND_IN_MENU)
         }

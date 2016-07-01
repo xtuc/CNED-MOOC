@@ -14,6 +14,14 @@ export default class Breadcrumb {
   }
 
   /**
+   * Staticly remove el
+   */
+  static delete() {
+    $("." + BREADCRUMB_CLASS).empty()
+    $("." + BREADCRUMB_CLASS).remove()
+  }
+
+  /**
    * Constructor
    *
    * @param items Array[jQuery|String]

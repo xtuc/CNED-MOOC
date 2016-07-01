@@ -6,6 +6,11 @@ export default class LessonHeader {
     $("." + LESSON_HEADER_CLASS + " h3").text(title)
   }
 
+  static delete() {
+    $("." + LESSON_HEADER_CLASS).empty()
+    $("." + LESSON_HEADER_CLASS).remove()
+  }
+
   /**
    * Constructor
    *
