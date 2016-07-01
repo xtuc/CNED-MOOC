@@ -55,7 +55,8 @@ export const iconMarkupMap = {
   competencesvisees: "competence", // compétences visées
   duree: "duree", // durée
   moocwikivplus: "contrib",
-  moocwikivinfo: "info"
+  moocwikivinfo: "info",
+  public: "duree"
 }
 
 export const getIcon = id => {

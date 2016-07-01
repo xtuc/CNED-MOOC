@@ -25,6 +25,10 @@ export default class Picto {
       case "duree":
         str = "Durée"
       break
+
+      case "public":
+        str= "Public"
+      break
     }
 
     return str

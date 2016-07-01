@@ -43,13 +43,23 @@ export default class Header {
    * @param picto Picto
    * @return jQuery
    */
-  generatePicto(picto) {
+  generatePicto(picto, widthClass) {
     if (!picto)
       return
 
     return $("<div />")
-                .addClass("my-feature-item w-50 bibloc mutate")
+                .addClass("my-feature-item " + widthClass + " bibloc mutate")
                 .html(picto.generate())
+  }
+
+  /**
+   * Generate with class (w-[0-9]{1,2})
+   *
+   * @param number Integer number of picto
+   * @return string
+   */
+  getWidthClass(number) {
+    return "w-" + Math.round(100 / number)
   }
 
   /**
@@ -62,41 +72,21 @@ export default class Header {
   }
 
   /**
-   * Generate left side
+   * Generate pictos
    *
-   * @param picto1 Picto
-   * @param picto2 Picto
+   * @param list List[Picto]
    * @return jQuery
    */
-  generateLeft(picto1, picto2) {
+  generatePictos(list) {
     const row = this.generateRow()
-    const w = (!picto1 || !picto2) ? 25 : 50
+    const widthClass = this.getWidthClass(list.length)
 
-    row.append(this.generatePicto(picto1))
-    row.append(this.generatePicto(picto2))
+    list
+        .map(p => this.generatePicto(p, widthClass))
+        .map(x => row.append(x))
 
     return $("<div />")
-                  .addClass("w-" + w + " mutate-md")
-                  .css("text-align", "center")
-                  .html(row)
-  }
-
-  /**
-   * Generate right side
-   *
-   * @param picto3 Picto
-   * @param picto4 Picto
-   * @return jQuery
-   */
-  generateRight(picto3, picto4) {
-    const row = this.generateRow()
-    const w = (!picto3 || !picto4) ? 25 : 50
-
-    row.append(this.generatePicto(picto3))
-    row.append(this.generatePicto(picto4))
-
-    return $("<div />")
-                  .addClass("w-" + w + " mutate-md")
+                  .addClass("mutate-md")
                   .css("text-align", "center")
                   .html(row)
   }
@@ -137,11 +127,7 @@ export default class Header {
       title = this.generateTitle()
       row = this.generateRow().addClass("mutate")
 
-      if (pictos[0] || pictos[1])
-        row.append(this.generateLeft(pictos[0], pictos[1]))
-
-      if (pictos[2] || pictos[3])
-        row.append(this.generateRight(pictos[2], pictos[3]))
+      row.append(this.generatePictos(pictos))
     }
 
     return $("<div />")
