@@ -20,21 +20,70 @@ export default class Breadcrumb {
    */
   constructor(items) {
     this._items = items
+    this._links = []
     this.reducer = this.reducer.bind(this)
+    this.delimiter = "&gt;"
 
     const folders = $(`.${MENU_CLASS}>.${MENU_LEVEL1}`)
 
-    console.log(items)
+    this._links[0] = this.findFirstLevel1Item(folders, items[0])
+    this._links[1] = this.findFirstLevel2Item(folders, items[1])
+  }
 
-    Menu.reduceLevel2Items(folders, (acc, el) => {
+  /**
+   * Find the link of the first level1 item
+   *
+   * @param folders List[jQuery]
+   * @param item jQuery
+   * @return String|false link or false
+   */
+  findFirstLevel1Item(folders, item) {
+    const self = this
+
+    return folders.reduce((acc, el) => {
+      const a = $(el).find(".nav-item-header a").get(0)
+
+      // test if it matches
+      if (a == item.get(0)) {
+        const firstlesson = $(el).find(".nav-item-content").children().first()
+        const firstItem = firstlesson.find(".nav-item-content").children().first()
+
+        if (!acc)
+          acc = self.getLink(firstItem.find("a"))
+      }
+
+      return acc
+    }, false)
+  }
+
+  /**
+   * Find the link of the first level2 item
+   *
+   * @param folders List[jQuery]
+   * @param item jQuery
+   * @return String|false link or false
+   */
+  findFirstLevel2Item(folders, item) {
+    const self = this
+
+    return Menu.reduceLevel2Items(folders, (acc, el) => {
+
       el.map(function() { // Can't use => because of jQuery contexts
         const x = $(this)
+        const a = x.find(".nav-item-header a").get(0)
 
-        console.log("matches", x.find(".nav-item-header a").get(0) === items[1].get(0))
+        // test if it matches
+        if (a == item.get(0)) {
+          const matchingItem = $(x).find(".nav-item-content").children().first()
+
+          if (!acc)
+            acc = self.getLink(matchingItem.find("a"))
+
+        }
       })
-    }, [])
 
-    this.delimiter = "&gt;"
+      return acc
+    }, false)
   }
 
   /**
@@ -55,8 +104,9 @@ export default class Breadcrumb {
                             ? " " + this.delimiter + " "
                             : ""
 
+    const preparedLink = (this._links[i]) ? this._links[i] : "#"
     const link = (isInstanceOfjQuery(el))
-                          ? "<a href=\""+ this.getLink(el) +"\">" + el.text() + "</a>"
+                          ? "<a href=\""+ preparedLink +"\">" + el.text() + "</a>"
                           : el
 
     const text = (isLast)
