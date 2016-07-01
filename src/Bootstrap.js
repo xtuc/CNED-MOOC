@@ -119,15 +119,6 @@ export default class Bootstrap {
 
         } else {
           log(URL_NOT_FOUND_IN_MENU)
-
-          /**
-           * This page was not found in menu
-           * Redirect to the first page
-           */
-          let url = menu.findFirstLevel3Item().find("a").attr("href")
-
-          if (url)
-            window.location.href = url
         }
 
         // Once content is loaded re-apply location hash
