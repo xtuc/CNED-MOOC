@@ -45,8 +45,12 @@ export default class Bootstrap {
      *
      * Already present on the page
      */
-    generateFirstHeading(title) {
-      return new FirstHeading(title)
+    generateFirstHeading(title, img) {
+      const imageBox = img
+                          ? `<span style="margin-right: 30px;">${img.outerHTML}</span>`
+                          : null
+
+      return new FirstHeading([imageBox, title])
     }
 
     /**
@@ -193,7 +197,7 @@ export default class Bootstrap {
      * @return void
      */
     generate(config, element, content, oldContent) {
-      this.generateFirstHeading(config.title)
+      this.generateFirstHeading(config.title, config.image)
       this.generateTitle(element)
       this.generateBreadCrumb(element)
       this.generateMenu(config.menuURL)

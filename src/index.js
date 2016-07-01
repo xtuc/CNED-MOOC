@@ -46,8 +46,15 @@ const moocwikiv = function() {
     if (el.tagName === "H3")
       acc.menuURL = $e.find("a").attr("href")
 
+    if (el.tagName === "DIV") {
+      let img = $(el).find("img")
+
+      if (img)
+        acc.image = img.get(0)
+    }
+
     return acc
-  }, { menuURL: false, title: false })
+  }, { menuURL: false, title: false, image: false })
 
   debug("Template config", config)
 

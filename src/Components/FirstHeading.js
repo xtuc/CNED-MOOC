@@ -9,7 +9,7 @@ export default class FirstHeading {
    * @return void
    */
   static update(title) {
-    $("#" + FIRSTHEADING_ID).text(title)
+    $("#" + FIRSTHEADING_ID).html(title)
   }
 
   /**
