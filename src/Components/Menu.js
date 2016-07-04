@@ -204,12 +204,22 @@ export default class Menu {
               .get()
   }
 
-  applyAccordeon(element) {
+  applyAccordeon(element, level = 1, index = 1) {
     const $itemHeader = element.find(".nav-item-header").first()
 
+    const openBtn = "<div class=\"btn-closed\">Déployer</div>"
+    const closeBtn = "<div class=\"btn-open\">Refermer</div>"
+    const ariaAttributes = (controls, expanded = false) => `aria-expanded="${expanded}" aria-controls="${controls}"`
+    const generateExpandableBtn = (open, close, attributes) => `<div class="expandable sprite" role="button" ${attributes}>${open} ${close}</div>`
+
     // Add expandable icon
-    $itemHeader
-        .append("<div class=\"expandable sprite\"> <div class=\"btn-closed\">Déployer</div> <div class=\"btn-open\">Refermer</div> </div>")
+    $itemHeader.append(
+      generateExpandableBtn(
+        openBtn,
+        closeBtn,
+        ariaAttributes(`i-${level}-${index}`, false)
+      )
+    )
 
     $itemHeader.find("a, .expandable").click(() => {
       this.toggleOpen(element)
@@ -360,13 +370,14 @@ export default class Menu {
       level2
             .reverse()
             .map(x => x.clone()) // won't work without cloning
-            .map(x => this.applyAccordeon(x)) // apply accordeon to cloned elements
+            .map((x, k2) => this.applyAccordeon(x, 2, k2 + 1)) // apply accordeon to cloned elements
             .map(x => $content.append(x))
 
       this.cleanup(level2)
 
-      this.applyAccordeon(el)
+      this.applyAccordeon(el, 1, acc.level1.length + 1)
 
+      acc.level1.push(el)
       acc.level2 = []
     }
 
@@ -428,7 +439,7 @@ export default class Menu {
     generated.reverse()
 
     // Depth-first, fold all trailing accordeons
-    generated.reduce(this.foldAccordeon, { level2: [], level3: [] })
+    generated.reduce(this.foldAccordeon, { level2: [], level3: [], level1: [] })
 
     generated.reverse()
 

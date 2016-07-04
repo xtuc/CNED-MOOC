@@ -6,6 +6,8 @@
 
 $.fn.reduce = [].reduce // https://bugs.jquery.com/ticket/1886
 
+import "./Polyfill/IE.js"
+
 /**
  * Loader
  */

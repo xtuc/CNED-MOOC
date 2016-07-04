@@ -9,6 +9,8 @@
  * Update 20160630: Set Breadcrumb color to blue
  * Update 20160630: Capitalize .nav-item
  * Update 20160701: .sb-more divs are now blocks and added min-height to its contents
+ * Update 20160704: Media player is now responsive under 800px
+ * Update 20160704: Tablette responsivity (PC like)
  */
 
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:400,700);
@@ -255,7 +257,6 @@
     -------------------------------------------*/
     @media only screen and (min-width:79.938em) {
         .hide-xl-gt { display:none; }
-            
     }
 
 
@@ -506,7 +507,7 @@
         color: #4E4E44;
         font-size: 1.5em;
     }
-    h1.secondHeading { 
+    h1.secondHeading {
         margin-top: 0;
         border: none;
         padding: 0;
@@ -887,14 +888,13 @@
         specific xl devices > 1280px
     -------------------------------------------*/
     @media only screen and (min-width:79.938em) {
-        
+
         .my-sb-nav {
             margin-bottom: 1em;
             /*border-right: none;*/
             /*margin-right: -1px;*/
-        }	
-        
-        
+        }
+
         .my-layout {
             margin-top: 1em;
             min-width: 1135px;
@@ -907,30 +907,45 @@
     -------------------------------------------*/
     @media only screen and (max-width:79.938em) {
         /* layout */
-        
-        .my-layout > .my-sb {
-            float: none;
+
+        .my-title-wrap h2 {
+            font-size: 16px;
         }
-        .my-layout > .my-main {
-            overflow: visible;
-        }
-        .my-sb {
-            width: auto;
-            max-width: none;
-        }
+
+        // modif
+        // .my-layout > .my-sb {
+        //     float: none;
+        // }
+
+        // modif
+        // .my-layout > .my-main {
+        //     overflow: visible;
+        // }
+
+        // modif
+        // .my-sb {
+        //     width: auto;
+        //     max-width: none;
+        // }
+
         .my-sb-nav {
-            margin-bottom: 1em;   
+            margin-bottom: 1em;
         }
         .my-sb-nav,
         .my-sb-more {
             display: inline-block;
             vertical-align: top;
         }
-        .my-sb-more {
-            width: 300px;
-            padding: 0 1em 1em;
 
+        .mediaContainer, .mwPlayerContainer, .k-player {
+            width: auto !important;
         }
+
+        // modif
+        // .my-sb-more {
+        //     width: 300px;
+        //     padding: 0 1em 1em;
+        // }
     }
 
     /*------------------------------------------ 
@@ -946,7 +961,7 @@
     @media only screen and (max-width:63.938em) {
 
         h1.secondHeading {
-            text-align: left;   
+            text-align: left;
         }
         .my-feature {
             padding-bottom: 1.5em;
@@ -958,6 +973,7 @@
         specific mobile styles => 767px
     -------------------------------------------*/ 
     @media only screen and (min-width:47.938em) {
+
         .my-feature {
             min-width: 10em;
             max-width: 15em;
@@ -972,6 +988,24 @@
         specific mobile styles <= 767px
     -------------------------------------------*/ 
     @media only screen and (max-width:47.938em) {
+
+        .my-sb, .my-sb-nav {
+            width: auto;
+            float: none;
+        }
+
+        .my-layout > .my-sb {
+            float: none;
+        }
+
+        .my-layout > .my-main {
+            overflow: visible;
+        }
+
+        .my-sb {
+            width: auto;
+            max-width: none;
+        }
 
         .my-main-content-header .my-title-wrap {
             position: relative;
