@@ -72,3 +72,17 @@ export const ALT_TEXT = "Chargement ..."
 export const APPEND_CONTENT_LINKS = "#firstHeading"
 
 export const capitalizeFirstLetter = s => s.charAt(0).toUpperCase() + s.slice(1)
+
+/**
+ * Menu
+ */
+export const ITEM_OPEN_BTN = "<div class=\"btn-closed\">Déployer</div>"
+export const ITEM_CLOSE_BTN = "<div class=\"btn-open\">Refermer</div>"
+
+export const ariaAttributes = (controls, expanded = false) =>
+  `aria-expanded="${expanded}" aria-controls="${controls}"`
+
+export const generateExpandableBtn = (open, close, attributes) =>
+  `<div class="expandable sprite" role="button" ${attributes}>${open} ${close}</div>`
+
+export const ariaControls = (level = 1, index = 1) => `item-l${level}-i${index}`

@@ -5,7 +5,12 @@ import {
   removeConfig,
   getIcon,
   ALT_TEXT,
-  APPEND_CONTENT_LINKS
+  APPEND_CONTENT_LINKS,
+  ITEM_OPEN_BTN,
+  ITEM_CLOSE_BTN,
+  ariaAttributes,
+  generateExpandableBtn,
+  ariaControls
 } from "../utils"
 
 export const MENU_CLASS = "my-sb-nav"
@@ -207,19 +212,16 @@ export default class Menu {
   applyAccordeon(element, level = 1, index = 1) {
     const $itemHeader = element.find(".nav-item-header").first()
 
-    const openBtn = "<div class=\"btn-closed\">Déployer</div>"
-    const closeBtn = "<div class=\"btn-open\">Refermer</div>"
-    const ariaAttributes = (controls, expanded = false) => `aria-expanded="${expanded}" aria-controls="${controls}"`
-    const generateExpandableBtn = (open, close, attributes) => `<div class="expandable sprite" role="button" ${attributes}>${open} ${close}</div>`
-
     // Add expandable icon
     $itemHeader.append(
       generateExpandableBtn(
-        openBtn,
-        closeBtn,
-        ariaAttributes(`i-${level}-${index}`, false)
+        ITEM_OPEN_BTN,
+        ITEM_CLOSE_BTN,
+        ariaAttributes(ariaControls(level, index), false)
       )
     )
+
+    console.debug("applyAccordeon", `level=${level}`, "index="+index)
 
     $itemHeader.find("a, .expandable").click(() => {
       this.toggleOpen(element)
@@ -337,9 +339,7 @@ export default class Menu {
 
     var state = false
 
-    // for debuging purposes
     try {
-
       if (element.tagName === "H1")
         state = this.generateLevel1($e, lastItem)
       else if (element.tagName === "H2")
@@ -357,27 +357,35 @@ export default class Menu {
     return acc
   }
 
-  foldAccordeon(acc, el) {
+  foldAccordeon(acc, el, index) {
     const { level2, level3 } = acc
+    const $content = el.find(".nav-item-content")
 
     if (this.isFolder(el)) {
 
       if (level2.length == 0) // No childs
         return acc
 
-      const $content = el.find(".nav-item-content")
+      $content.attr("aria-hidden", true)
+      $content.attr("id", ariaControls(1, index))
+
+      console.debug("level=1", "index="+index)
 
       level2
             .reverse()
             .map(x => x.clone()) // won't work without cloning
-            .map((x, k2) => this.applyAccordeon(x, 2, k2 + 1)) // apply accordeon to cloned elements
+            .map((x, k2) => {
+              x = this.applyAccordeon(x, 2, index + "" + k2)
+              $(x).find(".nav-item-content").attr("id", ariaControls(2, index + "" + k2))
+
+              return x
+            }) // apply accordeon to cloned elements
             .map(x => $content.append(x))
 
       this.cleanup(level2)
 
-      this.applyAccordeon(el, 1, acc.level1.length + 1)
+      this.applyAccordeon(el, 1, index)
 
-      acc.level1.push(el)
       acc.level2 = []
     }
 
@@ -387,7 +395,9 @@ export default class Menu {
       if (level3.length == 0) // No childs
         return acc
 
-      const $content = el.find(".nav-item-content")
+      $content.attr("aria-hidden", true)
+
+      console.debug("level=2", "index="+index)
 
       level3
             .reverse()
@@ -439,7 +449,7 @@ export default class Menu {
     generated.reverse()
 
     // Depth-first, fold all trailing accordeons
-    generated.reduce(this.foldAccordeon, { level2: [], level3: [], level1: [] })
+    generated.reduce(this.foldAccordeon, { level2: [], level3: [] })
 
     generated.reverse()
 
