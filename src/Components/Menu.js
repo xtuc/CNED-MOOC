@@ -221,8 +221,6 @@ export default class Menu {
       )
     )
 
-    console.debug("applyAccordeon", `level=${level}`, "index="+index)
-
     $itemHeader.find("a, .expandable").click(() => {
       this.toggleOpen(element)
     })
@@ -236,9 +234,18 @@ export default class Menu {
    * @param element jQuery
    * @return void
    */
-  toggleOpen(element) {
-    element.toggleClass("closed")
-    element.toggleClass("open")
+  toggleOpen(e) {
+    const $expandable = e.find(".expandable").first() // Also returns childs
+    const $hideable = e.find(".nav-item-content")
+
+    const expanded = $expandable.attr("aria-expanded")
+    const hidden = $hideable.attr("aria-hidden")
+
+    $expandable.attr("aria-expanded", (expanded == "true") ? false : true)
+    $hideable.attr("aria-hidden", (hidden == "false") ? true : false)
+
+    e.toggleClass("closed")
+    e.toggleClass("open")
   }
 
   /**
@@ -369,8 +376,6 @@ export default class Menu {
       $content.attr("aria-hidden", true)
       $content.attr("id", ariaControls(1, index))
 
-      console.debug("level=1", "index="+index)
-
       level2
             .reverse()
             .map(x => x.clone()) // won't work without cloning
@@ -396,8 +401,6 @@ export default class Menu {
         return acc
 
       $content.attr("aria-hidden", true)
-
-      console.debug("level=2", "index="+index)
 
       level3
             .reverse()
