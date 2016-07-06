@@ -14,6 +14,7 @@
  * Update 20160705: Added icon pic-public
  * Update 20160706: Updated main sprite URL
  * Update 20160706: Header grid in responsiv mode
+ * Update 20160706: Resize image in content in responsiv mode
  */
 
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:400,700);
@@ -967,10 +968,14 @@
     -------------------------------------------*/
     @media only screen and (max-width:63.938em) {
 
-        // modif contentn
         .my-lesson img {
             width: 100% !important;
             height: 100% !important;
+        }
+
+        .my-main-content-header .my-title-wrap {
+            margin-bottom: 20px;
+            position: initial;
         }
 
         .my-feature-item {
