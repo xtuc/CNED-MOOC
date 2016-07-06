@@ -13,6 +13,7 @@
  * Update 20160704: Tablette responsivity (PC like)
  * Update 20160705: Added icon pic-public
  * Update 20160706: Updated main sprite URL
+ * Update 20160706: Header grid in responsiv mode
  */
 
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:400,700);
@@ -965,6 +966,18 @@
         specific md devices  <= 1023px
     -------------------------------------------*/
     @media only screen and (max-width:63.938em) {
+
+        // modif contentn
+        .my-lesson img {
+            width: 100% !important;
+            height: 100% !important;
+        }
+
+        .my-feature-item {
+            width: 50%;
+            display: inline-flex;
+            text-align: center;
+        }
 
         h1.secondHeading {
             text-align: left;
