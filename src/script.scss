@@ -12,6 +12,7 @@
  * Update 20160704: Media player is now responsive under 800px
  * Update 20160704: Tablette responsivity (PC like)
  * Update 20160705: Added icon pic-public
+ * Update 20160706: Updated main sprite URL
  */
 
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:400,700);
@@ -333,7 +334,8 @@
     .nav-item-lesson.activity strong:before,
     .nav-item-lesson.evaluation strong:before,
     .sprite {
-        background-image: url(https://upload.wikimedia.org/wikipedia/commons/2/27/Pictogrammes_sprite_cours.png);
+        // background-image: url(https://upload.wikimedia.org/wikipedia/commons/2/27/Pictogrammes_sprite_cours.png);
+        background-image: url(https://upload.wikimedia.org/wikipedia/commons/1/18/V1_-_20160706.png);
         background-repeat: no-repeat;
         -moz-background-size:400px 800px;
         -o-background-size:400px 800px;
@@ -612,7 +614,7 @@
         background-position: -325px 0;   
     }
     .pic-feature.pic-public {
-        background-position: -325px 0;   
+        background-position: -100px -60px;
     }
     .my-lesson {
         margin-bottom: 1em;
