@@ -15,10 +15,18 @@ const startLoader = page => page.html("Chargement ...")
 const stopLoaderAndReplace = (page, element) => page.html(element)
 
 import Bootstrap from "./Bootstrap.js"
-import { log, debug, MENU_URL_NOT_FOUND } from "./messages.js"
+import { log, debug, MENU_URL_NOT_FOUND, PRINTING } from "./messages.js"
+import { isPrinting } from "./utils.js"
 
 // Don't use fat arrow there because `this` will be overwritted by ES6 compilation
 const moocwikiv = function() {
+
+  // Disable template in print mode
+  if (isPrinting) {
+    log(PRINTING)
+    return false
+  }
+
   const page = $(this)
   const element = $("<div></div>")
   const content = $("<div></div>").addClass("my-layout clear")

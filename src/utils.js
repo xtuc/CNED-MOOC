@@ -21,6 +21,7 @@ export const getConfig = t => CONFIG_REGEX.exec(t)
 export const removeConfig = t => t.replace(CONFIG_REGEX, "")
 export const removeToc = $n => $n.find("#toc").remove()
 export const isExternalWikiLink = u => u.indexOf("http://") === 0 || u.indexOf("https://") === 0
+export const isPrinting = window.location.search.indexOf("printable=yes") !== -1
 
 export const slug = str => {
   str = str.replace(/^\s+|\s+$/g, "") // trim
