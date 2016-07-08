@@ -1,7 +1,9 @@
 const HEADER_CLASS = "my-main-content-header"
 
 import Picto from "./Picto.js"
-import { getConfig, removeConfig, slug, getIcon, ALT_TEXT } from "../utils.js"
+import { getConfig, removeConfig, slug, getIcon, ALT_TEXT, truncate } from "../utils.js"
+
+const TITLE_MAX_LENGTH = 50 /* characters */
 
 export default class Header {
 
@@ -10,7 +12,9 @@ export default class Header {
   }
 
   static replaceTitle(title) {
-    $("." + HEADER_CLASS + " .my-title-wrap h2").html(title)
+      $("." + HEADER_CLASS + " .my-title-wrap h2").html(
+          truncate(TITLE_MAX_LENGTH)(title)
+      )
   }
 
   static delete() {

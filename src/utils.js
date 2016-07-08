@@ -87,3 +87,6 @@ export const generateExpandableBtn = (open, close, attributes) =>
   `<div class="expandable sprite" role="button" ${attributes}>${open} ${close}</div>`
 
 export const ariaControls = (level = 1, index = 1) => `item-l${level}-i${index}`
+
+export const truncate = nbr => str =>
+    (str.length > nbr) ? str.substring(0, nbr) + "..." : str

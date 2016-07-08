@@ -15,12 +15,22 @@
  * Update 20160706: Updated main sprite URL
  * Update 20160706: Header grid in responsiv mode
  * Update 20160706: Resize image in content in responsiv mode
+ * Update 20160708: Auto resize input[type=text] in lesson content
+ * Update 20160708: Added overflow in lesson-content
  */
 
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:400,700);
 
 #moocwikiv {
     display: none; // Will be removed once js has loaded
+
+    .my-lesson input[type=text] {
+        width: 100% !important;
+    }
+
+    .my-lesson-content {
+        overflow: auto;
+    }
 
     /* fonts */
     font-family: 'Open Sans', Arial, Helvetica, sans-serif;
@@ -562,7 +572,7 @@
     }
 
     .my-main-content-header em {
-        text-align: left;
+        // text-align: left;
         display: block;
     }
 

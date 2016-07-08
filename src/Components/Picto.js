@@ -1,3 +1,7 @@
+import { truncate } from "../utils.js"
+
+const TEXT_LENGTH = 85 /* characters */
+
 export default class Picto {
 
   /**
@@ -37,7 +41,7 @@ export default class Picto {
   constructor(icon, title, text) {
     this._icon = icon
     this._title = title
-    this._text = text
+    this._text = truncate(TEXT_LENGTH)(text)
   }
 
   /**
