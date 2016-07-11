@@ -4,7 +4,7 @@
  * @param m String
  * @return void
  */
-export const log = (...m) => console.warn(...m)
+export const log = (...m) => console.warn(m)
 
 /**
  * Used to dev purpose
@@ -12,7 +12,7 @@ export const log = (...m) => console.warn(...m)
  * @param m String
  * @return void
  */
-export const debug = (...m) => console.debug(...m)
+export const debug = (...m) => console.debug(m)
 
 export const MENU_URL_NOT_FOUND = "Vous devez indiquer le menu"
 export const NAV_LINKS_NOT_FOUND = "Lien précédent ou suivant introuvable"
