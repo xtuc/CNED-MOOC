@@ -89,4 +89,21 @@ export const generateExpandableBtn = (open, close, attributes) =>
 export const ariaControls = (level = 1, index = 1) => `item-l${level}-i${index}`
 
 export const truncate = nbr => str =>
-    (str.length > nbr) ? str.substring(0, nbr) + "..." : str
+  (str.length > nbr) ? str.substring(0, nbr) + "..." : str
+
+export const getIEVersion = () => {
+// Returns the version of Internet Explorer or a -1
+// (indicating the use of another browser).
+  var rv = -1 // Return value assumes failure.
+  if (navigator.appName == "Microsoft Internet Explorer") {
+    var ua = navigator.userAgent
+    var re  = new RegExp("MSIE ([0-9]{1,}[\.0-9]{0,})")
+    if (re.exec(ua) != null)
+      rv = parseFloat( RegExp.$1 )
+  }
+
+  return rv
+}
+
+export const getIfLessThan =
+  v1 => (str, v2) => (v1 > v2 && v2 !== -1) ? str : ""

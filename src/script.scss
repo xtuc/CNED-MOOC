@@ -33,6 +33,18 @@
         overflow: auto;
     }
 
+    /**
+     * IE specifiq
+     */
+    .ieFlexbox {
+        width: 100% !important;
+        display: block !important;
+    }
+
+    .ie__my-title-wrap {
+        position: relative !important;
+    }
+
     /* fonts */
     font-family: 'Open Sans', Arial, Helvetica, sans-serif;
 

@@ -2,6 +2,7 @@ const HEADER_CLASS = "my-main-content-header"
 
 import Picto from "./Picto.js"
 import { getConfig, removeConfig, slug, getIcon, ALT_TEXT, truncate } from "../utils.js"
+import { getIEVersion, getIfLessThan } from "../utils.js"
 
 const TITLE_MAX_LENGTH = 50 /* characters */
 
@@ -35,9 +36,10 @@ export default class Header {
 
   generateTitle() {
     const title = $("<h2 />")
+    const IEVersion = getIEVersion()
 
     return $("<div />")
-                  .addClass("my-title-wrap")
+                  .addClass("my-title-wrap " + getIfLessThan(10)("ie__my-title-wrap", IEVersion))
                   .html(title)
   }
 
@@ -51,8 +53,10 @@ export default class Header {
     if (!picto)
       return
 
+    const IEVersion = getIEVersion()
+
     return $("<div />")
-                .addClass("my-feature-item " + widthClass + " bibloc mutate")
+                .addClass("my-feature-item " + widthClass + " bibloc mutate " + getIfLessThan(10)("ieFlexbox", IEVersion))
                 .html(picto.generate())
   }
 
