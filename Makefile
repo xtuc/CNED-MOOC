@@ -11,4 +11,5 @@ build:
 
 buildcss:
 	./node_modules/.bin/node-sass --output-style compressed src/script.scss > dist/script.css
+	./node_modules/.bin/postcss --use autoprefixer dist/script.css -d dist/
 	# ./node_modules/.bin/node-sass src/script.scss | pbcopy
