@@ -33,6 +33,11 @@
         overflow: auto;
     }
 
+    .my-lesson img {
+        max-width:100%;
+        height:auto;
+    }
+
     /**
      * IE specifiq
      */
@@ -359,7 +364,6 @@
     .nav-item-lesson.activity strong:before,
     .nav-item-lesson.evaluation strong:before,
     .sprite {
-        // background-image: url(https://upload.wikimedia.org/wikipedia/commons/2/27/Pictogrammes_sprite_cours.png);
         background-image: url(https://upload.wikimedia.org/wikipedia/commons/1/18/V1_-_20160706.png);
         background-repeat: no-repeat;
         -moz-background-size:400px 800px;
@@ -993,10 +997,10 @@
     -------------------------------------------*/
     @media only screen and (max-width:63.938em) {
 
-        .my-lesson img {
-            width: 100% !important;
-            height: 100% !important;
-        }
+        // .my-lesson img {
+        //     width: 100% !important;
+        //     height: 100% !important;
+        // }
 
         .my-main-content-header .my-title-wrap {
             margin-bottom: 20px;

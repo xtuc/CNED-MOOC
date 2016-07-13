@@ -25,6 +25,11 @@ along with this library; if not, see <http://www.gnu.org/licenses/>.
 
 Les Makefile ne sont pas utilisables comme tel sous Windows. Les commandes suivantes fonctionnent avec Cygwin (https://www.cygwin.com).
 
+## Ressources externes
+
+* Police d'écriture : https://fonts.googleapis.com/css?family=Open+Sans:400,700
+* Sprite (script.scss ligne 367) : https://upload.wikimedia.org/wikipedia/commons/1/18/V1_-_20160706.png
+
 ## Installation
 
 Node.js (https://nodejs.org/en/download/) et NPM (inclus dans Node.js)

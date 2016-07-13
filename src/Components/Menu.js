@@ -319,7 +319,6 @@ export default class Menu {
 
     item = removeConfig(item)
 
-
     item = $("<div />").addClass("nav-item nav-item-lesson " + MENU_LEVEL3).wrapInner(item)
 
     if (regexRes && regexRes[1]) {

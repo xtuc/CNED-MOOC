@@ -50,13 +50,15 @@ const moocwikiv = function() {
   const config = page.children().reduce((acc, el) => {
     const $e = $(el).find(".mw-headline")
 
+    console.debug("config loop", el)
+
     if (el.tagName === "H1")
       acc.title = $e.text()
 
     if (el.tagName === "H3")
       acc.menuURL = $e.find("a").attr("href")
 
-    if (el.tagName === "DIV") {
+    if (el.tagName === "DIV" || el.tagName === "P") {
       let img = $(el).find("img")
 
       if (img)
