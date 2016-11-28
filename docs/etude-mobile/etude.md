@@ -145,6 +145,8 @@ Source: https://www.mediawiki.org/wiki/ResourceLoader/Writing_a_MobileFrontend_f
 
 ## 4.2 Adapation mobile
 
+### 4.2.1 Intégration au menu mobile
+
 jQuery est disponible sur la version mobile.
 
 Idéalement le menu du modèle MOOC sera accessible via le _hamburger_. Voir icone entouré en rouge.
@@ -154,3 +156,12 @@ Idéalement le menu du modèle MOOC sera accessible via le _hamburger_. Voir ico
 Menu de navigation de la version mobile :
 
 ![Menu mobile](images/mooc-mobile-menu.png)\ 
+
+### 4.2.2 Erreur dans le menu
+
+Le modèle a certains messages internes d'avertissement quand un composant rencontre une anomalie.
+
+J'ai observé sur la version mobile le message : `Page introuvable dans le menu`, qui indique que la page actuelle n'apparaît pas dans le menu.
+
+Pourtant la page est bien dans le menu. J'ai l'impression que c'est le fait d'etre sur le domaine mobile (https://fr.m.wikiversity.org). Un légé développement est à prévoir.
+
