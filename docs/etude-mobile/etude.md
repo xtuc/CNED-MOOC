@@ -20,7 +20,7 @@ Le contenu du menu est stocké sur une page externe. Il est chargé et affiché 
 
 Le CSS est responsive et le JavaScript est optimisé pour mobile.
 
-La version actuelle de MediaWiki sur la Wikiversité est : `1.12`.
+La version actuelle de MediaWiki sur la Wikiversité est : `1.29.0-wmf.3`.
 
 # 2. Problème
 
@@ -53,6 +53,13 @@ Configuration du ciblage :
 | `targets` | `desktop` (default), `mobile` or `desktop,mobile` | Set the RL target(s) for the gadget. | ?
 
 Source : https://www.mediawiki.org/wiki/Extension:Gadgets
+
+### 3.3.1 Test
+
+Solution testée avec l'aide de Jackpotte. Il a rencontré une erreur de _parse_ du script.
+MediaWiki possède son propre parser JavaScript peut compatible.
+
+Source : https://fr.wikiversity.org/wiki/Discussion_utilisateur:JackPotte/2016#Mod.C3.A8le_MOOC_wikiversit.C3.A9_sur_les_devices_mobiles
 
 ## 3.4 Extension serveur
 
@@ -112,6 +119,22 @@ Ces fichiers ne sont actuellement pas exploité par la Wikiversité.
 Source: https://fr.wikiversity.org/w/index.php?title=MediaWiki:Mobile.css
 et https://fr.wikiversity.org/w/index.php?title=MediaWiki:Mobile.js.
 
+### 3.7.3 Test
+
+J'ai utilisé un serveur web en local hébergant un MediaWiki (avec docker, source: https://hub.docker.com/r/bitnami/mediawiki/).
+
+Version de MediaWiki : `1.27.1`.
+Extensions ajoutées : MobileFrontend (source : https://www.mediawiki.org/wiki/Extension:MobileFrontend)
+
+Le modèle MOOC est chargé depuis les deux fichiers communs :
+
+- `MediaWiki:Common.js`.
+- `MediaWiki:Mobile.js`.
+
+Lors de mes tests je n'ai rencontré aucune erreur de _parse_.
+
+Dans cette configuration le modèle MOOC est bien chargé en mode mobile et desktop.
+
 # 4. Conclusion
 
 Il y'a certaine barrière mise en place par MediaWiki pour garantir une bonne expérience sous mobile.
@@ -121,6 +144,8 @@ Cepandant il semble possible d'inclure nos scripts sous mobile.
 Nous pouvons utiliser le meme gadget pour les deux plateformes ou séparer en deux gadget distent.
 
 __Les deux solutions envisageables sont : 3.7.2 et 3.3.__
+
+__Le point 3.7.2 à été confirmé par mes tests (point 3.7.3).__
 
 ## 4.1 Mobile-friendly
 
@@ -163,5 +188,19 @@ Le modèle a certains messages internes d'avertissement quand un composant renco
 
 J'ai observé sur la version mobile le message : `Page introuvable dans le menu`, qui indique que la page actuelle n'apparaît pas dans le menu.
 
-Pourtant la page est bien dans le menu. J'ai l'impression que c'est le fait d'etre sur le domaine mobile (https://fr.m.wikiversity.org). Un légé développement est à prévoir.
+Pourtant la page est bien dans le menu. J'ai l'impression que c'est le fait d'etre sur le domaine mobile (https://fr.m.wikiversity.org). Dans ce cas, un légé développement est à prévoir.
 
+### 4.2.3 Edition en version mobile
+
+#### Aperçu :
+
+![Mallette pedagogique Differenciation](images/mallette-pedagogique-differenciation-mobile.png)\ 
+
+#### Mode edition :
+
+![Mallette pedagogique Differenciation edition](images/mallette-pedagogique-differenciation-mobile-edition.png)\ 
+
+Le code source de la page est imcomplète.
+
+L'éditeur semble ne pas traiter correctement la balise HTML d'appel du template.
+Il se bloque ensuite ne permettant pas l'edition du contenu meme.
