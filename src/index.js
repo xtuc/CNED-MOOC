@@ -74,6 +74,10 @@ const moocwikiv = function() {
   if (!config.menuURL)
     return log(MENU_URL_NOT_FOUND)
 
+  // Forces the menu to display in desktop format
+  // Should better force in mobile view...
+  config.menuURL = config.menuURL + "?useformat=desktop"
+
   startLoader(page) // Start loader
 
   new Bootstrap().generate(config, element, content, oldContent.content)
