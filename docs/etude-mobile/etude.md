@@ -123,8 +123,8 @@ et https://fr.wikiversity.org/w/index.php?title=MediaWiki:Mobile.js.
 
 J'ai utilisé un serveur web en local hébergant un MediaWiki (avec docker, source: https://hub.docker.com/r/bitnami/mediawiki/).
 
-Version de MediaWiki : `1.27.1`.
-Extensions ajoutées : MobileFrontend (source : https://www.mediawiki.org/wiki/Extension:MobileFrontend)
+- Version de MediaWiki : `1.27.1`.
+- Extensions ajoutées : MobileFrontend (source : https://www.mediawiki.org/wiki/Extension:MobileFrontend)
 
 Le modèle MOOC est chargé depuis les deux fichiers communs :
 
@@ -181,26 +181,3 @@ Idéalement le menu du modèle MOOC sera accessible via le _hamburger_. Voir ico
 Menu de navigation de la version mobile :
 
 ![Menu mobile](images/mooc-mobile-menu.png)\ 
-
-### 4.2.2 Erreur dans le menu
-
-Le modèle a certains messages internes d'avertissement quand un composant rencontre une anomalie.
-
-J'ai observé sur la version mobile le message : `Page introuvable dans le menu`, qui indique que la page actuelle n'apparaît pas dans le menu.
-
-Pourtant la page est bien dans le menu. J'ai l'impression que c'est le fait d'etre sur le domaine mobile (https://fr.m.wikiversity.org). Dans ce cas, un légé développement est à prévoir.
-
-### 4.2.3 Edition en version mobile
-
-#### Aperçu :
-
-![Mallette pedagogique Differenciation](images/mallette-pedagogique-differenciation-mobile.png)\ 
-
-#### Mode edition :
-
-![Mallette pedagogique Differenciation edition](images/mallette-pedagogique-differenciation-mobile-edition.png)\ 
-
-Le code source de la page est imcomplète.
-
-L'éditeur semble ne pas traiter correctement la balise HTML d'appel du template.
-Il se bloque ensuite ne permettant pas l'edition du contenu meme.
