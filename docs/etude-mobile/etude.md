@@ -65,7 +65,7 @@ Source : https://fr.wikiversity.org/wiki/Discussion_utilisateur:JackPotte/2016 �
 
 L'idée est de créer un « gadget serveur ». Nous avons ensuite la possibilité d'injecter du contenu directement dans la page.
 
-Au même titre que le contenu du contributeur, les fichiers du gadget et le mene seront présents dans la page.
+Au même titre que le contenu du contributeur, les fichiers du gadget et le menu seront présents dans la page.
 
 En revanche, c'est un développement important et l'extension affectera la rapidité de chargement des pages.
 Sans oublier le risque d'erreur serveur qui bloquera la génération de la page.
@@ -138,7 +138,7 @@ Dans cette configuration le modèle MOOC est bien chargé en mode mobile et desk
 
 Il y a certaines barrières mises en place par MediaWiki pour garantir une bonne expérience sous mobile.
 
-Cependant il semble possible d'inclure nos scripts sous mobile.
+Cependant il est possible d'inclure nos scripts sous mobile.
 
 __Les deux solutions envisageables sont : 3.7.2 et 3.3__ et __le point 3.7.2 à été confirmé par mes tests (point 3.7.3).__
 
