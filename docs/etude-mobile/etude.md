@@ -161,16 +161,12 @@ Complète le point 3.7.
 
 Source: https://www.mediawiki.org/wiki/ResourceLoader/Writing_a_MobileFrontend_friendly_ResourceLoader_module
 
-## 4.2 Amélioration mobile
+## 4.2 Evolution(s)
 
 ### 4.2.1 Intégration au menu mobile
-
-jQuery est disponible sur la version mobile.
 
 ![Menu mobile hamburger](images/mooc-wikiv-mobile-hamburger.png)\ 
 
 Le menu du modèle MOOC pourrait être accessible via le _hamburger_. Voir icône entourée en rouge.
 
 ![Menu mobile](images/mooc-mobile-menu.png)\ 
-
-Menu de navigation de la version mobile.
