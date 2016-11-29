@@ -1,5 +1,5 @@
 ---
-title: Modèle MOOC Wikiversité
+title: Modèle MOOC
 author: Sven SAULEAU (XTUC)
 date: Novembre 2016
 toc: yes
@@ -59,7 +59,7 @@ Source : https://www.mediawiki.org/wiki/Extension:Gadgets
 Solution testée avec l'aide de JackPotte. Il a rencontré une erreur de _parse_ du script.
 MediaWiki possède son propre parser JavaScript peu compatible.
 
-Source : https://fr.wikiversity.org/wiki/Discussion_utilisateur:JackPotte/2016#Mod.C3.A8le_MOOC_wikiversit.C3.A9_sur_les_devices_mobiles
+Source : https://fr.wikiversity.org/wiki/Discussion_utilisateur:JackPotte/2016 § Modèle MOOC wikiversité sur les devices mobiles
 
 ## 3.4 Extension serveur
 
@@ -121,7 +121,9 @@ et https://fr.wikiversity.org/w/index.php?title=MediaWiki:Mobile.js.
 J'ai utilisé un serveur web en local hébergant un MediaWiki (avec docker, source: https://hub.docker.com/r/bitnami/mediawiki/).
 
 - Version de MediaWiki : `1.27.1`.
-- Extensions ajoutées : MobileFrontend (source : https://www.mediawiki.org/wiki/Extension:MobileFrontend)
+- Extensions ajoutées : MobileFrontend
+
+(source : https://www.mediawiki.org/wiki/Extension:MobileFrontend)
 
 Le modèle MOOC est chargé depuis les deux fichiers communs :
 
@@ -159,7 +161,7 @@ Complète le point 3.3.
 
 Complète le point 3.7.
 
-Source: https://www.mediawiki.org/wiki/ResourceLoader/Writing_a_MobileFrontend_friendly_ResourceLoader_module
+Source: https://www.mediawiki.org/wiki/RL/M
 
 ## 4.2 Evolution(s)
 
