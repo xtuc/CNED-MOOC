@@ -1,6 +1,8 @@
 CNED-MOOC
 ===
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/xtuc/CNED-MOOC.svg?token=d9186821589a186fec995819c7e480dca025322f789e5cc6e8e2ebf953b893c2)](https://greenkeeper.io/)
+
 ```
 CNED MOOC template
 Copyright © 2016 Sven SAULEAU (Xtuc) <sven.sauleau@xtuc.fr>
