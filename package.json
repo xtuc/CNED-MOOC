@@ -6,6 +6,8 @@
   "dependencies": {},
   "devDependencies": {
     "autoprefixer": "^6.3.7",
+    "babel-cli": "^6.24.1",
+    "babel-plugin-transform-es3-modules-literals": "0.0.3",
     "babel-preset-es2015": "^6.9.0",
     "babel-preset-stage-0": "^6.5.0",
     "babelify": "^7.3.0",

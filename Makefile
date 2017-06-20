@@ -1,15 +1,12 @@
+export PATH := $(PATH):./node_modules/.bin/
+
 build:
-	./node_modules/.bin/eslint src
+	eslint src
 	mkdir -p dist
-	./node_modules/.bin/browserify -t [ babelify ] src/index.js > dist/script.js
-	cat dist/script.js \
-	  | sed s/default:/\"default\":/ \
-	  | sed s/"\.default"/\[\"default\"\]/ \
-	  | sed s/"\.default\."/\[\"default\"\]./ \
-	  | sed s/"\.default("/\[\"default\"\]\(/ \
-	  > dist/script.js
+	browserify -t [ babelify ] src/index.js > dist/pre-script.js
+	babel --plugins transform-es3-modules-literals dist/pre-script.js > dist/script.js
+	rm dist/pre-script.js
 
 buildcss:
-	./node_modules/.bin/node-sass --output-style compressed src/script.scss > dist/script.css
-	./node_modules/.bin/postcss --use autoprefixer dist/script.css -d dist/
-	# ./node_modules/.bin/node-sass src/script.scss | pbcopy
+	node-sass --output-style compressed src/script.scss > dist/script.css
+	postcss --use autoprefixer dist/script.css -d dist/
