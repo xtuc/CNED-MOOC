@@ -8,15 +8,14 @@ import Header from "./Components/Header.js"
 import MenuFooter from "./Components/MenuFooter.js"
 import LessonFooter from "./Components/Lesson/LessonFooter.js"
 import FirstHeading from "./Components/FirstHeading.js"
+import {getPage, getPageNameFromUrl} from "./api"
 import { log, NAV_LINKS_NOT_FOUND, URL_NOT_FOUND_IN_MENU, RELATED_ITEMS_NOT_FOUND } from "./messages.js"
 
 const BACKLINK_CLASS = "mooc-wikiv-precedent"
 const FORWARD_CLASS = "mooc-wikiv-suivant"
 
 import {
-  request,
   slug,
-  CONTENT_ID,
   ALT_TEXT,
   getConfig,
   removeConfig,
@@ -57,13 +56,12 @@ export default class Bootstrap {
      * Menu
      */
     generateMenu(url) {
+      const pageName = getPageNameFromUrl(url)
 
-      request(url, data => {
-        data = $(data)
-                    .find(CONTENT_ID)
-                    .find(".mw-parser-output")
-                    .children()
-                    .get() // get DOM element
+      getPage(pageName, (data) => {
+
+        // get DOM element
+        data = $(data.text["*"]).children().get()
 
         let menu = new Menu(data)
 
