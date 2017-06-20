@@ -10,6 +10,7 @@ module.exports = {
     },
     "rules": {
         "no-undef": 1,
+        "no-debugger": 1,
         "linebreak-style": [
             2,
             "unix"
