@@ -12,6 +12,7 @@ import {
   generateExpandableBtn,
   ariaControls
 } from "../utils"
+import {MENU_HAS_NOT_BEEN_GENERATED, log} from "../messages"
 
 export const MENU_CLASS = "my-sb-nav"
 
@@ -335,17 +336,17 @@ export default class Menu {
   }
 
   reducer(acc, element) {
-    if (!element)
-        return acc
+    if (!element) {
+      return acc
+    }
 
-    const p = n => $(n).find(".mw-headline")
-
-    const $e = p(element)
+    const $e = $(element).find(".mw-headline")
     const lastItem = this.getLastElement(acc)
 
     var state = false
 
     try {
+
       if (element.tagName === "H1")
         state = this.generateLevel1($e, lastItem)
       else if (element.tagName === "H2")
@@ -357,8 +358,9 @@ export default class Menu {
       console.error("Menu", e)
     }
 
-    if(state)
+    if(state) {
       acc.push(state)
+    }
 
     return acc
   }
@@ -443,10 +445,15 @@ export default class Menu {
                       .addClass(MENU_CLASS)
                       .html(alt)
 
-    const $menu = $(this.menu)
-    removeExternalMark($menu) // Remove external icon in links
+    removeExternalMark($(this.menu)) // Remove external icon in links
 
     const generated = this.menu.reduce(this.reducer, [])
+
+    if (generated.length === 0) {
+      log(MENU_HAS_NOT_BEEN_GENERATED)
+
+      return generated
+    }
 
     generated.reverse()
 

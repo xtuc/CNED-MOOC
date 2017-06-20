@@ -20,3 +20,4 @@ export const URL_NOT_FOUND_IN_MENU = "Page introuvable dans le menu"
 export const RELATED_ITEMS_NOT_FOUND = "Items liés au niveau 2 introuvable"
 export const ICON_NOT_FOUND = id => `Icône ${id} introuvable`
 export const PRINTING = "Mode impression"
+export const MENU_HAS_NOT_BEEN_GENERATED = "Le menu n'a pas pu être généré"
