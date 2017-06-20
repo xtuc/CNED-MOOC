@@ -166,7 +166,7 @@ export default class Bootstrap {
     }
 
     generateNavBar(content) {
-      let navBar = $("<div />")
+      const navBar = $("<div />")
                             .addClass("my-sb")
                             .append(new Menu(false).generate())
                             .append(new MenuFooter().generate())
