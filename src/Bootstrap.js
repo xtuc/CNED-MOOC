@@ -61,6 +61,7 @@ export default class Bootstrap {
       request(url, data => {
         data = $(data)
                     .find(CONTENT_ID)
+                    .find(".mw-parser-output")
                     .children()
                     .get() // get DOM element
 
