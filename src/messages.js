@@ -1,10 +1,15 @@
+import boxen from "boxen"
+
+const prefix = "moocwikiv : "
+
 /**
  * Display warning message
  *
  * @param m String
  * @return void
  */
-export const log = (...m) => console.warn(...m)
+export const log = (...m) =>
+  console.log(boxen(prefix + m.join(","), { padding: 1 }))
 
 /**
  * Used to dev purpose

@@ -50,8 +50,6 @@ const moocwikiv = function() {
   const config = page.children().reduce((acc, el) => {
     const $e = $(el).find(".mw-headline")
 
-    console.debug("config loop", el)
-
     if (el.tagName === "H1")
       acc.title = $e.text()
 
@@ -70,9 +68,10 @@ const moocwikiv = function() {
 
   debug("Template config", config)
 
-  // Menu url is mandatory since
-  if (!config.menuURL)
+  // Menu url is mandatory
+  if (!config.menuURL) {
     return log(MENU_URL_NOT_FOUND)
+  }
 
   // Forces the menu to display in desktop format
   // Should better force in mobile view...

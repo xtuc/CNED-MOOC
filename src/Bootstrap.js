@@ -9,7 +9,7 @@ import MenuFooter from "./Components/MenuFooter.js"
 import LessonFooter from "./Components/Lesson/LessonFooter.js"
 import FirstHeading from "./Components/FirstHeading.js"
 import {getPage, getPageNameFromUrl} from "./api"
-import { log, NAV_LINKS_NOT_FOUND, URL_NOT_FOUND_IN_MENU, RELATED_ITEMS_NOT_FOUND } from "./messages.js"
+import { log, debug, NAV_LINKS_NOT_FOUND, URL_NOT_FOUND_IN_MENU, RELATED_ITEMS_NOT_FOUND } from "./messages.js"
 
 const BACKLINK_CLASS = "mooc-wikiv-precedent"
 const FORWARD_CLASS = "mooc-wikiv-suivant"
@@ -196,6 +196,8 @@ export default class Bootstrap {
      * @return void
      */
     generate(config, element, content, oldContent) {
+      debug("moocwikiv starting generation")
+
       this.generateFirstHeading(config.title, config.image)
       this.generateTitle(element)
       this.generateBreadCrumb(element)
