@@ -20,7 +20,7 @@ function JSONRequest(url, onSuccess) {
 }
 
 export function getPage(page, cb) {
-  const url = `/w/api.php?action=parse&page=${page}&format=json`
+  const url = `/w/api.php?action=parse&page=${page}&format=json&redirects`
 
   return JSONRequest(url, cb)
 }
