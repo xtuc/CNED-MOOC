@@ -17,6 +17,7 @@ const stopLoaderAndReplace = (page, element) => page.html(element)
 import Bootstrap from "./Bootstrap.js"
 import { log, debug, MENU_URL_NOT_FOUND, PRINTING } from "./messages.js"
 import { isPrinting } from "./utils.js"
+import { fallback } from "./fallback"
 
 // Don't use fat arrow there because `this` will be overwritted by ES6 compilation
 const moocwikiv = function() {
@@ -84,4 +85,11 @@ const moocwikiv = function() {
   stopLoaderAndReplace(page, element) // Stop loading
 }
 
-$(() => $("#moocwikiv").each(moocwikiv))
+$(() => {
+  try {
+    $("#moocwikiv").each(moocwikiv)
+  } catch (e) {
+    log(e.message)
+    fallback()
+  }
+})
