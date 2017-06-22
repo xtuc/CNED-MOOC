@@ -69,11 +69,6 @@ const moocwikiv = function() {
 
   debug("Template config", config)
 
-  // Menu url is mandatory
-  if (!config.menuURL) {
-    return complainMenuUrlNotFound()
-  }
-
   // Forces the menu to display in desktop format
   // Should better force in mobile view...
   config.menuURL = config.menuURL + "?useformat=desktop"
@@ -83,6 +78,11 @@ const moocwikiv = function() {
   new Bootstrap().generate(config, element, content, oldContent.content)
 
   stopLoaderAndReplace(page, element) // Stop loading
+
+  // Menu url is mandatory
+  if (!config.menuURL) {
+    return complainMenuUrlNotFound()
+  }
 }
 
 $(() => {
