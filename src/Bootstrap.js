@@ -7,9 +7,17 @@ import Breadcrumb from "./Components/Breadcrumb.js"
 import Header from "./Components/Header.js"
 import MenuFooter from "./Components/MenuFooter.js"
 import LessonFooter from "./Components/Lesson/LessonFooter.js"
+import Message from "./Components/Message.js"
 import FirstHeading from "./Components/FirstHeading.js"
 import {getPage, getPageNameFromUrl} from "./api"
-import { log, debug, NAV_LINKS_NOT_FOUND, URL_NOT_FOUND_IN_MENU, RELATED_ITEMS_NOT_FOUND } from "./messages.js"
+import {
+  complainUrlNotFoundInMenuError,
+  complainMenuUrlNotFound,
+  log,
+  debug,
+  NAV_LINKS_NOT_FOUND,
+  RELATED_ITEMS_NOT_FOUND
+} from "./messages.js"
 
 const BACKLINK_CLASS = "mooc-wikiv-precedent"
 const FORWARD_CLASS = "mooc-wikiv-suivant"
@@ -58,7 +66,11 @@ export default class Bootstrap {
     generateMenu(url) {
       const pageName = getPageNameFromUrl(url)
 
-      getPage(pageName, (data) => {
+      function onError() {
+        complainMenuUrlNotFound(url)
+      }
+
+      function onSuccess(data) {
 
         // get DOM element
         data = $(data.text["*"]).children().get()
@@ -132,14 +144,15 @@ export default class Bootstrap {
 
           LessonHeader.replaceTitle(titles2[3].text()) // Re-apply new title
         } else {
-          log(URL_NOT_FOUND_IN_MENU)
+          complainUrlNotFoundInMenuError(window.location.pathname)
         }
 
         // Once content is loaded re-apply location hash
         if (window.location.hash !== "")
           window.location.href = window.location.href
-      })
+      }
 
+      getPage(pageName, onSuccess, onError)
     }
 
     /**
@@ -188,6 +201,13 @@ export default class Bootstrap {
     }
 
     /**
+     * Message
+     */
+    generateMessageDebug(element) {
+      element.append(new Message("").generate())
+    }
+
+    /**
      * Bootstrap
      *
      * @param element Element hidden content, revealed after loading
@@ -197,6 +217,8 @@ export default class Bootstrap {
      */
     generate(config, element, content, oldContent) {
       debug("moocwikiv starting generation")
+
+      this.generateMessageDebug(element)
 
       this.generateFirstHeading(config.title, config.image)
       this.generateTitle(element)

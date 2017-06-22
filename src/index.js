@@ -15,7 +15,7 @@ const startLoader = page => page.html("Chargement ...")
 const stopLoaderAndReplace = (page, element) => page.html(element)
 
 import Bootstrap from "./Bootstrap.js"
-import { log, debug, MENU_URL_NOT_FOUND, PRINTING } from "./messages.js"
+import { log, debug, complainMenuUrlNotFound, PRINTING } from "./messages.js"
 import { isPrinting } from "./utils.js"
 import { fallback } from "./fallback"
 
@@ -71,7 +71,7 @@ const moocwikiv = function() {
 
   // Menu url is mandatory
   if (!config.menuURL) {
-    return log(MENU_URL_NOT_FOUND)
+    return complainMenuUrlNotFound()
   }
 
   // Forces the menu to display in desktop format
@@ -90,6 +90,7 @@ $(() => {
     $("#moocwikiv").each(moocwikiv)
   } catch (e) {
     log(e.message)
+    console.log(e.stack)
     fallback()
   }
 })
