@@ -38,6 +38,12 @@ export function createUrlNotFoundInMenu(url) {
   `
 }
 
+export function createHeaderGenerationFailed(error) {
+  return `
+    Erreur : l'en-tête n'a pas pu etre chargé ${error ? "(" + error + ")" : ""}
+  `
+}
+
 
 export const NAV_LINKS_NOT_FOUND = "Lien précédent ou suivant introuvable"
 export const RELATED_ITEMS_NOT_FOUND = "Items liés au niveau 2 introuvable"

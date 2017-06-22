@@ -1,8 +1,10 @@
 const HEADER_CLASS = "my-main-content-header"
 
 import Picto from "./Picto.js"
+import Message from "../Components/Message"
 import { getConfig, removeConfig, slug, getIcon, ALT_TEXT, truncate } from "../utils.js"
 import { getIEVersion, getIfLessThan } from "../utils.js"
+import { log, createHeaderGenerationFailed } from "../messages.js"
 
 const TITLE_MAX_LENGTH = 50 /* characters */
 
@@ -122,23 +124,36 @@ export default class Header {
    * Generate jQuery elements
    */
   generate(addClass = true) {
-    var title
+    try {
 
-    // Placeholder
-    var row = "<div style=\"display:block;width:835px;height:160px;\">" + ALT_TEXT + "</div>"
+      var title
 
-    if (this._data !== false) {
-      const pictos = $(this._data).children().reduce(this.reducer, [])
+      // Placeholder
+      var row = "<div style=\"display:block;width:835px;height:160px;\">" + ALT_TEXT + "</div>"
 
-      title = this.generateTitle()
-      row = this.generateRow().addClass("mutate")
+      if (this._data !== false) {
+        const pictos = $(this._data).children().reduce(this.reducer, [])
 
-      row.append(this.generatePictos(pictos))
+        title = this.generateTitle()
+        row = this.generateRow().addClass("mutate")
+
+        row.append(this.generatePictos(pictos))
+      }
+
+      return $("<div />")
+                    .addClass((addClass) ? HEADER_CLASS : null)
+                    .append(title)
+                    .append(row)
+    } catch (e) {
+      const element = $("<div />").html(createHeaderGenerationFailed(e.message))
+      const msg = Message.formatElement(element)
+
+      log(e.message)
+      console.log(e.stack)
+
+      return $("<div />")
+                    .addClass((addClass) ? HEADER_CLASS : null)
+                    .html(msg)
     }
-
-    return $("<div />")
-                  .addClass((addClass) ? HEADER_CLASS : null)
-                  .append(title)
-                  .append(row)
   }
 }
