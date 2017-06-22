@@ -106,7 +106,6 @@ export default class Header {
    * @param $el jQuery
    */
   reducer(acc, el) {
-
     if (el.tagName === "H1" || el.tagName === "H2" || el.tagName === "H3") {
 
       const config = getConfig(el.innerText)
@@ -128,9 +127,8 @@ export default class Header {
     // Placeholder
     var row = "<div style=\"display:block;width:835px;height:160px;\">" + ALT_TEXT + "</div>"
 
-    if (this._data) {
-
-      const pictos = this._data.reduce(this.reducer, [])
+    if (this._data !== false) {
+      const pictos = $(this._data).children().reduce(this.reducer, [])
 
       title = this.generateTitle()
       row = this.generateRow().addClass("mutate")
