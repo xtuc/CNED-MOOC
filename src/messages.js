@@ -40,7 +40,7 @@ export function createUrlNotFoundInMenu(url) {
 
 export function createHeaderGenerationFailed(error) {
   return `
-    Erreur : l'en-tête n'a pas pu etre chargé ${error ? "(" + error + ")" : ""}
+    Erreur : l'en-tête n'a pas pu être chargé ${error ? "(" + error + ")" : ""}
   `
 }
 
