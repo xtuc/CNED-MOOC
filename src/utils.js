@@ -1,4 +1,4 @@
-import { log, ICON_NOT_FOUND } from "./messages.js"
+import { complainIconNotFound } from "./messages.js"
 
 export const CONFIG_REGEX = /\(#\s?(.*)\)/g // xxx (# y)
 
@@ -61,12 +61,13 @@ export const iconMarkupMap = {
 }
 
 export const getIcon = id => {
-    const icon = iconMarkupMap[id]
+  const icon = iconMarkupMap[id]
 
-    if (!icon)
-        log(ICON_NOT_FOUND(id))
+  if (!icon) {
+    complainIconNotFound(id)
+  }
 
-    return icon
+  return icon
 }
 
 export const ALT_TEXT = "Chargement ..."

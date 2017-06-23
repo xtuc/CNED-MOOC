@@ -4,7 +4,7 @@ import Picto from "./Picto.js"
 import Message from "../Components/Message"
 import { getConfig, removeConfig, slug, getIcon, ALT_TEXT, truncate } from "../utils.js"
 import { getIEVersion, getIfLessThan } from "../utils.js"
-import { log, createHeaderGenerationFailed } from "../messages.js"
+import { log, createHeaderGenerationFailed, complainIconNotFound } from "../messages.js"
 
 const TITLE_MAX_LENGTH = 50 /* characters */
 
@@ -114,7 +114,13 @@ export default class Header {
       const icon = slug(config ? config[1] : "")
       const text = removeConfig($(el).find(".mw-headline").text())
 
-      acc.push(new Picto(getIcon(icon), Picto.getText(icon), text))
+      const pictoIcon = Picto.getText(icon)
+
+      if (!pictoIcon) {
+        complainIconNotFound(icon)
+      }
+
+      acc.push(new Picto(getIcon(icon), pictoIcon, text))
     }
 
     return acc
