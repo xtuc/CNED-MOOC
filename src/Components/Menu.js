@@ -260,7 +260,7 @@ export default class Menu {
     /**
      * Remove link from a level1 item
      */
-    if ($(item).get(0).tagName === "A") {
+    if ($(item).get(0) && $(item).get(0).tagName === "A") {
       item = this.normalizeLink(item)
     }
 
@@ -346,7 +346,6 @@ export default class Menu {
     var state = false
 
     try {
-
       if (element.tagName === "H1")
         state = this.generateLevel1($e, lastItem)
       else if (element.tagName === "H2")
