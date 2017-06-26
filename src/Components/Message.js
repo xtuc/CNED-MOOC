@@ -7,6 +7,7 @@ export default class Message {
       .css("color", "#f44336")
       .css("border", "1px solid #f44336")
       .css("padding", "7px")
+      .css("width", "100%")
   }
 
   /**
@@ -16,23 +17,29 @@ export default class Message {
    * @return void
    */
   static replace(msg) {
-    $("." + MESSAGE_CLASS).html(msg.getMessage())
+    $("." + MESSAGE_CLASS).html(msg.getFormatedMessage())
   }
 
   constructor(msg) {
     this._msg = msg
   }
 
-  getMessage() {
-    return this._msg
+  getFormatedMessage() {
+    return Message.formatElement($("<div />").html(this._msg))
   }
 
   /**
    * Generate jQuery elements
    */
   generate() {
-    return Message.formatElement(
-      $("<p />").addClass(MESSAGE_CLASS).html(this._msg)
-    )
+
+    // Return placeholder if no message
+    if (this._msg === "") {
+      return $("<p />").addClass(MESSAGE_CLASS)
+    }
+
+    const msg = Message.formatElement($("<div />").html(this._msg))
+
+    return $("<p />").addClass(MESSAGE_CLASS).html(msg)
   }
 }
