@@ -5,6 +5,8 @@ export default class Message {
   static formatElement(element) {
     return element
       .css("color", "#f44336")
+      .css("border", "1px solid #f44336")
+      .css("padding", "7px")
   }
 
   /**
@@ -14,11 +16,15 @@ export default class Message {
    * @return void
    */
   static replace(msg) {
-    $("." + MESSAGE_CLASS).html(msg.generate())
+    $("." + MESSAGE_CLASS).html(msg.getMessage())
   }
 
   constructor(msg) {
     this._msg = msg
+  }
+
+  getMessage() {
+    return this._msg
   }
 
   /**
