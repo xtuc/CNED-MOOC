@@ -8,6 +8,8 @@ $.fn.reduce = [].reduce // https://bugs.jquery.com/ticket/1886
 
 import "./Polyfill/IE.js"
 
+import Message from "./Components/Message.js"
+
 /**
  * Loader
  */
@@ -15,12 +17,16 @@ const startLoader = page => page.html("Chargement ...")
 const stopLoaderAndReplace = (page, element) => page.html(element)
 
 import Bootstrap from "./Bootstrap.js"
-import { log, debug, complainMenuUrlNotFound, PRINTING } from "./messages.js"
+import { log, debug, complainFallback, complainMenuUrlNotFound, PRINTING } from "./messages.js"
 import { isPrinting } from "./utils.js"
 import { fallback } from "./fallback"
 
 // Don't use fat arrow there because `this` will be overwritted by ES6 compilation
 const moocwikiv = function() {
+  const page = $(this)
+
+  // Generate error message placeholder
+  page.parent().prepend(new Message("").generate())
 
   // Disable template in print mode
   if (isPrinting) {
@@ -28,7 +34,6 @@ const moocwikiv = function() {
     return false
   }
 
-  const page = $(this)
   const element = $("<div></div>")
   const content = $("<div></div>").addClass("my-layout clear")
 
@@ -89,8 +94,9 @@ $(() => {
   try {
     $("#moocwikiv").each(moocwikiv)
   } catch (e) {
-    log(e.message)
+    complainFallback(e.message)
     console.log(e.stack)
+
     fallback()
   }
 })

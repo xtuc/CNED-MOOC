@@ -7,7 +7,6 @@ import Breadcrumb from "./Components/Breadcrumb.js"
 import Header from "./Components/Header.js"
 import MenuFooter from "./Components/MenuFooter.js"
 import LessonFooter from "./Components/Lesson/LessonFooter.js"
-import Message from "./Components/Message.js"
 import FirstHeading from "./Components/FirstHeading.js"
 import {getPage, getPageNameFromUrl} from "./api"
 import {
@@ -201,13 +200,6 @@ export default class Bootstrap {
     }
 
     /**
-     * Message
-     */
-    generateMessageDebug(element) {
-      element.append(new Message("").generate())
-    }
-
-    /**
      * Bootstrap
      *
      * @param element Element hidden content, revealed after loading
@@ -217,8 +209,6 @@ export default class Bootstrap {
      */
     generate(config, element, content, oldContent) {
       debug("moocwikiv starting generation")
-
-      this.generateMessageDebug(element)
 
       this.generateFirstHeading(config.title, config.image)
       this.generateTitle(element)

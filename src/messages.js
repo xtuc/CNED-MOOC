@@ -52,6 +52,13 @@ function createIconNotFound(name) {
   `
 }
 
+function createFallback(error) {
+  return `
+    Erreur : le modèle n'a pas pu etre généré ${error ? "(" + error + ")" : ""},
+    vous pouvez consulter ... pour plus d'information
+  `
+}
+
 export const NAV_LINKS_NOT_FOUND = "Lien précédent ou suivant introuvable"
 export const RELATED_ITEMS_NOT_FOUND = "Items liés au niveau 2 introuvable"
 export const PRINTING = "Mode impression"
@@ -77,6 +84,13 @@ export function complainMenuUrlNotFound(url) {
 
 export function complainIconNotFound(name) {
   const msg = createIconNotFound(name)
+
+  log(msg)
+  Message.replace(new Message(msg))
+}
+
+export function complainFallback(error) {
+  const msg = createFallback(error)
 
   log(msg)
   Message.replace(new Message(msg))
