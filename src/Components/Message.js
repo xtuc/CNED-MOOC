@@ -17,7 +17,6 @@ export default class Message {
    * @return void
    */
   static replace(msg) {
-    console.log("replace", msg)
     $("." + MESSAGE_CLASS).html(msg.getFormatedMessage())
   }
 

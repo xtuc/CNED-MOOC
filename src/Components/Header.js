@@ -151,15 +151,13 @@ export default class Header {
                     .append(title)
                     .append(row)
     } catch (e) {
-      const element = $("<div />").html(createHeaderGenerationFailed(e.message))
-      const msg = Message.formatElement(element)
+      Message.replace(new Message(createHeaderGenerationFailed(e.message)))
 
       log(e.message)
       console.log(e.stack)
 
-      return $("<div />")
-                    .addClass((addClass) ? HEADER_CLASS : null)
-                    .html(msg)
+      // Placeholder
+      return $("<div />").addClass((addClass) ? HEADER_CLASS : null)
     }
   }
 }
