@@ -25,30 +25,26 @@ export const debug = (...m) => console.debug(...m)
 function createMenuUrlNotFound(url) {
 
   return `
-    Erreur : URL du menu introuvable ${url ? "(" + url + ")": ""},
-    vous pouvez consulter ... pour plus d'information
+    Erreur : URL du menu introuvable ${url ? "(" + url + ")": ""}
   `
 }
 
 export function createUrlNotFoundInMenu(url) {
 
   return `
-    Erreur : cette page est introuvable dans le menu ${url ? "(" + url + ")": ""},
-    vous pouvez consulter ... pour plus d'information
+    Erreur : cette page est introuvable dans le menu ${url ? "(" + url + ")": ""}
   `
 }
 
 export function createHeaderGenerationFailed(error) {
   return `
-    Erreur : l'en-tête n'a pas pu être chargé ${error ? "(" + error + ")" : ""},
-    vous pouvez consulter ... pour plus d'information
+    Erreur : l'en-tête n'a pas pu être chargé ${error ? "(" + error + ")" : ""}
   `
 }
 
 function createIconNotFound(name) {
   return `
-    Erreur : icône introuvable ${name ? "(" + name + ")" : ""},
-    vous pouvez consulter ... pour plus d'information
+    Erreur : icône introuvable ${name ? "(" + name + ")" : ""}
   `
 }
 
@@ -59,7 +55,7 @@ function createIconNotFound(name) {
  */
 function createFallback(error) {
   return `
-    Erreur : le modèle n'a pas pu etre généré ${error ? "(" + error + ")" : ""},
+    Erreur : le modèle n'a pas pu être généré ${error ? "(" + error + ")" : ""},
     vous pouvez consulter <a href="https://fr.wikiversity.org/wiki/Wikiversit%C3%A9:La_salle_caf%C3%A9">Wikiversité:La salle café</a> pour plus d'information
   `
 }
