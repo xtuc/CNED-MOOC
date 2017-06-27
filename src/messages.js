@@ -52,10 +52,15 @@ function createIconNotFound(name) {
   `
 }
 
+/**
+ * Message d'erreur affiché en mode dégradé du model
+ *
+ * @param {String} error
+ */
 function createFallback(error) {
   return `
     Erreur : le modèle n'a pas pu etre généré ${error ? "(" + error + ")" : ""},
-    vous pouvez consulter ... pour plus d'information
+    vous pouvez consulter <a href="https://fr.wikiversity.org/wiki/Wikiversit%C3%A9:La_salle_caf%C3%A9">Wikiversité:La salle café</a> pour plus d'information
   `
 }
 
