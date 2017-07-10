@@ -22,29 +22,39 @@ export const log = (...m) =>
  */
 export const debug = (...m) => console.debug(...m)
 
+function createSeeHelpPage(url) {
+  const link = `<a href="${url}" target="_blank">${url}</a>`
+
+  return "Vous pouvez consulter la page : " + link + " pour plus d'information"
+}
+
 function createMenuUrlNotFound(url) {
 
   return `
-    Erreur : URL du menu introuvable ${url ? "(" + url + ")": ""}
+    Erreur : URL du menu introuvable ${url ? "(" + url + ")": ""}.
+    ${createSeeHelpPage("https://fr.wikiversity.org/wiki/Mod%C3%A8le_MOOC_administration#Erreur_:_URL_du_menu_introuvable")}
   `
 }
 
 export function createUrlNotFoundInMenu(url) {
 
   return `
-    Erreur : cette page est introuvable dans le menu ${url ? "(" + url + ")": ""}
+    Erreur : cette page est introuvable dans le menu ${url ? "(" + url + ")": ""}.
+    ${createSeeHelpPage("https://fr.wikiversity.org/wiki/Mod%C3%A8le_MOOC_administration#Erreur_:_cette_page_est_introuvable_dans_le_menu")}
   `
 }
 
 export function createHeaderGenerationFailed(error) {
   return `
-    Erreur : l'en-tête n'a pas pu être chargé ${error ? "(" + error + ")" : ""}
+    Erreur : l'en-tête n'a pas pu être chargé ${error ? "(" + error + ")" : ""}.
+    ${createSeeHelpPage("https://fr.wikiversity.org/wiki/Mod%C3%A8le_MOOC_administration#Erreur_:_l.27en-t.C3.AAte_n.27a_pas_pu_.C3.AAtre_charg.C3.A9")}
   `
 }
 
 function createIconNotFound(name) {
   return `
-    Erreur : icône introuvable ${name ? "(" + name + ")" : ""}
+    Erreur : icône introuvable ${name ? "(" + name + ")" : ""}.
+    ${createSeeHelpPage("https://fr.wikiversity.org/wiki/Mod%C3%A8le_MOOC_administration#Erreur_:_ic.C3.B4ne_introuvable")}
   `
 }
 
@@ -56,7 +66,7 @@ function createIconNotFound(name) {
 function createFallback(error) {
   return `
     Erreur : le modèle n'a pas pu être généré ${error ? "(" + error + ")" : ""},
-    vous pouvez consulter <a href="https://fr.wikiversity.org/wiki/Wikiversit%C3%A9:La_salle_caf%C3%A9">Wikiversité:La salle café</a> pour plus d'information
+    vous pouvez consulter <a target="_blank" href="https://fr.wikiversity.org/wiki/Wikiversit%C3%A9:La_salle_caf%C3%A9">Wikiversité:La salle café</a> pour plus d'information
   `
 }
 
