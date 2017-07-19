@@ -151,5 +151,9 @@ if (!Array.prototype.fill) {
   });
 }
 
+Number.isNaN = Number.isNaN || function(value) {
+    return typeof value === 'number' && isNaN(value);
+}
+
 if (!console.debug)
     console.debug = console.log
