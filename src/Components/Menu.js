@@ -120,11 +120,17 @@ export default class Menu {
                               e = $(e)
                               var url = Menu.getURLFromItem(e) // Get URL
 
-                              if (url.indexOf("#") !== -1)
+                              if (url.indexOf("#") !== -1) {
                                 url = url.substr(0, url.indexOf("#"))
+                              }
 
-                              if (url === p)
+                              // Stale API response, the page was created but
+                              // the link still apears like a unexistent page.
+                              url = url.replace(/(.*)title=(.*)\&action=edit(.*)/, "\/wiki\/$2")
+
+                              if (url === p) {
                                 acc.push(e)
+                              }
 
                               return acc
                             }, [])
